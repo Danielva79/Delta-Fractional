@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- English version – primary page is index.html (Spanish) -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delta Fractional — Fractional CFO & Financial Advisory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --charcoal: #2C3440;
+    --charcoal-mid: #3D4A5C;
+    --orange: #E8841A;
+    --orange-light: #F4A340;
+    --cream: #F8F5F0;
+    --white: #FFFFFF;
+    --text-body: #4A5568;
+    --text-muted: #8A97A8;
+    --border: rgba(44,52,64,0.1);
+    --gold-line: #D4A853;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 5vw;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  header.scrolled { box-shadow: 0 2px 24px rgba(44,52,64,0.08); }
+
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .logo-text .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--charcoal);
+    letter-spacing: 0.08em;
+  }
+  .logo-text .tagline {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .header-right { display: flex; align-items: center; gap: 32px; }
+  .lang-switch { display: flex; align-items: center; gap: 2px; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+  .lang-switch a { font-size: 11px; letter-spacing: 0.1em; font-weight: 500; padding: 6px 12px; text-decoration: none; transition: background 0.2s, color 0.2s; color: var(--text-muted); text-transform: uppercase; }
+  .lang-switch a.active { background: var(--charcoal); color: var(--white); }
+  .lang-switch a:not(.active):hover { background: var(--cream); color: var(--charcoal); }
+
+  nav { display: flex; align-items: center; gap: 36px; }
+  nav a {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--charcoal-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+    text-transform: uppercase;
+  }
+  nav a:hover { color: var(--orange); }
+
+  .nav-cta {
+    background: var(--charcoal);
+    color: var(--white) !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    letter-spacing: 0.08em !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--orange) !important; color: var(--white) !important; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 5vw 80px 8vw;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow span {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 500;
+  }
+  .eyebrow-line {
+    width: 40px;
+    height: 1px;
+    background: var(--orange);
+  }
+
+  .hero-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 5.5vw, 72px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--charcoal);
+    margin-bottom: 28px;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--orange);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text-body);
+    max-width: 480px;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--charcoal);
+    color: var(--white);
+    padding: 15px 32px;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--orange); transform: translateY(-1px); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    color: var(--charcoal);
+    padding: 15px 32px;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); transform: translateY(-1px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-item {}
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: var(--charcoal);
+    line-height: 1;
+  }
+  .stat-number span { color: var(--orange); }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+    overflow: hidden;
+  }
+
+  .hero-visual {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Decorative geometric background */
+  .hero-geo {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .geo-shape {
+    position: absolute;
+    border: 1px solid rgba(44,52,64,0.07);
+  }
+  .geo-1 {
+    width: 400px; height: 400px;
+    top: 10%; right: -80px;
+    transform: rotate(15deg);
+  }
+  .geo-2 {
+    width: 280px; height: 280px;
+    bottom: 15%; left: -40px;
+    transform: rotate(-8deg);
+    border-color: rgba(232,132,26,0.15);
+  }
+  .geo-3 {
+    width: 160px; height: 160px;
+    top: 20%; left: 20%;
+    transform: rotate(30deg);
+    border-color: rgba(232,132,26,0.1);
+  }
+
+  .hero-card {
+    position: relative;
+    z-index: 2;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 48px 40px;
+    width: min(380px, 85%);
+    box-shadow: 0 24px 64px rgba(44,52,64,0.1);
+    animation: floatCard 6s ease-in-out infinite;
+  }
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .card-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--charcoal);
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+
+  .card-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--orange);
+    margin-bottom: 28px;
+  }
+
+  .card-items { display: flex; flex-direction: column; gap: 14px; }
+  .card-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-body);
+  }
+  .card-dot {
+    width: 6px; height: 6px;
+    background: var(--orange);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 100px 8vw; }
+
+  .section-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-eyebrow span {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 500;
+  }
+  .section-eyebrow-line {
+    width: 32px;
+    height: 1px;
+    background: var(--orange);
+  }
+
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--charcoal);
+    margin-bottom: 20px;
+  }
+  .section-heading em { font-style: italic; color: var(--orange); }
+
+  .section-intro {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text-body);
+    font-weight: 300;
+    max-width: 560px;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--charcoal);
+    color: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  #about .section-heading { color: var(--white); }
+  #about .section-eyebrow span { color: var(--orange-light); }
+  #about .section-eyebrow-line { background: var(--orange-light); }
+  #about .section-intro { color: rgba(255,255,255,0.65); max-width: 100%; }
+
+  .about-left {}
+  .about-right {}
+
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 8px;
+  }
+
+  .expertise-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 24px 22px;
+    transition: background 0.2s, border-color 0.2s;
+    cursor: default;
+  }
+  .expertise-item:hover {
+    background: rgba(232,132,26,0.1);
+    border-color: rgba(232,132,26,0.25);
+  }
+
+  .exp-icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 12px;
+    opacity: 0.7;
+  }
+
+  .exp-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .exp-desc {
+    font-size: 12px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+  }
+
+  .credentials-strip {
+    display: flex;
+    gap: 0;
+    margin-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 32px;
+  }
+  .cred-item {
+    flex: 1;
+    padding-right: 24px;
+    margin-right: 24px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .cred-item:last-child { border-right: none; }
+  .cred-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--orange-light);
+    line-height: 1;
+  }
+  .cred-lbl {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  /* ── SERVICES ── */
+  #services {
+    background: var(--cream);
+  }
+
+  .services-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 36px 32px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--orange);
+    transition: height 0.3s ease;
+  }
+  .service-card:hover::before { height: 100%; }
+  .service-card:hover {
+    box-shadow: 0 8px 32px rgba(44,52,64,0.08);
+    transform: translateY(-2px);
+    border-color: var(--border);
+  }
+
+  .service-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--orange);
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+    opacity: 0.6;
+  }
+
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .service-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* ── CLIENTS ── */
+  #clients {
+    background: var(--white);
+    padding: 80px 8vw;
+  }
+
+  .clients-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .clients-header .section-eyebrow { justify-content: center; }
+
+  .clients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 2px;
+    margin-bottom: 40px;
+  }
+
+  .client-slot {
+    background: var(--cream);
+    border: 1px dashed rgba(44,52,64,0.15);
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .client-slot:hover { background: #f0ece5; }
+  .client-slot-inner {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .client-slot-inner svg { display: block; margin: 0 auto 6px; opacity: 0.25; }
+
+  .clients-note {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+  }
+
+  /* ── APPROACH ── */
+  #approach {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .approach-steps { display: flex; flex-direction: column; gap: 0; }
+
+  .step-item {
+    display: flex;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    transition: transform 0.2s;
+  }
+  .step-item:first-child { padding-top: 0; }
+  .step-item:last-child { border-bottom: none; }
+  .step-item:hover { transform: translateX(4px); }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--orange);
+    letter-spacing: 0.1em;
+    min-width: 32px;
+    padding-top: 2px;
+    font-weight: 500;
+  }
+
+  .step-content {}
+  .step-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  .step-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text-body);
+    font-weight: 300;
+  }
+
+  /* ── CTA ── */
+  #cta {
+    background: var(--charcoal);
+    text-align: center;
+    padding: 120px 8vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,132,26,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,132,26,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .cta-inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
+
+  .cta-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .cta-label span {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange-light);
+    font-weight: 500;
+  }
+  .cta-label-line {
+    width: 28px; height: 1px;
+    background: var(--orange-light);
+  }
+
+  .cta-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .cta-heading em { font-style: italic; color: var(--orange-light); }
+
+  .cta-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-linkedin {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--orange);
+    color: var(--white);
+    padding: 16px 36px;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-linkedin:hover { background: var(--orange-light); transform: translateY(-2px); }
+  .btn-whatsapp { display: inline-flex; align-items: center; gap: 12px; background: #25D366; color: var(--white); padding: 16px 36px; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 2px; font-family: 'DM Sans', sans-serif; font-weight: 500; transition: background 0.25s, transform 0.2s; }
+  .btn-whatsapp:hover { background: #1ebe57; transform: translateY(-2px); }
+  .btn-whatsapp-outline { display: inline-flex; align-items: center; gap: 10px; border: 1px solid #25D366; color: #25D366; padding: 15px 32px; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 2px; font-family: 'DM Sans', sans-serif; transition: background 0.2s, color 0.2s, transform 0.2s; }
+  .btn-whatsapp-outline:hover { background: #25D366; color: var(--white); transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1E252F;
+    padding: 48px 8vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+    gap: 24px;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .footer-brand .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--white);
+    letter-spacing: 0.06em;
+  }
+  .footer-brand .brand-tag {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+  }
+
+  .footer-center {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .footer-link {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: var(--orange-light); }
+
+  /* ── LOGO SVG INLINE ── */
+  .logo-svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-up:nth-child(2) { transition-delay: 0.1s; }
+  .fade-up:nth-child(3) { transition-delay: 0.2s; }
+  .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { display: none; }
+    .hero-left { padding: 60px 6vw 80px; }
+    #about { grid-template-columns: 1fr; gap: 48px; }
+    .services-header { grid-template-columns: 1fr; gap: 24px; }
+    #approach { grid-template-columns: 1fr; gap: 48px; }
+    nav { display: none; }
+    .expertise-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .credentials-strip { flex-wrap: wrap; gap: 20px; }
+    .cred-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px; margin-bottom: 4px; }
+    .cred-item:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="mainHeader">
+  <a href="#" class="logo-wrap">
+    <!-- Inline SVG logo recreation -->
+    <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Orange delta top -->
+      <polygon points="50,6 72,38 28,38" fill="url(#og)"/>
+      <polygon points="50,14 66,38 50,30" fill="rgba(255,255,255,0.3)"/>
+      <!-- Dark chevrons -->
+      <polygon points="18,88 50,56 82,88 74,88 50,67 26,88" fill="#2C3440"/>
+      <polygon points="22,76 50,50 78,76 70,76 50,58 30,76" fill="#3D4A5C"/>
+      <defs>
+        <linearGradient id="og" x1="50" y1="6" x2="50" y2="38" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#F4A340"/>
+          <stop offset="1" stop-color="#E8841A"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="logo-text">
+      <span class="brand">DELTA</span>
+      <span class="tagline">Fractional CFO</span>
+    </div>
+  </a>
+  <div class="header-right">
+    <nav>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#clients">Clients</a>
+      <a href="#approach">Approach</a>
+      <a href="https://www.linkedin.com/in/daniel-villegas-analiticayfinanzas/?locale=en" target="_blank" class="nav-cta">Connect</a>
+    </nav>
+    <div class="lang-switch">
+      <a href="index.html">ES</a>
+      <a href="index-en.html" class="active">EN</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span>Senior Financial Advisory</span>
+    </div>
+    <h1 class="hero-headline">
+      Strategic Finance<br>
+      for <em>Ambitious</em><br>
+      Organizations
+    </h1>
+    <p class="hero-sub">
+      Fractional CFO expertise that translates complex financial intelligence into clear, actionable strategy — driving operational efficiency and stakeholder value at every stage of growth.
+    </p>
+    <div class="hero-actions">
+      <a href="https://www.linkedin.com/in/daniel-villegas-analiticayfinanzas/?locale=en" target="_blank" class="btn-primary">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        Connect on LinkedIn
+      </a>
+      <a href="https://wa.me/573102216863?text=Hello%20Daniel%2C%20I%20am%20interested%20in%20learning%20more%20about%20your%20Fractional%20CFO%20services." target="_blank" class="btn-whatsapp-outline">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="#services" class="btn-outline">
+        Explore Services
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">15<span>+</span></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3<span></span></div>
+        <div class="stat-label">Sectors Served</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">M<span>&</span>A</div>
+        <div class="stat-label">Advisory Expertise</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-geo">
+      <div class="geo-shape geo-1"></div>
+      <div class="geo-shape geo-2"></div>
+      <div class="geo-shape geo-3"></div>
+    </div>
+    <div class="hero-card">
+      <div class="card-label">What We Deliver</div>
+      <p class="card-quote">"Complex financial strategy made accessible to those who drive decisions."</p>
+      <div class="card-divider"></div>
+      <div class="card-items">
+        <div class="card-item"><div class="card-dot"></div> Financial Planning & Analysis</div>
+        <div class="card-item"><div class="card-dot"></div> Business Valuation & M&A</div>
+        <div class="card-item"><div class="card-dot"></div> Data Analytics & BI</div>
+        <div class="card-item"><div class="card-dot"></div> Corporate Finance Strategy</div>
+        <div class="card-item"><div class="card-dot"></div> Operational Efficiency</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left fade-up">
+    <div class="section-eyebrow">
+      <div class="section-eyebrow-line"></div>
+      <span>The Advisor</span>
+    </div>
+    <h2 class="section-heading">
+      Financial Depth.<br>
+      <em>Strategic Clarity.</em>
+    </h2>
+    <p class="section-intro">
+      Daniel Villegas brings 15+ years of hands-on corporate finance experience across financial, industrial, and commercial sectors. Holding a Master's in International Finance, his work blends rigorous analytical methodology with the clarity executives need to move decisively.
+    </p>
+    <p class="section-intro" style="margin-top:20px;">
+      His core differentiator: the rare ability to translate sophisticated financial modeling into straightforward strategic recommendations — closing the gap between the finance function and executive decision-making.
+    </p>
+
+    <div class="credentials-strip">
+      <div class="cred-item">
+        <div class="cred-val">MSc</div>
+        <div class="cred-lbl">Intl. Finance</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-val">15+</div>
+        <div class="cred-lbl">Years Active</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-val">3</div>
+        <div class="cred-lbl">Industry Sectors</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-right fade-up">
+    <div class="expertise-grid">
+      <div class="expertise-item">
+        <svg class="exp-icon" viewBox="0 0 24 24" fill="none" stroke="#E8841A" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <div class="exp-title">Data Analytics</div>
+        <div class="exp-desc">Translating raw financial data into strategic intelligence and actionable insight.</div>
+      </div>
+      <div class="expertise-item">
+        <svg class="exp-icon" viewBox="0 0 24 24" fill="none" stroke="#E8841A" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <div class="exp-title">Strategic Finance</div>
+        <div class="exp-desc">Corporate finance strategy aligned to organizational objectives and market realities.</div>
+      </div>
+      <div class="expertise-item">
+        <svg class="exp-icon" viewBox="0 0 24 24" fill="none" stroke="#E8841A" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <div class="exp-title">Business Valuation</div>
+        <div class="exp-desc">Rigorous company valuation methodologies supporting M&A and investment decisions.</div>
+      </div>
+      <div class="expertise-item">
+        <svg class="exp-icon" viewBox="0 0 24 24" fill="none" stroke="#E8841A" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="exp-title">FP&A Leadership</div>
+        <div class="exp-desc">Financial planning & analysis that improves forecasting accuracy and operational efficiency.</div>
+      </div>
+      <div class="expertise-item">
+        <svg class="exp-icon" viewBox="0 0 24 24" fill="none" stroke="#E8841A" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div class="exp-title">Stock Analysis</div>
+        <div class="exp-desc">Deep capital markets analysis supporting portfolio and investment strategy decisions.</div>
+      </div>
+      <div class="expertise-item">
+        <svg class="exp-icon" viewBox="0 0 24 24" fill="none" stroke="#E8841A" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <div class="exp-title">Business Intelligence</div>
+        <div class="exp-desc">BI frameworks and dashboards that give leadership real-time visibility into financial performance.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-eyebrow">
+        <div class="section-eyebrow-line"></div>
+        <span>Service Offering</span>
+      </div>
+      <h2 class="section-heading">
+        A Complete<br><em>Financial Toolkit</em>
+      </h2>
+    </div>
+    <p class="section-intro">
+      From fractional CFO engagement to targeted analytical projects — tailored to the precise needs of your organization, delivered with senior-level rigor.
+    </p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-number">01</div>
+      <div class="service-name">Fractional CFO</div>
+      <div class="service-desc">Part-time, full-impact CFO engagement. Senior financial leadership without the overhead of a full-time hire.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-number">02</div>
+      <div class="service-name">FP&A</div>
+      <div class="service-desc">Financial Planning & Analysis that sharpens budgeting, forecasting and variance analysis across the organization.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-number">03</div>
+      <div class="service-name">Corporate Finance</div>
+      <div class="service-desc">Capital structure, working capital optimization, and financial policy aligned to growth objectives.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-number">04</div>
+      <div class="service-name">Financial Analysis</div>
+      <div class="service-desc">Deep-dive financial diagnostics uncovering performance drivers, risks, and value creation opportunities.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-number">05</div>
+      <div class="service-name">Business Valuation</div>
+      <div class="service-desc">Independent, defensible valuation for M&A, investment rounds, restructuring, and strategic planning.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-number">06</div>
+      <div class="service-name">M&A Advisory</div>
+      <div class="service-desc">Buy-side and sell-side M&A support: deal structuring, due diligence, and integration financial oversight.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-number">07</div>
+      <div class="service-name">Data Analytics</div>
+      <div class="service-desc">Advanced financial data modeling, KPI frameworks, and analytical infrastructure that powers better decisions.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-number">08</div>
+      <div class="service-name">Business Intelligence</div>
+      <div class="service-desc">Dashboards, reporting automation, and BI systems giving leadership real-time strategic visibility.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-number">09</div>
+      <div class="service-name">Strategic Planning</div>
+      <div class="service-desc">Multi-year financial strategy, scenario modeling, and long-range planning to guide organizational direction.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section id="clients">
+  <div class="clients-header">
+    <div class="section-eyebrow">
+      <div class="section-eyebrow-line"></div>
+      <span>Client Portfolio</span>
+    </div>
+    <h2 class="section-heading">
+      Organizations We've<br><em>Partnered With</em>
+    </h2>
+    <p class="section-intro" style="margin: 16px auto 0; text-align: center;">
+      A track record of impactful engagements across financial, industrial, and commercial sectors.
+    </p>
+  </div>
+
+  <div class="clients-grid">
+    <!-- 8 client logo placeholders -->
+    <div class="client-slot">
+      <div class="client-slot-inner">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2C3440" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Client Logo
+      </div>
+    </div>
+    <div class="client-slot">
+      <div class="client-slot-inner">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2C3440" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Client Logo
+      </div>
+    </div>
+    <div class="client-slot">
+      <div class="client-slot-inner">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2C3440" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Client Logo
+      </div>
+    </div>
+    <div class="client-slot">
+      <div class="client-slot-inner">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2C3440" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Client Logo
+      </div>
+    </div>
+    <div class="client-slot">
+      <div class="client-slot-inner">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2C3440" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Client Logo
+      </div>
+    </div>
+    <div class="client-slot">
+      <div class="client-slot-inner">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2C3440" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Client Logo
+      </div>
+    </div>
+    <div class="client-slot">
+      <div class="client-slot-inner">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2C3440" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Client Logo
+      </div>
+    </div>
+    <div class="client-slot">
+      <div class="client-slot-inner">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2C3440" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Client Logo
+      </div>
+    </div>
+  </div>
+
+  <p class="clients-note">Client logos and sector references — to be added upon engagement confirmation.</p>
+</section>
+
+<!-- APPROACH -->
+<section id="approach">
+  <div class="fade-up">
+    <div class="section-eyebrow">
+      <div class="section-eyebrow-line"></div>
+      <span>How We Work</span>
+    </div>
+    <h2 class="section-heading">
+      A Structured<br>
+      <em>Engagement Model</em>
+    </h2>
+    <p class="section-intro">
+      Every engagement begins with deep financial diagnosis and ends with measurable operational improvements — bridging the gap between financial complexity and executive clarity.
+    </p>
+  </div>
+
+  <div class="approach-steps fade-up">
+    <div class="step-item">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Financial Diagnosis</div>
+        <div class="step-desc">A structured assessment of your current financial health, data quality, reporting gaps, and strategic alignment — establishing a clear baseline.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">Strategic Mapping</div>
+        <div class="step-desc">Translating organizational objectives into a financial roadmap with defined KPIs, scenario models, and prioritized improvement initiatives.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Implementation & Analysis</div>
+        <div class="step-desc">Executing analytical frameworks, FP&A processes, and BI infrastructure that generate ongoing strategic value beyond the engagement period.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title">Insight Communication</div>
+        <div class="step-desc">Delivering findings in executive-ready formats — clear, visual, and directly actionable — ensuring financial intelligence drives real decisions.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">05</div>
+      <div class="step-content">
+        <div class="step-title">Continuous Improvement</div>
+        <div class="step-desc">Ongoing review cycles to identify emerging operational improvement opportunities and adapt strategy to evolving market conditions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-bg-pattern"></div>
+  <div class="cta-inner">
+    <div class="cta-label">
+      <div class="cta-label-line"></div>
+      <span>Let's Talk Strategy</span>
+      <div class="cta-label-line"></div>
+    </div>
+    <h2 class="cta-heading">
+      Ready to Strengthen<br>
+      Your <em>Financial Position?</em>
+    </h2>
+    <p class="cta-sub">
+      Whether you need fractional CFO leadership, a targeted financial analysis, or a long-range strategic planning partner — reach out on LinkedIn or WhatsApp.
+    </p>
+    <div class="cta-actions">
+      <a href="https://www.linkedin.com/in/daniel-villegas-analiticayfinanzas/?locale=en" target="_blank" class="btn-linkedin">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        View Profile & Connect
+      </a>
+      <a href="https://wa.me/573102216863?text=Hello%20Daniel%2C%20I%20am%20interested%20in%20learning%20more%20about%20your%20Fractional%20CFO%20services." target="_blank" class="btn-whatsapp">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Message on WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-brand">
+    <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,6 72,38 28,38" fill="#E8841A"/>
+      <polygon points="18,88 50,56 82,88 74,88 50,67 26,88" fill="#5A6778"/>
+      <polygon points="22,76 50,50 78,76 70,76 50,58 30,76" fill="#8A97A8"/>
+    </svg>
+    <div>
+      <div class="brand-name">DELTA</div>
+      <div class="brand-tag">Fractional CFO</div>
+    </div>
+  </a>
+  <div class="footer-center">
+    © 2025 Delta Fractional · Financial Advisory Services
+  </div>
+  <div class="footer-right">
+    <a href="https://www.linkedin.com/in/daniel-villegas-analiticayfinanzas/?locale=en" target="_blank" class="footer-link">LinkedIn</a>
+    <a href="https://wa.me/573102216863?text=Hello%20Daniel%2C%20I%20am%20interested%20in%20learning%20more%20about%20your%20Fractional%20CFO%20services." target="_blank" class="footer-link" style="color:#25D366;">WhatsApp</a>
+    <a href="#about" class="footer-link">About</a>
+    <a href="#services" class="footer-link">Services</a>
+  </div>
+</footer>
+
+<script>
+  // Header scroll shadow
+  const header = document.getElementById('mainHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
