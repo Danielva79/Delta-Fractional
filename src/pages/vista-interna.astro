@@ -8,6 +8,7 @@ import Caso from '../components/futuros/Caso.astro';
 import Testimonios from '../components/futuros/Testimonios.astro';
 import LogosClientes from '../components/futuros/LogosClientes.astro';
 import Curso from '../components/futuros/Curso.astro';
+import TablaTraduccion from '../components/TablaTraduccion.astro';
 import { contenido } from '../lib/contenido';
 import { casoEjemplo, testimoniosEjemplo, logosEjemplo, cursoEjemplo } from '../content/ejemplos';
 import type { IdFoto } from '../content/schema';
@@ -51,6 +52,7 @@ const slots = Object.keys(c.fotos) as IdFoto[];
   <div class="franja"><div class="wrap"><LogosClientes c={c} logos={logosEjemplo} /></div></div>
   <div class="wrap"><p class="etiqueta">features.curso · va en la banda del diagnóstico</p></div>
   <div class="band-dark franja-oscura"><div class="wrap"><div class="curso"><Curso c={c} curso={cursoEjemplo} /></div></div></div>
+  <TablaTraduccion />
 </Base>
 
 <style>

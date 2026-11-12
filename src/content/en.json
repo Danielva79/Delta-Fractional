@@ -83,7 +83,7 @@
         "texto": "You don't know how much cash you will have next month."
       }
     ],
-    "cierre": "Selling more doesn't always leave more. Let's look at why."
+    "cierre": "Selling more doesn't always mean keeping more. Let's look at why."
   },
   "servicios": {
     "needsReview": true,
@@ -120,7 +120,7 @@
   },
   "diferencial": {
     "needsReview": true,
-    "h2": "How I approach the work",
+    "h2": "My way of working",
     "pilares": [
       {
         "titulo": "Reconciled figures before opinions",
@@ -204,7 +204,7 @@
   },
   "cierre": {
     "needsReview": true,
-    "h2": "If you sell more and keep no more, let's talk.",
+    "h2": "If you're selling more but not keeping more, let's talk.",
     "texto": "Message me on WhatsApp or start with the free diagnostic."
   },
   "footer": {

@@ -1,0 +1,66 @@
+---
+// Tabla de revisión ES / EN (solo /vista-interna/). Lista cada texto de es.json junto a su
+// traducción en en.json y si el bloque sigue marcado con needsReview.
+import es from '../content/es.json';
+import en from '../content/en.json';
+import { esTodo } from '../content/schema';
+
+type Fila = { clave: string; es: string; en: string; revisar: boolean };
+const OMITIR = new Set(['_nota', 'fotos', 'features', 'needsReview', 'href', 'id', 'foto', 'fondo', 'captura', 'ogImage', 'lang']);
+
+function filas(a: unknown, b: unknown, ruta: string, revisar: boolean, salida: Fila[]) {
+  if (typeof a === 'string') {
+    if (!esTodo(a) && typeof b === 'string') salida.push({ clave: ruta, es: a, en: b, revisar });
+    return;
+  }
+  if (a && typeof a === 'object') {
+    const marca = revisar || (b as { needsReview?: boolean } | undefined)?.needsReview === true;
+    for (const [k, v] of Object.entries(a)) {
+      if (OMITIR.has(k)) continue;
+      filas(v, (b as Record<string, unknown> | undefined)?.[k], ruta ? `${ruta}.${k}` : k, marca, salida);
+    }
+  }
+}
+const lista: Fila[] = [];
+filas(es, en, '', false, lista);
+// Textos que en EN viven en un bloque sin marca (nav, botones): también se revisan.
+const pendientes = lista.filter((f) => f.revisar).length;
+---
+<section class="seccion traduccion" aria-labelledby="h-traduccion">
+  <div class="wrap">
+    <h2 id="h-traduccion" class="h2">Revisión del inglés</h2>
+    <p class="sub">{lista.length} textos. {pendientes} están en bloques marcados con <code>needsReview: true</code> en <code>en.json</code>; los demás (menú y botones) también se revisan aquí. Para aprobar un bloque, cambie su <code>needsReview</code> a <code>false</code>.</p>
+    <table>
+      <thead><tr><th scope="col">Clave</th><th scope="col" lang="es">Español (aprobado)</th><th scope="col" lang="en">English</th></tr></thead>
+      <tbody>
+        {lista.map((f) => (
+          <tr class:list={[f.revisar && 'pendiente']}>
+            <td class="clave"><code>{f.clave}</code>{f.revisar && <span class="estado">por revisar</span>}</td>
+            <td lang="es">{f.es}</td>
+            <td lang="en">{f.en}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .h2 { margin-bottom: var(--space-4); font-size: var(--fs-h3); }
+  .sub { margin-bottom: var(--space-6); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--fs-small); line-height: var(--lh-small); }
+  th { text-align: left; font-weight: var(--fw-semibold); color: var(--ink); border-bottom: 2px solid var(--line-strong); padding: var(--space-2) var(--space-3); }
+  td { vertical-align: top; border-bottom: 1px solid var(--line); padding: var(--space-3); color: var(--ink); }
+  .clave { width: 22%; color: var(--ink-2); }
+  .clave code { word-break: break-all; font-size: 0.85em; }
+  .estado { display: block; margin-top: var(--space-1); font-size: 12px; font-weight: var(--fw-semibold); color: var(--accent-text); }
+  tr.pendiente td:first-child { box-shadow: inset 4px 0 0 var(--accent); }
+  @media (max-width: 768px) {
+    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    table, tbody, tr, td { display: block; }
+    tr { border-bottom: 1px solid var(--line-strong); padding: var(--space-3) 0; }
+    td { border: 0; padding: var(--space-1) var(--space-3); }
+    .clave { width: auto; }
+    td[lang]::before { content: attr(lang) ' · '; font-weight: var(--fw-semibold); color: var(--ink-2); text-transform: uppercase; font-size: 12px; }
+  }
+</style>

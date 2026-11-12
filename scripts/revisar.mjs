@@ -14,6 +14,13 @@ const PROHIBIDAS = [
   'ecosistema', 'cerrar la brecha', 'siguiente nivel', 'nosotros', 'hemos ', 'nuestro equipo', 'próximamente',
   'logo cliente', 'foto aquí', 'lorem',
 ];
+// Equivalentes en inglés: muletillas de consultora y plural ("we", "our team") para una sola persona.
+const PROHIBIDAS_EN = [
+  'expertise', 'engagement', 'insights', 'synergy', 'synergies', 'world-class', 'world class', 'cutting-edge',
+  'empower', 'leverage', 'unlock', 'actionable', 'next level', 'game-changer', 'holistic', 'ecosystem',
+  'transformation', 'end-to-end solutions', 'high-impact', 'best-in-class', 'coming soon', 'lorem',
+];
+const PLURAL_EN = /\b(we|we're|we've|our|ours|us)\b/i;
 const esTodo = (v) => typeof v === 'string' && /^\s*TODO/i.test(v);
 
 const decodificar = (s) =>
@@ -61,6 +68,11 @@ for (const [ruta, c] of Object.entries(paginas)) {
   if (/\bDELTA\b/.test(texto)) avisar(ruta, '"DELTA" en mayúsculas en el texto');
   if (/fractional cfo|cfo fraccional/i.test(texto)) avisar(ruta, '"CFO" usado como nombre en el texto visible');
   for (const p of PROHIBIDAS) if (minus.includes(p)) avisar(ruta, `palabra prohibida: "${p.trim()}"`);
+  if (c.idioma === 'en' || ruta.startsWith('/en/')) {
+    for (const p of PROHIBIDAS_EN) if (minus.includes(p)) avisar(ruta, `palabra prohibida (EN): "${p}"`);
+    const plural = texto.match(PLURAL_EN);
+    if (plural) avisar(ruta, `primera persona del plural en inglés: "${plural[0]}" (es una sola persona: I, my)`);
+  }
   if (ruta === '/' && /\+\s*IVA|IVA incluido/i.test(texto) && esTodo(es.servicios.inversion.iva)) avisar(ruta, 'menciona IVA sin confirmar');
 
   const h1 = (html.match(/<h1[\s>]/g) || []).length;
