@@ -21,6 +21,7 @@ const { inversion } = c.servicios;
             <p class="eyebrow">{s.nivel}</p>
             <h3 id={`servicio-${s.id}`}>{s.titulo}</h3>
             <p class="muted">{s.texto}</p>
+            {s.precio && <p class="precio-servicio tnum">{s.precio}</p>}
             {s.resultado && (
               <p class="resultado"><strong>{c.ui.resultado}</strong><span>{s.resultado}</span></p>
             )}
@@ -55,6 +56,10 @@ const { inversion } = c.servicios;
   }
   .resultado strong { font-weight: var(--fw-semibold); color: var(--ink); }
   .resultado span { color: var(--ink-2); }
+  .precio-servicio {
+    font-size: var(--fs-sub); font-weight: var(--fw-bold); color: var(--ink); letter-spacing: -0.01em;
+    border-left: 4px solid var(--accent); padding-left: var(--space-3);
+  }
   .accion { margin-top: auto; }
   /* En escritorio: bases alineadas y techos que suben un paso por tarjeta. */
   @media (min-width: 1024px) {

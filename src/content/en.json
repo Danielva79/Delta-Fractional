@@ -18,7 +18,7 @@
   "contacto": {
     "needsReview": true,
     "whatsappMensaje": "Hello Daniel, I'd like to learn more about your finance director services.",
-    "whatsappMensajeDiagnostico": "Hello Daniel, I'd like to take the free financial diagnostic."
+    "whatsappMensajeDiagnostico": "Hello Daniel, I'd like to book the financial diagnostic."
   },
   "nav": [
     {
@@ -38,7 +38,7 @@
       "href": "#preguntas"
     }
   ],
-  "ctaPrincipal": "Get the free diagnostic",
+  "ctaPrincipal": "Book a diagnostic",
   "ctaWhatsApp": "Message me on WhatsApp",
   "hero": {
     "needsReview": true,
@@ -95,7 +95,8 @@
         "titulo": "Financial diagnostic",
         "texto": "I reconcile the information, measure the profitability of each business unit and project the cash.",
         "resultado": "Prioritized findings and a 90-day plan.",
-        "duracion": "TODO:duracion-del-diagnostico"
+        "duracion": "TODO:duracion-del-diagnostico",
+        "precio": "From COP 2 M"
       },
       {
         "id": "mensual",
@@ -157,7 +158,7 @@
   },
   "diagnostico": {
     "needsReview": true,
-    "antetitulo": "Free diagnostic",
+    "antetitulo": "Financial diagnostic",
     "h2": "Do you know which line of your business makes you money?",
     "texto": "Answer 15 questions and get a first diagnostic of profitability and cash.",
     "cta": "Start the diagnostic",
@@ -205,7 +206,7 @@
   "cierre": {
     "needsReview": true,
     "h2": "If you're selling more but not keeping more, let's talk.",
-    "texto": "Message me on WhatsApp or start with the free diagnostic."
+    "texto": "Message me on WhatsApp or start with the diagnostic."
   },
   "footer": {
     "needsReview": true,

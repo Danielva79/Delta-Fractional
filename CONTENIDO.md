@@ -62,7 +62,7 @@ Puede ver cómo se verán estas secciones, con datos de ejemplo, en la página i
 
 ## Botones de diagnóstico y WhatsApp
 
-- Mientras `contacto.diagnosticoUrl` esté en `TODO`, todos los botones "Hacer diagnóstico gratis" y "Empezar el diagnóstico" abren WhatsApp con el mensaje `contacto.whatsappMensajeDiagnostico`. Cuando exista el cuestionario, ponga su URL (empieza por `https://`) y los botones van a ella.
+- Mientras `contacto.diagnosticoUrl` esté en `TODO`, todos los botones "Agendar diagnóstico" y "Empezar el diagnóstico" abren WhatsApp con el mensaje `contacto.whatsappMensajeDiagnostico`. Cuando exista el cuestionario, ponga su URL (empieza por `https://`) y los botones van a ella.
 - Los enlaces de WhatsApp abren la app en el celular y una pestaña nueva en el computador.
 
 ## Aviso de privacidad

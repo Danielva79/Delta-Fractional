@@ -54,6 +54,7 @@ const textos = {
           texto,
           resultado: pendiente.optional(),
           duracion: pendiente.optional(),
+          precio: pendiente.optional(),
         }),
       )
       .min(1),

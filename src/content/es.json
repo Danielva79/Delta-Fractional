@@ -17,7 +17,7 @@
     "whatsappNumero": "+57 310 221 6863",
     "whatsappUrlBase": "https://wa.me/573102216863",
     "whatsappMensaje": "Hola Daniel, me interesa conocer más sobre sus servicios de dirección financiera.",
-    "whatsappMensajeDiagnostico": "Hola Daniel, quiero hacer el diagnóstico financiero gratuito.",
+    "whatsappMensajeDiagnostico": "Hola Daniel, quiero agendar el diagnóstico financiero.",
     "linkedin": "https://www.linkedin.com/in/daniel-villegas-deltafractional/",
     "correo": "TODO:correo-de-contacto",
     "diagnosticoUrl": "TODO:url-del-diagnostico-de-15-preguntas",
@@ -51,7 +51,7 @@
       "href": "#preguntas"
     }
   ],
-  "ctaPrincipal": "Hacer diagnóstico gratis",
+  "ctaPrincipal": "Agendar diagnóstico",
   "ctaWhatsApp": "Escribir por WhatsApp",
   "hero": {
     "antetitulo": "Director financiero externo para pymes",
@@ -104,7 +104,8 @@
         "titulo": "Diagnóstico financiero",
         "texto": "Concilio la información, mido la rentabilidad de cada unidad de negocio y proyecto la caja.",
         "resultado": "Hallazgos priorizados y un plan de 90 días.",
-        "duracion": "TODO:duracion-del-diagnostico"
+        "duracion": "TODO:duracion-del-diagnostico",
+        "precio": "Desde $2 M"
       },
       {
         "id": "mensual",
@@ -162,7 +163,7 @@
     "linkedinLabel": "Ver mi perfil en LinkedIn"
   },
   "diagnostico": {
-    "antetitulo": "Diagnóstico gratuito",
+    "antetitulo": "Diagnóstico financiero",
     "h2": "¿Sabe qué línea de su negocio le deja plata?",
     "texto": "Responda 15 preguntas y reciba un primer diagnóstico de rentabilidad y caja.",
     "cta": "Empezar el diagnóstico",
@@ -208,7 +209,7 @@
   },
   "cierre": {
     "h2": "Si vende más y no le queda más, hablemos.",
-    "texto": "Escríbame por WhatsApp o empiece por el diagnóstico gratis."
+    "texto": "Escríbame por WhatsApp o empiece por el diagnóstico."
   },
   "footer": {
     "linea": "Delta Fractional · Dirección financiera externa para pymes",

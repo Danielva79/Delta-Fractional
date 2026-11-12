@@ -13,12 +13,15 @@ const PROHIBIDAS = [
   'potenciar', 'potencie', 'impulsar', 'impulse', 'accionable', 'inteligencia financiera', 'transformación',
   'ecosistema', 'cerrar la brecha', 'siguiente nivel', 'nosotros', 'hemos ', 'nuestro equipo', 'próximamente',
   'logo cliente', 'foto aquí', 'lorem',
+  // El diagnóstico no es gratis (Daniel, 2026-11-12): cuesta desde $2 M.
+  'gratis', 'gratuito', 'gratuita',
 ];
 // Equivalentes en inglés: muletillas de consultora y plural ("we", "our team") para una sola persona.
 const PROHIBIDAS_EN = [
   'expertise', 'engagement', 'insights', 'synergy', 'synergies', 'world-class', 'world class', 'cutting-edge',
   'empower', 'leverage', 'unlock', 'actionable', 'next level', 'game-changer', 'holistic', 'ecosystem',
   'transformation', 'end-to-end solutions', 'high-impact', 'best-in-class', 'coming soon', 'lorem',
+  'free diagnostic', 'free of charge', 'for free',
 ];
 const PLURAL_EN = /\b(we|we're|we've|our|ours|us)\b/i;
 const esTodo = (v) => typeof v === 'string' && /^\s*TODO/i.test(v);
@@ -40,7 +43,7 @@ function aprobados(c) {
     ...c.prueba.items.map((i) => i.texto), ...c.prueba.items.filter((i) => i.cifra).map((i) => i.cifra),
     c.problema.h2, c.problema.intro, c.problema.cierre, ...c.problema.dolores.flatMap((d) => [d.titulo, d.texto]),
     c.servicios.h2, c.servicios.inversion.precio, c.servicios.inversion.nota,
-    ...c.servicios.items.flatMap((s) => [s.nivel, s.titulo, s.texto, s.resultado]),
+    ...c.servicios.items.flatMap((s) => [s.nivel, s.titulo, s.texto, s.resultado, s.precio]),
     c.diferencial.h2, ...c.diferencial.pilares.flatMap((p) => [p.titulo, p.texto]),
     c.deltaBI.h2, c.deltaBI.texto, c.deltaBI.nota,
     c.sobre.h2, ...c.sobre.parrafos, c.sobre.linkedinLabel,
