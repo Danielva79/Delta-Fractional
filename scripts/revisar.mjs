@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const DIST = 'dist';
+const DIST = process.env.REVISAR_DIST || 'dist';
 const es = JSON.parse(fs.readFileSync('src/content/es.json', 'utf8'));
 const en = JSON.parse(fs.readFileSync('src/content/en.json', 'utf8'));
 const paginas = { '/': es, '/en/': en };
@@ -138,7 +138,8 @@ if (sitemap.includes('vista-interna')) problemas.push('sitemap.xml: incluye la v
 const robots = fs.existsSync(path.join(DIST, 'robots.txt')) ? fs.readFileSync(path.join(DIST, 'robots.txt'), 'utf8') : '';
 if (process.env.PUBLIC_NOINDEX !== 'true' && (!robots.includes('Disallow: /vista-interna/') || !robots.includes('Sitemap: https://deltafractional.com/sitemap.xml'))) problemas.push('robots.txt: incompleto');
 const viejo = path.join(DIST, 'index-en.html');
-if (!fs.existsSync(viejo) || !/url=\/en\//.test(fs.readFileSync(viejo, 'utf8'))) problemas.push('index-en.html: falta la redirección a /en/');
+// (la vista previa lo quita a propósito: su redirección apunta a la raíz del dominio)
+if (process.env.PUBLIC_NOINDEX !== 'true' && (!fs.existsSync(viejo) || !/url=\/en\//.test(fs.readFileSync(viejo, 'utf8')))) problemas.push('index-en.html: falta la redirección a /en/');
 
 // La vista interna no se indexa.
 const interna = path.join(DIST, 'vista-interna', 'index.html');

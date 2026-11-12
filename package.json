@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "revisar": "node scripts/revisar.mjs"
+    "revisar": "node scripts/revisar.mjs",
+    "vista-previa": "node scripts/publicar-vista-previa.mjs"
   },
   "dependencies": {
     "astro": "7.4.11",

@@ -7,10 +7,13 @@ import { defineConfig } from 'astro/config';
 
 const site = process.env.PUBLIC_SITE_URL || 'https://deltafractional.com';
 const base = process.env.BASE_PATH || '/';
+// OUT_DIR permite construir la vista previa en otra carpeta sin pisar dist/.
+const outDir = process.env.OUT_DIR || './dist';
 
 export default defineConfig({
   site,
   base,
+  outDir,
   trailingSlash: 'always',
   output: 'static',
   // CSS en archivos con hash (≈7 KB comprimido). Medido con Lighthouse móvil, 3 corridas: en línea
