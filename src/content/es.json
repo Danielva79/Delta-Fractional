@@ -96,7 +96,7 @@
     "cierre": "Vender más no siempre deja más. Miremos por qué."
   },
   "servicios": {
-    "h2": "Cómo trabajo",
+    "h2": "Cómo trabajo como director financiero externo",
     "items": [
       {
         "id": "diagnostico",
@@ -170,7 +170,8 @@
   },
   "curso": {
     "nombre": "TODO:nombre-del-curso",
-    "modulos": "TODO:modulos-del-curso"
+    "modulos": "TODO:modulos-del-curso",
+    "url": "TODO:url-del-curso"
   },
   "caso": {
     "titulo": "TODO:caso",
@@ -272,6 +273,12 @@
     "resultado": "Resultado",
     "pestanaNueva": "abre en otra pestaña",
     "inicio": "inicio",
-    "trayectoria": "Trayectoria"
+    "trayectoria": "Trayectoria",
+    "casoAntes": "Antes",
+    "casoQueHice": "Qué hice",
+    "casoDespues": "Después",
+    "testimonios": "Testimonios",
+    "clientes": "Clientes",
+    "curso": "Curso"
   }
 }

@@ -5,12 +5,10 @@
 // - Si no existe: marcador de marca decorativo (o nada, si el slot no tiene marcador).
 // El contenedor reserva el aspect-ratio, así que la página no se mueve cuando llega la foto.
 import { Picture } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
 import type { Contenido } from '../lib/contenido';
 import type { IdFoto } from '../content/schema';
 import { ruta } from '../lib/enlaces';
-
-const archivos = import.meta.glob<{ default: ImageMetadata }>('/fotos/*.{jpg,jpeg,png,webp}', { eager: true });
+import { imagenDe } from '../lib/fotos';
 
 interface Props {
   c: Contenido;
@@ -27,7 +25,7 @@ interface Props {
 }
 const { c, id, sizes, prioridad = false, ratioMovil, posicion = 'center', class: clase } = Astro.props;
 const f = c.fotos[id];
-const img = archivos[`/fotos/${f.archivo}`]?.default;
+const img = imagenDe(c, id);
 
 if (img && f.alt === null) {
   throw new Error(

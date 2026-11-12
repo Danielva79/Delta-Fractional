@@ -1,0 +1,13 @@
+---
+// Separador de sección: línea --line con el chevrón (40 px) al centro. Siempre hacia arriba.
+import { ruta } from '../lib/enlaces';
+---
+<div class="separador wrap" aria-hidden="true">
+  <img src={ruta('/img/graficos/chevron.svg')} alt="" width="40" height="33" loading="lazy" />
+</div>
+
+<style>
+  .separador { display: flex; align-items: center; gap: var(--space-5); }
+  .separador::before, .separador::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  img { width: 40px; height: auto; }
+</style>

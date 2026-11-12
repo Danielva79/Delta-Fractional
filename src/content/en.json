@@ -21,10 +21,22 @@
     "whatsappMensajeDiagnostico": "Hello Daniel, I'd like to take the free financial diagnostic."
   },
   "nav": [
-    { "label": "How I work", "href": "#como-trabajo" },
-    { "label": "Delta BI", "href": "#delta-bi" },
-    { "label": "About me", "href": "#sobre-daniel" },
-    { "label": "Questions", "href": "#preguntas" }
+    {
+      "label": "How I work",
+      "href": "#como-trabajo"
+    },
+    {
+      "label": "Delta BI",
+      "href": "#delta-bi"
+    },
+    {
+      "label": "About me",
+      "href": "#sobre-daniel"
+    },
+    {
+      "label": "Questions",
+      "href": "#preguntas"
+    }
   ],
   "ctaPrincipal": "Get the free diagnostic",
   "ctaWhatsApp": "Message me on WhatsApp",
@@ -39,10 +51,22 @@
   "prueba": {
     "needsReview": true,
     "items": [
-      { "cifra": "18+", "texto": "years in finance" },
-      { "cifra": null, "texto": "In-house finance director and finance manager at industrial, commercial, technology and public sector companies" },
-      { "cifra": null, "texto": "Nearly eight years in the securities market and in development banking" },
-      { "cifra": null, "texto": "M.Sc. in International Finance (EADA, Barcelona)" }
+      {
+        "cifra": "18+",
+        "texto": "years in finance"
+      },
+      {
+        "cifra": null,
+        "texto": "In-house finance director and finance manager at industrial, commercial, technology and public sector companies"
+      },
+      {
+        "cifra": null,
+        "texto": "Nearly eight years in the securities market and in development banking"
+      },
+      {
+        "cifra": null,
+        "texto": "M.Sc. in International Finance (EADA, Barcelona)"
+      }
     ]
   },
   "problema": {
@@ -50,8 +74,14 @@
     "h2": "Does this sound familiar?",
     "intro": "You make decisions without knowing for sure which line, branch or client makes you a profit, or how much cash you will have next month.",
     "dolores": [
-      { "titulo": "Invisible profitability", "texto": "You don't know which line, branch or client makes you a profit." },
-      { "titulo": "Uncertain cash", "texto": "You don't know how much cash you will have next month." }
+      {
+        "titulo": "Invisible profitability",
+        "texto": "You don't know which line, branch or client makes you a profit."
+      },
+      {
+        "titulo": "Uncertain cash",
+        "texto": "You don't know how much cash you will have next month."
+      }
     ],
     "cierre": "Selling more doesn't always leave more. Let's look at why."
   },
@@ -59,16 +89,28 @@
     "needsReview": true,
     "h2": "How I work as an outsourced finance director",
     "items": [
-      { "id": "diagnostico", "nivel": "To start", "titulo": "Financial diagnostic",
+      {
+        "id": "diagnostico",
+        "nivel": "To start",
+        "titulo": "Financial diagnostic",
         "texto": "I reconcile the information, measure the profitability of each business unit and project the cash.",
         "resultado": "Prioritized findings and a 90-day plan.",
-        "duracion": "TODO:duracion-del-diagnostico" },
-      { "id": "mensual", "nivel": "Every month", "titulo": "Monthly financial management",
+        "duracion": "TODO:duracion-del-diagnostico"
+      },
+      {
+        "id": "mensual",
+        "nivel": "Every month",
+        "titulo": "Monthly financial management",
         "texto": "Budget, tracking against actuals, a finance committee with commitments and a dashboard of its own, Delta BI.",
-        "resultado": "Management sees its cash and profitability every month." },
-      { "id": "proyectos", "nivel": "When you need it", "titulo": "Projects",
+        "resultado": "Management sees its cash and profitability every month."
+      },
+      {
+        "id": "proyectos",
+        "nivel": "When you need it",
+        "titulo": "Projects",
         "texto": "Company valuation, financing and financial structuring of transactions.",
-        "resultado": "TODO:resultado-proyectos" }
+        "resultado": "TODO:resultado-proyectos"
+      }
     ],
     "inversion": {
       "precio": "From COP 2 M per month",
@@ -80,9 +122,18 @@
     "needsReview": true,
     "h2": "How I approach the work",
     "pilares": [
-      { "titulo": "Reconciled figures before opinions", "texto": "I don't give opinions on figures that are not reconciled." },
-      { "titulo": "Cause before recommendation", "texto": "First I find the cause of each difference, then I recommend." },
-      { "titulo": "Models that stay in your company", "texto": "The models I deliver are auditable and remain in the company's hands." }
+      {
+        "titulo": "Reconciled figures before opinions",
+        "texto": "I don't give opinions on figures that are not reconciled."
+      },
+      {
+        "titulo": "Cause before recommendation",
+        "texto": "First I find the cause of each difference, then I recommend."
+      },
+      {
+        "titulo": "Models that stay in your company",
+        "texto": "The models I deliver are auditable and remain in the company's hands."
+      }
     ]
   },
   "deltaBI": {
@@ -112,19 +163,43 @@
     "cta": "Start the diagnostic",
     "fondo": "banda-detalle"
   },
-  "curso": { "nombre": "TODO:nombre-del-curso", "modulos": "TODO:modulos-del-curso" },
-  "caso": { "titulo": "TODO:caso", "antes": "TODO", "queHice": "TODO", "despues": "TODO" },
+  "curso": {
+    "nombre": "TODO:nombre-del-curso",
+    "modulos": "TODO:modulos-del-curso",
+    "url": "TODO:course-url"
+  },
+  "caso": {
+    "titulo": "TODO:caso",
+    "antes": "TODO",
+    "queHice": "TODO",
+    "despues": "TODO"
+  },
   "testimonios": [],
   "logosClientes": [],
-  "segmento": { "tamanoEmpresa": "TODO:tamano-de-empresa", "sectores": "TODO:sectores" },
+  "segmento": {
+    "tamanoEmpresa": "TODO:tamano-de-empresa",
+    "sectores": "TODO:sectores"
+  },
   "faq": {
     "needsReview": true,
     "h2": "Frequently asked questions",
     "items": [
-      { "p": "How much does it cost?", "r": "From COP 2 M per month, depending on company size and type of service." },
-      { "p": "Do you only work in Manizales?", "r": "No. I'm based in Manizales and have nationwide coverage." },
-      { "p": "Does access to Delta BI cost extra?", "r": "No. Access to Delta BI is included in the service." },
-      { "p": "What happens to the models when the work ends?", "r": "The models I deliver are auditable and remain in the company's hands." }
+      {
+        "p": "How much does it cost?",
+        "r": "From COP 2 M per month, depending on company size and type of service."
+      },
+      {
+        "p": "Do you only work in Manizales?",
+        "r": "No. I'm based in Manizales and have nationwide coverage."
+      },
+      {
+        "p": "Does access to Delta BI cost extra?",
+        "r": "No. Access to Delta BI is included in the service."
+      },
+      {
+        "p": "What happens to the models when the work ends?",
+        "r": "The models I deliver are auditable and remain in the company's hands."
+      }
     ]
   },
   "cierre": {
@@ -138,12 +213,24 @@
     "privacidad": "Privacy notice"
   },
   "fotos": {
-    "hero-retrato": { "alt": "TODO:alt-when-photo-arrives" },
-    "sobre-daniel": { "alt": "TODO:alt-when-photo-arrives" },
-    "trabajo-cliente": { "alt": "TODO:alt-when-photo-arrives" },
-    "banda-detalle": { "alt": "" },
-    "delta-bi-captura": { "alt": "Delta BI dashboard with sample data" },
-    "curso": { "alt": "TODO:alt-when-photo-arrives" }
+    "hero-retrato": {
+      "alt": "TODO:alt-when-photo-arrives"
+    },
+    "sobre-daniel": {
+      "alt": "TODO:alt-when-photo-arrives"
+    },
+    "trabajo-cliente": {
+      "alt": "TODO:alt-when-photo-arrives"
+    },
+    "banda-detalle": {
+      "alt": ""
+    },
+    "delta-bi-captura": {
+      "alt": "Delta BI dashboard with sample data"
+    },
+    "curso": {
+      "alt": "TODO:alt-when-photo-arrives"
+    }
   },
   "ui": {
     "needsReview": true,
@@ -155,6 +242,12 @@
     "resultado": "Result",
     "pestanaNueva": "opens in a new tab",
     "inicio": "home",
-    "trayectoria": "Track record"
+    "trayectoria": "Track record",
+    "casoAntes": "Before",
+    "casoQueHice": "What I did",
+    "casoDespues": "After",
+    "testimonios": "Testimonials",
+    "clientes": "Clients",
+    "curso": "Course"
   }
 }

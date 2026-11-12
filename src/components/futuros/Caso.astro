@@ -1,0 +1,46 @@
+---
+// Caso de cliente: antes / qué hice / después, con cifras reales y permiso.
+// Se muestra solo con features.caso y los cuatro campos completos.
+import type { Contenido } from '../../lib/contenido';
+import { ruta } from '../../lib/enlaces';
+
+interface Props {
+  c: Contenido;
+  caso: { titulo: string | null; antes: string | null; queHice: string | null; despues: string | null };
+}
+const { c, caso } = Astro.props;
+const completo = Boolean(caso.titulo && caso.antes && caso.queHice && caso.despues);
+const pasos = [
+  { etiqueta: c.ui.casoAntes, texto: caso.antes },
+  { etiqueta: c.ui.casoQueHice, texto: caso.queHice },
+  { etiqueta: c.ui.casoDespues, texto: caso.despues },
+];
+---
+{completo && (
+  <section class="seccion caso" aria-labelledby="h-caso">
+    <div class="wrap">
+      <h2 id="h-caso">{caso.titulo}</h2>
+      <ol>
+        {pasos.map((p, i) => (
+          <li class:list={[i === 2 && 'despues']}>
+            <img src={ruta('/img/graficos/chevron-bullet.svg')} alt="" width="16" height="13" loading="lazy" />
+            <h3>{p.etiqueta}</h3>
+            <p>{p.texto}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}
+
+<style>
+  .caso { padding-top: 0; }
+  ol { list-style: none; margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
+  li { background: var(--surface); border-radius: var(--radius-lg); padding: clamp(24px, 2.6vw, 36px); display: flex; flex-direction: column; gap: var(--space-3); }
+  li.despues { box-shadow: inset 4px 0 0 var(--accent); }
+  img { width: 16px; height: auto; }
+  p { color: var(--ink-2); }
+  @media (max-width: 900px) {
+    ol { grid-template-columns: 1fr; }
+  }
+</style>

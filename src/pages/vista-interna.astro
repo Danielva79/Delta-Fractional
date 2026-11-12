@@ -4,7 +4,12 @@
 // (caso, testimonios, logos, curso, formulario) con datos de ejemplo.
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
+import Caso from '../components/futuros/Caso.astro';
+import Testimonios from '../components/futuros/Testimonios.astro';
+import LogosClientes from '../components/futuros/LogosClientes.astro';
+import Curso from '../components/futuros/Curso.astro';
 import { contenido } from '../lib/contenido';
+import { casoEjemplo, testimoniosEjemplo, logosEjemplo, cursoEjemplo } from '../content/ejemplos';
 import type { IdFoto } from '../content/schema';
 
 const c = contenido('es');
@@ -32,14 +37,26 @@ const slots = Object.keys(c.fotos) as IdFoto[];
           );
         })}
       </div>
+
+      <h2 class="h2">Componentes ocultos, con datos de ejemplo</h2>
+      <p class="sub">En las páginas públicas cada uno aparece solo cuando su bandera en <code>features</code> está en <code>true</code> y hay contenido real aprobado. Los textos de abajo son de ejemplo.</p>
     </div>
   </section>
+
+  <div class="wrap"><p class="etiqueta">features.caso · va después de "Cómo trabajo"</p></div>
+  <Caso c={c} caso={casoEjemplo} />
+  <div class="wrap"><p class="etiqueta">features.testimonios · va después del caso</p></div>
+  <Testimonios c={c} testimonios={testimoniosEjemplo} />
+  <div class="wrap"><p class="etiqueta">features.logosClientes · va dentro de la barra de prueba</p></div>
+  <div class="franja"><div class="wrap"><LogosClientes c={c} logos={logosEjemplo} /></div></div>
+  <div class="wrap"><p class="etiqueta">features.curso · va en la banda del diagnóstico</p></div>
+  <div class="band-dark franja-oscura"><div class="wrap"><div class="curso"><Curso c={c} curso={cursoEjemplo} /></div></div></div>
 </Base>
 
 <style>
   .titulo { margin: var(--space-3) 0 var(--space-4); font-size: var(--fs-h2); }
   .h2 { margin: var(--space-8) 0 var(--space-5); font-size: var(--fs-h3); }
-  .rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-6); align-items: start; }
+  .rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: var(--space-6); align-items: start; }
   figure { display: flex; flex-direction: column; gap: var(--space-3); }
   figure :global(.slot) { border-radius: var(--radius-lg); }
   .sin-marcador {
@@ -47,4 +64,12 @@ const slots = Object.keys(c.fotos) as IdFoto[];
     border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--ink-2); font-size: var(--fs-small);
   }
   figcaption { color: var(--ink-2); }
+  .etiqueta {
+    display: block; margin-top: var(--space-8); margin-bottom: var(--space-5); max-width: none;
+    font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--ink-2);
+  }
+  .franja { background: var(--surface); padding: var(--space-5) 0 var(--space-6); }
+  .franja-oscura { padding: var(--space-8) 0; margin-bottom: var(--space-8); }
+  .curso { max-width: 420px; }
+  code { font-size: 0.9em; }
 </style>

@@ -63,7 +63,7 @@ const textos = {
   deltaBI: bloque({ h2: texto, texto, nota: texto, captura: idFoto }),
   sobre: bloque({ h2: texto, parrafos: z.array(texto).min(1), foto: idFoto, linkedinLabel: texto }),
   diagnostico: bloque({ antetitulo: texto, h2: texto, texto, cta: texto, fondo: idFoto }),
-  curso: bloque({ nombre: pendiente, modulos: pendiente }),
+  curso: bloque({ nombre: pendiente, modulos: pendiente, url: urlPendiente }),
   caso: bloque({ titulo: pendiente, antes: pendiente, queHice: pendiente, despues: pendiente }),
   testimonios: z.array(
     bloque({ nombre: texto, cargo: texto, empresa: texto, texto, foto: z.string().optional() }),
@@ -83,6 +83,12 @@ const textos = {
     pestanaNueva: texto,
     inicio: texto,
     trayectoria: texto,
+    casoAntes: texto,
+    casoQueHice: texto,
+    casoDespues: texto,
+    testimonios: texto,
+    clientes: texto,
+    curso: texto,
   }),
 };
 

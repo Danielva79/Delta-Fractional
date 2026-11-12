@@ -1,0 +1,61 @@
+---
+// 7.8 Recursos: diagnóstico gratuito en banda oscura.
+// - Sin la foto "banda-detalle": carbón con la trama de alas.
+// - Con la foto: duotono carbón + degradado de legibilidad, sin trama (la trama nunca va sobre fotos).
+// - Tarjeta del curso solo si features.curso está activo y tiene nombre.
+import Photo from '../Photo.astro';
+import Curso from '../futuros/Curso.astro';
+import type { Contenido } from '../../lib/contenido';
+import { diagnostico, ruta } from '../../lib/enlaces';
+import { existeFoto } from '../../lib/fotos';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+const conFoto = existeFoto(c, c.diagnostico.fondo);
+const conCurso = c.features.curso && Boolean(c.curso.nombre);
+---
+<section class="band-dark banda" aria-labelledby="h-diagnostico">
+  {conFoto ? (
+    <div class="fondo" aria-hidden="true">
+      <Photo c={c} id={c.diagnostico.fondo} class="fondo-foto" sizes="100vw" />
+      <div class="degradado"></div>
+    </div>
+  ) : (
+    <img class="trama" src={ruta('/img/graficos/trama-alas.svg')} alt="" aria-hidden="true" width="357" height="318" loading="lazy" />
+  )}
+  <div class:list={['wrap', 'seccion', conCurso && 'con-curso']}>
+    <div class="contenido">
+      <p class="eyebrow">{c.diagnostico.antetitulo}</p>
+      <h2 id="h-diagnostico">{c.diagnostico.h2}</h2>
+      <p class="texto">{c.diagnostico.texto}</p>
+      <div class="botones">
+        <a class="btn btn-primario" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="banda_diagnostico">{c.diagnostico.cta}</a>
+      </div>
+    </div>
+    {conCurso && <Curso c={c} curso={c.curso} />}
+  </div>
+</section>
+
+<style>
+  .banda > .wrap { position: relative; display: grid; gap: var(--space-7); align-items: center; }
+  .banda > .wrap.con-curso { grid-template-columns: 1fr minmax(280px, 420px); }
+  .contenido { max-width: 720px; display: flex; flex-direction: column; gap: 20px; }
+  .texto { font-size: var(--fs-sub); line-height: var(--lh-sub); }
+  .fondo { position: absolute; inset: 0; }
+  .fondo :global(.fondo-foto) { position: absolute; inset: 0; aspect-ratio: auto; height: 100%; }
+  .degradado {
+    position: absolute; inset: 0;
+    /* Degradado del manual: rgba(31,35,41,.92) → .70 al 45% → 0 al 75% (31,35,41 = --duo-shadow). */
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--duo-shadow) 92%, transparent),
+      color-mix(in srgb, var(--duo-shadow) 70%, transparent) 45%,
+      transparent 75%
+    );
+  }
+  @media (max-width: 900px) {
+    .banda > .wrap.con-curso { grid-template-columns: 1fr; }
+    /* En móvil el texto ocupa todo el ancho: el degradado cubre toda la foto. */
+    .degradado { background: color-mix(in srgb, var(--duo-shadow) 85%, transparent); }
+  }
+</style>

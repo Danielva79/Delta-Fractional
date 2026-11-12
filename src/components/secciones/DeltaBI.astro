@@ -1,0 +1,34 @@
+---
+// 7.6 Delta BI. Con capturaDeltaBI en false (o sin archivo), solo texto sobre --surface.
+// No se menciona la tecnología ni se dibujan tableros inventados.
+import Photo from '../Photo.astro';
+import type { Contenido } from '../../lib/contenido';
+import { existeFoto } from '../../lib/fotos';
+import { ruta } from '../../lib/enlaces';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+const conCaptura = c.features.capturaDeltaBI && existeFoto(c, c.deltaBI.captura);
+---
+<section class="seccion deltabi" id="delta-bi" aria-labelledby="h-deltabi">
+  <div class:list={['wrap', 'grid', conCaptura && 'con-captura']}>
+    <h2 id="h-deltabi">{c.deltaBI.h2}</h2>
+    <div class="texto">
+      <p>{c.deltaBI.texto}</p>
+      <p class="nota"><img src={ruta('/img/graficos/chevron-bullet.svg')} alt="" width="16" height="13" loading="lazy" />{c.deltaBI.nota}</p>
+    </div>
+    {conCaptura && <Photo c={c} id={c.deltaBI.captura} class="captura" sizes="(max-width: 900px) 100vw, 1200px" />}
+  </div>
+</section>
+
+<style>
+  .deltabi { background: var(--surface); }
+  .grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(24px, 5vw, 72px); align-items: start; }
+  .texto { display: flex; flex-direction: column; gap: var(--space-4); font-size: var(--fs-sub); line-height: var(--lh-sub); }
+  .nota { display: inline-flex; align-items: center; gap: 10px; font-size: var(--fs-body); font-weight: var(--fw-semibold); color: var(--ink); }
+  .nota img { width: 16px; height: auto; }
+  .grid :global(.captura) { grid-column: 1 / -1; border-radius: var(--radius-lg); box-shadow: var(--shadow-1); }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

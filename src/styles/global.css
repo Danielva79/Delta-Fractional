@@ -43,7 +43,7 @@ a:hover { text-decoration-thickness: 2px; }
   margin: 0 auto;
   padding: 0 var(--page-margin);
 }
-.seccion { padding: var(--section-y) 0; }
+.seccion { padding-block: var(--section-y); } /* solo vertical: no pisa el margen lateral de .wrap */
 
 /* Tipografía */
 .eyebrow {

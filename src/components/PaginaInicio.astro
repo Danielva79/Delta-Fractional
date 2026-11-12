@@ -1,7 +1,21 @@
 ---
 // Página de inicio (la misma para ES y EN; cambia el contenido).
+// Orden aprobado: Promesa + CTA → Prueba → Soluciones → Recursos → Conversión.
 import Base from '../layouts/Base.astro';
+import Separador from './Separador.astro';
+import BarraMovil from './BarraMovil.astro';
 import Hero from './secciones/Hero.astro';
+import Prueba from './secciones/Prueba.astro';
+import Problema from './secciones/Problema.astro';
+import Servicios from './secciones/Servicios.astro';
+import Diferencial from './secciones/Diferencial.astro';
+import DeltaBI from './secciones/DeltaBI.astro';
+import Sobre from './secciones/Sobre.astro';
+import BandaDiagnostico from './secciones/BandaDiagnostico.astro';
+import Faq from './secciones/Faq.astro';
+import Cierre from './secciones/Cierre.astro';
+import Caso from './futuros/Caso.astro';
+import Testimonios from './futuros/Testimonios.astro';
 import { contenido, type Idioma } from '../lib/contenido';
 
 interface Props { idioma: Idioma }
@@ -10,4 +24,17 @@ const alternos = { es: '/', en: '/en/' };
 ---
 <Base c={c} ruta={c.idioma === 'es' ? '/' : '/en/'} alternos={alternos}>
   <Hero c={c} />
+  <Prueba c={c} />
+  <Problema c={c} />
+  <Separador />
+  <Servicios c={c} />
+  {c.features.caso && <Caso c={c} caso={c.caso} />}
+  {c.features.testimonios && <Testimonios c={c} testimonios={c.testimonios} />}
+  <Diferencial c={c} />
+  <DeltaBI c={c} />
+  <Sobre c={c} />
+  <BandaDiagnostico c={c} />
+  <Faq c={c} />
+  <Cierre c={c} />
+  <BarraMovil c={c} slot="despues" />
 </Base>

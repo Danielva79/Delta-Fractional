@@ -1,0 +1,44 @@
+---
+// 7.2 Barra de prueba: trayectoria en una franja --surface. Logos de clientes solo con permiso (bandera).
+import LogosClientes from '../futuros/LogosClientes.astro';
+import type { Contenido } from '../../lib/contenido';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+---
+<section class="prueba" aria-label={c.ui.trayectoria}>
+  <div class="wrap">
+    <ul>
+      {c.prueba.items.map((i) =>
+        i.cifra ? (
+          <li class="kpi-item"><span class="kpi tnum">{i.cifra}</span><span>{i.texto}</span></li>
+        ) : (
+          <li>{i.texto}</li>
+        ),
+      )}
+    </ul>
+    {c.features.logosClientes && c.logosClientes.length > 0 && (
+      <LogosClientes c={c} logos={c.logosClientes} />
+    )}
+  </div>
+</section>
+
+<style>
+  .prueba { background: var(--surface); padding: clamp(32px, 4vw, 48px) 0; }
+  ul {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: clamp(24px, 3vw, 48px); align-items: center;
+  }
+  li { font-size: var(--fs-small); line-height: var(--lh-small); color: var(--ink-2); }
+  li + li { border-left: 1px solid var(--line); padding-left: clamp(24px, 3vw, 48px); }
+  .kpi-item { display: flex; align-items: baseline; gap: var(--space-3); border-left: 4px solid var(--accent); padding-left: var(--space-4); }
+  .kpi { font-size: var(--fs-kpi); font-weight: var(--fw-bold); line-height: 1; letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+  @media (max-width: 1023px) {
+    ul { grid-template-columns: 1fr 1fr; }
+    li:nth-child(3) { border-left: 0; padding-left: 0; }
+  }
+  @media (max-width: 640px) {
+    ul { grid-template-columns: 1fr; gap: var(--space-5); }
+    li + li { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: var(--space-5); }
+  }
+</style>

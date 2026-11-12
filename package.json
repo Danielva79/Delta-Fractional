@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "revisar": "node scripts/revisar.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
