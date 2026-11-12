@@ -81,7 +81,8 @@ const altoMarcador = Math.round((anchoMarcador * b) / a);
       width={anchoMarcador}
       height={altoMarcador}
       loading={prioridad ? 'eager' : 'lazy'}
-      decoding="async"
+      decoding={prioridad ? 'auto' : 'async'}
+      fetchpriority={prioridad ? 'high' : 'auto'}
     />
   </div>
 ) : null}

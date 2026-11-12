@@ -16,13 +16,31 @@ import Faq from './secciones/Faq.astro';
 import Cierre from './secciones/Cierre.astro';
 import Caso from './futuros/Caso.astro';
 import Testimonios from './futuros/Testimonios.astro';
+import DatosEstructurados from './DatosEstructurados.astro';
+import { getImage } from 'astro:assets';
+import { imagenDe } from '../lib/fotos';
 import { contenido, type Idioma } from '../lib/contenido';
 
 interface Props { idioma: Idioma }
 const c = contenido(Astro.props.idioma);
 const alternos = { es: '/', en: '/en/' };
+const rutaPagina = c.idioma === 'es' ? '/' : '/en/';
+
+// Precarga de la foto del hero (LCP) cuando exista: AVIF en los mismos anchos que usa Photo.astro.
+const fotoHero = imagenDe(c, c.hero.foto);
+const tamanosHero = '(max-width: 900px) min(420px, 100vw), 480px';
+let srcsetHero = '';
+if (fotoHero) {
+  const anchos = [480, 800, 1200, 1600].filter((w) => w <= fotoHero.width);
+  const imgs = await Promise.all(anchos.map((w) => getImage({ src: fotoHero, width: w, format: 'avif' })));
+  srcsetHero = imgs.map((im, i) => `${im.src} ${anchos[i]}w`).join(', ');
+}
 ---
-<Base c={c} ruta={c.idioma === 'es' ? '/' : '/en/'} alternos={alternos}>
+<Base c={c} ruta={rutaPagina} alternos={alternos}>
+  <DatosEstructurados c={c} ruta={rutaPagina} slot="head" />
+  {srcsetHero && (
+    <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={srcsetHero} imagesizes={tamanosHero} fetchpriority="high" />
+  )}
   <Hero c={c} />
   <Prueba c={c} />
   <Problema c={c} />

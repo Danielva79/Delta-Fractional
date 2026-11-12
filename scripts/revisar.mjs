@@ -112,6 +112,34 @@ for (const r of ['/', '/en/']) {
   if (!avisoCompleto && /href="[^"]*(privacidad|privacy)\//.test(t)) problemas.push(`${r}: enlaza un aviso de privacidad que no existe`);
 }
 
+// SEO técnico: canonical, hreflang, OG, JSON-LD, sitemap, robots y redirección de index-en.html.
+for (const [r, c] of Object.entries(paginas)) {
+  const t = fs.readFileSync(path.join(DIST, r, 'index.html'), 'utf8');
+  const abs = `https://deltafractional.com${r}`;
+  if (!t.includes(`<link rel="canonical" href="${abs}">`)) problemas.push(`${r}: canonical distinto de ${abs}`);
+  for (const h of ['es-CO', 'en', 'x-default']) if (!t.includes(`hreflang="${h}"`)) problemas.push(`${r}: falta hreflang ${h}`);
+  if (!t.includes(`<title>${c.meta.title}</title>`)) problemas.push(`${r}: el title no es el aprobado`);
+  if (!t.includes(`name="description" content="${c.meta.description}"`)) problemas.push(`${r}: la description no es la aprobada`);
+  for (const m of ['og:title', 'og:description', 'og:url', 'og:image', 'og:locale', 'twitter:card']) if (!t.includes(m)) problemas.push(`${r}: falta ${m}`);
+  if (/name="robots"/.test(t) && process.env.PUBLIC_NOINDEX !== 'true') problemas.push(`${r}: tiene noindex en producción`);
+  const ld = t.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  try {
+    const g = JSON.parse(ld[1])['@graph'];
+    const tipos = g.map((x) => x['@type']).sort().join(',');
+    if (tipos !== 'FAQPage,Person,ProfessionalService') problemas.push(`${r}: JSON-LD con tipos ${tipos}`);
+    const faq = g.find((x) => x['@type'] === 'FAQPage');
+    if (faq.mainEntity.length !== c.faq.items.length) problemas.push(`${r}: FAQPage no tiene las ${c.faq.items.length} preguntas`);
+    if (JSON.stringify(g).match(/aggregateRating|"review"|streetAddress/)) problemas.push(`${r}: JSON-LD con datos no permitidos`);
+  } catch { problemas.push(`${r}: JSON-LD ausente o inválido`); }
+}
+const sitemap = fs.existsSync(path.join(DIST, 'sitemap.xml')) ? fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8') : '';
+if (!sitemap.includes('<loc>https://deltafractional.com/</loc>') || !sitemap.includes('<loc>https://deltafractional.com/en/</loc>')) problemas.push('sitemap.xml: falta / o /en/');
+if (sitemap.includes('vista-interna')) problemas.push('sitemap.xml: incluye la vista interna');
+const robots = fs.existsSync(path.join(DIST, 'robots.txt')) ? fs.readFileSync(path.join(DIST, 'robots.txt'), 'utf8') : '';
+if (process.env.PUBLIC_NOINDEX !== 'true' && (!robots.includes('Disallow: /vista-interna/') || !robots.includes('Sitemap: https://deltafractional.com/sitemap.xml'))) problemas.push('robots.txt: incompleto');
+const viejo = path.join(DIST, 'index-en.html');
+if (!fs.existsSync(viejo) || !/url=\/en\//.test(fs.readFileSync(viejo, 'utf8'))) problemas.push('index-en.html: falta la redirección a /en/');
+
 // La vista interna no se indexa.
 const interna = path.join(DIST, 'vista-interna', 'index.html');
 if (fs.existsSync(interna) && !/<meta name="robots" content="noindex/.test(fs.readFileSync(interna, 'utf8'))) {

@@ -136,7 +136,7 @@ const diag = diagnostico(c);
 
   const alScroll = () => header.toggleAttribute('data-scrolled', window.scrollY > 8);
   addEventListener('scroll', alScroll, { passive: true });
-  alScroll();
+  requestAnimationFrame(alScroll); // al cargar: después del primer diseño, sin forzar un recálculo
 
   const enfocables = () =>
     [boton, ...panel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')].filter((e) => e.offsetParent !== null);

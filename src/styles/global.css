@@ -2,7 +2,20 @@
    aquí no se escriben HEX. */
 @import './tokens.css';
 
+/* Respaldo de Figtree mientras carga: Arial ajustado a las métricas de Figtree para que el cambio
+   de fuente no mueva el diseño (CLS). Medido con fontkit sobre los woff2 del sitio: Figtree
+   ascent 950 / descent 250 / upm 1000; ancho promedio en texto español 0,4404 vs Arial 0,4479. */
+@font-face {
+  font-family: 'Figtree Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Helvetica');
+  size-adjust: 98.33%;
+  ascent-override: 96.61%;
+  descent-override: 25.42%;
+  line-gap-override: 0%;
+}
+
 :root {
+  --font: 'Figtree', 'Figtree Fallback', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   /* Derivados para líneas y hover sobre fondos oscuros (blanco con transparencia). */
   --line-on-dark: rgb(255 255 255 / 0.12);
   --hover-on-dark: rgb(255 255 255 / 0.08);

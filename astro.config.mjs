@@ -13,7 +13,10 @@ export default defineConfig({
   base,
   trailingSlash: 'always',
   output: 'static',
-  build: { format: 'directory' },
+  // CSS en archivos con hash (≈7 KB comprimido). Medido con Lighthouse móvil, 3 corridas: en línea
+  // pinta antes (LCP 1,14 s vs 1,37 s) pero sube el bloqueo (TBT 170-240 ms) y baja Rendimiento a 91-98;
+  // en archivos queda en 98-100 con TBT 80-150 ms. Las dos opciones cumplen LCP ≤ 2,0 s.
+  build: { format: 'directory', inlineStylesheets: 'never' },
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],

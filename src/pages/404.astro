@@ -1,0 +1,25 @@
+---
+// Página 404 (GitHub Pages sirve 404.html). Bilingüe porque no sabe de qué idioma viene la visita.
+import Base from '../layouts/Base.astro';
+import { contenido } from '../lib/contenido';
+import { inicio } from '../lib/enlaces';
+
+const c = contenido('es');
+---
+<Base c={c} ruta="/404/" alternos={{ es: '/', en: '/en/' }} titulo="Página no encontrada | Delta Fractional" noindex>
+  <section class="seccion">
+    <div class="wrap">
+      <h1>Esta página no existe.</h1>
+      <p class="sub" lang="en">This page does not exist.</p>
+      <div class="botones">
+        <a class="btn btn-primario" href={inicio('es')}>Ir al inicio</a>
+        <a class="btn btn-secundario" href={inicio('en')} lang="en">Go to the home page</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  h1 { font-size: var(--fs-h2); line-height: var(--lh-h2); margin-bottom: var(--space-3); }
+  .botones { margin-top: var(--space-6); }
+</style>
