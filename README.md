@@ -41,10 +41,11 @@ src/styles/            tokens.css (marca, no editar a mano) y global.css
 
 ## Publicación
 
-- **Vista previa:** `https://danielva79.github.io/delta-fractional-preview/` (sin indexar), en un repo aparte.
-- **Producción:** `deltafractional.com`, desde `main`. El dominio está en `public/CNAME`; el DNS no se toca.
+- **Vista previa:** `https://danielva79.github.io/delta-fractional-preview/` (sin indexar), en el repo `Danielva79/delta-fractional-preview`. Se actualiza con `npm run vista-previa` (`SIN_PUBLICAR=1` para solo construirla).
+- **Producción:** `deltafractional.com`, desde `main`, con el workflow `.github/workflows/publicar.yml` (construye y revisa en cada pull request; publica al fusionar en `main`). El dominio está en `public/CNAME`; el DNS no se toca.
+- **Comprobaciones:** `npm run build` (valida contenido y fotos) y `npm run revisar` (textos aprobados, marca, SEO).
 
-El paso a producción y la vista previa se documentan en detalle cuando se configure el workflow (fase 7-8 del rediseño).
+Pasos del lanzamiento, cómo volver atrás y la lista de datos pendientes: [LANZAMIENTO.md](LANZAMIENTO.md).
 
 ## Licencias
 

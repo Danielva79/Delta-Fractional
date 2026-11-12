@@ -1,0 +1,56 @@
+# Construye y revisa el sitio en cada pull request; publica en GitHub Pages al fusionar en main.
+# Requiere: Settings → Pages → Source = "GitHub Actions" (paso del lanzamiento, ver LANZAMIENTO.md).
+# Variables opcionales (Settings → Secrets and variables → Actions → Variables):
+#   PUBLIC_UMAMI_WEBSITE_ID, PUBLIC_WEB3FORMS_KEY, PUBLIC_WEB3FORMS_HCAPTCHA
+name: Publicar sitio
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Construir (falla si el contenido tiene errores)
+        run: npm run build
+        env:
+          ASTRO_TELEMETRY_DISABLED: 1
+          PUBLIC_SITE_URL: https://deltafractional.com
+          PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.PUBLIC_UMAMI_WEBSITE_ID }}
+          PUBLIC_WEB3FORMS_KEY: ${{ vars.PUBLIC_WEB3FORMS_KEY }}
+          PUBLIC_WEB3FORMS_HCAPTCHA: ${{ vars.PUBLIC_WEB3FORMS_HCAPTCHA }}
+      - name: Revisar textos, marca y SEO
+        run: npm run revisar
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
+        with:
+          path: dist
+
+  publicar:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4
