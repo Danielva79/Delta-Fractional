@@ -280,5 +280,27 @@
     "testimonios": "Testimonios",
     "clientes": "Clientes",
     "curso": "Curso"
+  },
+  "formulario": {
+    "needsReview": true,
+    "titulo": "O déjeme sus datos y le escribo",
+    "nombre": "Nombre",
+    "empresa": "Empresa",
+    "cargo": "Cargo (opcional)",
+    "telefono": "WhatsApp o teléfono",
+    "correo": "Correo",
+    "mensaje": "Mensaje corto (opcional)",
+    "autorizacionAntes": "Autorizo el tratamiento de mis datos personales según el",
+    "autorizacionEnlace": "Aviso de privacidad",
+    "enviar": "Enviar",
+    "enviando": "Enviando…",
+    "exito": "Gracias. Le escribo pronto por WhatsApp o correo.",
+    "error": "No se pudo enviar el mensaje. Escríbame por WhatsApp y le respondo.",
+    "errorRequerido": "Este campo es obligatorio.",
+    "errorCorreo": "Escriba un correo válido, por ejemplo nombre@empresa.com.",
+    "errorTelefono": "Escriba un número de Colombia de 10 dígitos, con o sin +57.",
+    "errorAutorizacion": "Para enviar, marque la autorización.",
+    "errorRapido": "Espere un momento y vuelva a intentarlo.",
+    "resumenErrores": "Revise los campos marcados."
   }
 }

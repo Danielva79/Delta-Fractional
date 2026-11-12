@@ -72,6 +72,12 @@ const textos = {
   segmento: bloque({ tamanoEmpresa: pendiente, sectores: pendiente }),
   faq: bloque({ h2: texto, items: z.array(bloque({ p: texto, r: texto })).min(1) }),
   cierre: bloque({ h2: texto, texto }),
+  formulario: bloque({
+    titulo: texto, nombre: texto, empresa: texto, cargo: texto, telefono: texto, correo: texto, mensaje: texto,
+    autorizacionAntes: texto, autorizacionEnlace: texto, enviar: texto, enviando: texto, exito: texto, error: texto,
+    errorRequerido: texto, errorCorreo: texto, errorTelefono: texto, errorAutorizacion: texto, errorRapido: texto,
+    resumenErrores: texto,
+  }),
   footer: bloque({ linea: texto, privacidad: texto }),
   ui: bloque({
     saltar: texto,
@@ -140,6 +146,26 @@ export const esquemaEN = z
     fotos: z.record(idFoto, bloque({ alt: altFoto })),
   })
   .strict();
+
+// ---------- Aviso de privacidad (privacidad.es.json / privacidad.en.json) ----------
+export const esquemaPrivacidad = z
+  .object({
+    _nota: z.string().optional(),
+    needsReview: z.boolean().optional(),
+    titulo: texto,
+    avisoRevision: texto,
+    vigencia: pendiente,
+    secciones: z
+      .array(
+        z
+          .object({ h2: texto, parrafos: z.array(texto).optional(), lista: z.array(texto).optional() })
+          .strict()
+          .refine((s) => s.parrafos || s.lista, { message: 'cada sección necesita "parrafos" o "lista"' }),
+      )
+      .min(1),
+  })
+  .strict();
+export type Privacidad = z.infer<typeof esquemaPrivacidad>;
 
 export type ContenidoES = z.infer<typeof esquemaES>;
 export type ContenidoEN = z.infer<typeof esquemaEN>;

@@ -33,4 +33,5 @@ Sitio estático de Delta Fractional (Daniel Villegas, director financiero extern
 - Sin scroll horizontal de 320 a 1.440 px; capturas de página completa con `puppeteer-core` (Chrome sin interfaz no baja de ~500 px de ancho de ventana).
 
 ## Aprendizajes del proyecto
+- **2026-11-12 — Pruebas con puppeteer bajo un header fijo:** `page.click(sel)` desplaza el elemento y hace clic en sus coordenadas; si queda debajo del header `sticky`, el clic cae en el header sin error (la casilla de autorización quedó sin marcar y el formulario "no enviaba"). En pruebas usar `page.$eval(sel, (e) => e.click())`. Y en scripts de edición con `String.replace`, `$$` en el texto de reemplazo se convierte en `$` (rompió `page.$$` en un script): usar una función de reemplazo. **Por qué importa:** ambos parecen fallos del sitio y no lo son.
 - **2026-11-12 — `/_preview` no sirve en Astro:** las rutas que empiezan por `_` no se publican; además Jekyll (Pages en modo rama) ignora carpetas con `_` como `_astro/`. La vista previa que se sube a una rama `gh-pages` necesita `.nojekyll`. **Por qué importa:** sin eso la vista previa sale sin CSS ni imágenes.

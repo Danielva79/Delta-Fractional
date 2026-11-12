@@ -59,3 +59,30 @@ En `src/content/es.json`, dentro de `features`, cambie `false` por `true` **solo
 | `formularioContacto` | Formulario de contacto en el cierre | aviso de privacidad completo (NIT, dirección, correo) y la clave de Web3Forms |
 
 Puede ver cómo se verán estas secciones, con datos de ejemplo, en la página interna `/vista-interna/` (no aparece en Google).
+
+## Botones de diagnóstico y WhatsApp
+
+- Mientras `contacto.diagnosticoUrl` esté en `TODO`, todos los botones "Hacer diagnóstico gratis" y "Empezar el diagnóstico" abren WhatsApp con el mensaje `contacto.whatsappMensajeDiagnostico`. Cuando exista el cuestionario, ponga su URL (empieza por `https://`) y los botones van a ella.
+- Los enlaces de WhatsApp abren la app en el celular y una pestaña nueva en el computador.
+
+## Aviso de privacidad
+
+- Textos: `src/content/privacidad.es.json` y `privacidad.en.json`. Es un **texto base para revisión de un abogado**, según la Ley 1581 de 2012 y el Decreto 1377 de 2013.
+- La página `/privacidad/` (y `/en/privacy/`) **no existe** hasta que estén completos: `contacto.nit`, `contacto.direccionFiscal` y `contacto.correo` en `es.json`, y `vigencia` (fecha de entrada en vigor) en los dos archivos del aviso. Mientras tanto, el enlace del pie no aparece.
+- Para revisarla antes: `/vista-interna/privacidad/` muestra el texto con los datos que faltan marcados como `[PENDIENTE: …]`.
+
+## Formulario de contacto
+
+Aparece al lado del cierre solo si se cumplen las tres condiciones:
+1. `features.formularioContacto` en `true`;
+2. el aviso de privacidad completo (ver arriba);
+3. la clave de Web3Forms en la variable `PUBLIC_WEB3FORMS_KEY` de GitHub (Settings → Secrets and variables → Actions → Variables).
+
+Para crear la clave: en web3forms.com, escriba el correo donde quiere recibir los mensajes; la clave le llega a ese correo. Los textos del formulario están en `formulario` de `es.json` y `en.json`.
+
+## Analítica (Umami)
+
+- Se activa poniendo `PUBLIC_UMAMI_WEBSITE_ID` en las variables de GitHub. Umami no usa cookies: no hace falta banner.
+- Eventos que se registran, con la ubicación del botón y el idioma: `cta_diagnostico_click`, `cta_whatsapp_click`, `linkedin_click`, `faq_open` (con la pregunta), `idioma_cambio`, `form_start`, `form_submit_success`, `form_submit_error`.
+- En Umami, marque como objetivos (Goals) `cta_diagnostico_click`, `cta_whatsapp_click` y `form_submit_success`.
+- Para ver los eventos sin Umami, abra el sitio con `?analitica=debug` al final de la dirección y mire la consola del navegador.

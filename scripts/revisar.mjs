@@ -94,6 +94,24 @@ for (const [ruta, c] of Object.entries(paginas)) {
   }
 }
 
+// Aviso de privacidad y formulario: no se publican incompletos.
+const privEs = JSON.parse(fs.readFileSync('src/content/privacidad.es.json', 'utf8'));
+const avisoCompleto = ![es.contacto.nit, es.contacto.direccionFiscal, es.contacto.correo, privEs.vigencia].some(esTodo);
+for (const r of ['privacidad', 'en/privacy']) {
+  const existe = fs.existsSync(path.join(DIST, r, 'index.html'));
+  if (existe && !avisoCompleto) problemas.push(`/${r}/: se publicó el aviso de privacidad con datos pendientes`);
+  if (existe) {
+    const t = fs.readFileSync(path.join(DIST, r, 'index.html'), 'utf8');
+    if (/\[PENDIENTE|TODO/.test(t)) problemas.push(`/${r}/: el aviso tiene datos pendientes visibles`);
+  }
+}
+for (const r of ['/', '/en/']) {
+  const t = fs.readFileSync(path.join(DIST, r, 'index.html'), 'utf8');
+  const hayForm = t.includes('data-formulario');
+  if (hayForm && (!es.features.formularioContacto || !avisoCompleto)) problemas.push(`${r}: el formulario aparece sin bandera o sin aviso de privacidad completo`);
+  if (!avisoCompleto && /href="[^"]*(privacidad|privacy)\//.test(t)) problemas.push(`${r}: enlaza un aviso de privacidad que no existe`);
+}
+
 // La vista interna no se indexa.
 const interna = path.join(DIST, 'vista-interna', 'index.html');
 if (fs.existsSync(interna) && !/<meta name="robots" content="noindex/.test(fs.readFileSync(interna, 'utf8'))) {

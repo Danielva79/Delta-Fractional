@@ -9,6 +9,9 @@ import Testimonios from '../components/futuros/Testimonios.astro';
 import LogosClientes from '../components/futuros/LogosClientes.astro';
 import Curso from '../components/futuros/Curso.astro';
 import TablaTraduccion from '../components/TablaTraduccion.astro';
+import FormularioContacto from '../components/futuros/FormularioContacto.astro';
+import { faltantesPrivacidad } from '../lib/privacidad';
+import { ruta } from '../lib/enlaces';
 import { contenido } from '../lib/contenido';
 import { casoEjemplo, testimoniosEjemplo, logosEjemplo, cursoEjemplo } from '../content/ejemplos';
 import type { IdFoto } from '../content/schema';
@@ -52,6 +55,20 @@ const slots = Object.keys(c.fotos) as IdFoto[];
   <div class="franja"><div class="wrap"><LogosClientes c={c} logos={logosEjemplo} /></div></div>
   <div class="wrap"><p class="etiqueta">features.curso · va en la banda del diagnóstico</p></div>
   <div class="band-dark franja-oscura"><div class="wrap"><div class="curso"><Curso c={c} curso={cursoEjemplo} /></div></div></div>
+
+  <div class="wrap"><p class="etiqueta">features.formularioContacto · va al lado de los botones del cierre. Envío simulado: no sale nada.</p></div>
+  <div class="band-dark franja-oscura"><div class="wrap"><div class="demo-form"><FormularioContacto c={c} clave="demo" endpoint="simulado-ok" /></div></div></div>
+
+  <section class="seccion" aria-labelledby="h-privacidad">
+    <div class="wrap">
+      <h2 id="h-privacidad" class="h2">Aviso de privacidad</h2>
+      <p class="sub">Texto base para revisión de un abogado. La página pública no existe hasta completar: {faltantesPrivacidad(c).join('; ')}.</p>
+      <p class="enlaces-aviso">
+        <a class="enlace-flecha" href={ruta('/vista-interna/privacidad/')}>Ver el aviso en español (vista interna)</a>
+        <a class="enlace-flecha" href={ruta('/vista-interna/privacy/')}>Ver el aviso en inglés (vista interna)</a>
+      </p>
+    </div>
+  </section>
   <TablaTraduccion />
 </Base>
 
@@ -73,5 +90,7 @@ const slots = Object.keys(c.fotos) as IdFoto[];
   .franja { background: var(--surface); padding: var(--space-5) 0 var(--space-6); }
   .franja-oscura { padding: var(--space-8) 0; margin-bottom: var(--space-8); }
   .curso { max-width: 420px; }
+  .demo-form { max-width: 480px; }
+  .enlaces-aviso { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); margin-top: var(--space-4); max-width: none; }
   code { font-size: 0.9em; }
 </style>

@@ -249,5 +249,27 @@
     "testimonios": "Testimonials",
     "clientes": "Clients",
     "curso": "Course"
+  },
+  "formulario": {
+    "needsReview": true,
+    "titulo": "Or leave me your details and I will write to you",
+    "nombre": "Name",
+    "empresa": "Company",
+    "cargo": "Job title (optional)",
+    "telefono": "WhatsApp or phone",
+    "correo": "Email",
+    "mensaje": "Short message (optional)",
+    "autorizacionAntes": "I authorize the processing of my personal data under the",
+    "autorizacionEnlace": "Privacy notice",
+    "enviar": "Send",
+    "enviando": "Sending…",
+    "exito": "Thank you. I will write to you soon by WhatsApp or email.",
+    "error": "The message could not be sent. Message me on WhatsApp and I will reply.",
+    "errorRequerido": "This field is required.",
+    "errorCorreo": "Enter a valid email, for example name@company.com.",
+    "errorTelefono": "Enter a 10-digit Colombian number, with or without +57.",
+    "errorAutorizacion": "To send, check the authorization.",
+    "errorRapido": "Wait a moment and try again.",
+    "resumenErrores": "Check the highlighted fields."
   }
 }

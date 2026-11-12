@@ -24,6 +24,9 @@ const canonical = absoluta(rutaPagina, site);
 const og = absoluta(c.meta.ogImage, site);
 const locale = c.idioma === 'es' ? 'es_CO' : 'en_US';
 const localeAlterno = c.idioma === 'es' ? 'en_US' : 'es_CO';
+// Umami Cloud (sin cookies): solo si existe el ID. data-domains evita contar la vista previa.
+const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || 'https://cloud.umami.is/script.js';
 const fuenteLatin = ruta('/fonts/Figtree-Variable-latin.woff2');
 const fuenteExt = ruta('/fonts/Figtree-Variable-latin-ext.woff2');
 // @font-face con la ruta base correcta (los rangos unicode son los de tokens.css del kit).
@@ -67,6 +70,9 @@ const fontFace = `
     <meta name="twitter:title" content={titulo} />
     <meta name="twitter:description" content={descripcion} />
     <meta name="twitter:image" content={og} />
+    {umamiId && (
+      <script is:inline defer src={umamiSrc} data-website-id={umamiId} data-domains="deltafractional.com" data-do-not-track="true"></script>
+    )}
     <slot name="head" />
   </head>
   <body>
@@ -77,5 +83,8 @@ const fontFace = `
     </main>
     <Footer c={c} />
     <slot name="despues" />
+    <script>
+      import '../scripts/analitica';
+    </script>
   </body>
 </html>

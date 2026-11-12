@@ -44,7 +44,7 @@ src/styles/            tokens.css (marca, no editar a mano) y global.css
 - **Vista previa:** `https://danielva79.github.io/delta-fractional-preview/` (sin indexar), en un repo aparte.
 - **Producción:** `deltafractional.com`, desde `main`. El dominio está en `public/CNAME`; el DNS no se toca.
 
-El paso a producción y la vista previa se documentan en detalle cuando se configure el workflow (fase 6 del rediseño).
+El paso a producción y la vista previa se documentan en detalle cuando se configure el workflow (fase 7-8 del rediseño).
 
 ## Licencias
 

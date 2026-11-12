@@ -1,13 +1,14 @@
 ---
 import type { Contenido } from '../lib/contenido';
 import { ruta, whatsapp } from '../lib/enlaces';
+import { privacidadLista as avisoCompleto, rutaPrivacidad as rutaAviso } from '../lib/privacidad';
 
 interface Props { c: Contenido }
 const { c } = Astro.props;
 const anio = new Date().getFullYear(); // año del build
-// El aviso de privacidad solo se enlaza cuando tiene NIT, dirección y correo.
-const privacidadLista = Boolean(c.contacto.nit && c.contacto.direccionFiscal && c.contacto.correo);
-const rutaPrivacidad = c.idioma === 'es' ? '/privacidad/' : '/en/privacy/';
+// El aviso de privacidad solo se enlaza cuando tiene NIT, dirección, correo y vigencia.
+const privacidadLista = avisoCompleto(c);
+const rutaPrivacidad = rutaAviso(c.idioma);
 ---
 <footer class="site band-dark">
   <div class="wrap grid">

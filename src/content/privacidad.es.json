@@ -1,0 +1,85 @@
+{
+  "_nota": "Aviso de privacidad y política de tratamiento de datos (Ley 1581 de 2012, Decreto 1377 de 2013, compilado en el Decreto 1074 de 2015). TEXTO BASE PARA REVISIÓN DE UN ABOGADO. La página pública /privacidad/ solo se genera cuando contacto.nit, contacto.direccionFiscal, contacto.correo (en es.json) y vigencia (aquí) están completos. Marcadores: {nit} {direccion} {correo} {whatsapp} {vigencia}.",
+  "titulo": "Aviso de privacidad y política de tratamiento de datos personales",
+  "avisoRevision": "Texto base para revisión de un abogado.",
+  "vigencia": "TODO:fecha-de-entrada-en-vigor",
+  "secciones": [
+    {
+      "h2": "Responsable del tratamiento",
+      "parrafos": [
+        "Daniel Villegas, quien trabaja bajo la marca Delta Fractional, con NIT {nit} y domicilio en {direccion}. Correo: {correo}. WhatsApp: {whatsapp}."
+      ]
+    },
+    {
+      "h2": "Marco legal",
+      "parrafos": [
+        "Este aviso y la política que contiene se rigen por la Ley 1581 de 2012, el Decreto 1377 de 2013, compilado en el Decreto 1074 de 2015, y las normas que los modifiquen o complementen."
+      ]
+    },
+    {
+      "h2": "Datos que recojo",
+      "parrafos": [
+        "Por el formulario de este sitio recojo su nombre, su empresa, su cargo (opcional), su número de WhatsApp o teléfono, su correo electrónico y el mensaje que usted escriba (opcional). No recojo datos sensibles ni datos de menores de edad.",
+        "El sitio mide las visitas de forma agregada, con una herramienta que no usa cookies ni guarda datos que lo identifiquen."
+      ]
+    },
+    {
+      "h2": "Para qué uso sus datos",
+      "lista": [
+        "Responder su solicitud.",
+        "Enviarle el diagnóstico financiero que usted pidió.",
+        "Enviarle comunicaciones comerciales sobre mis servicios, solo si usted lo autoriza de forma expresa."
+      ]
+    },
+    {
+      "h2": "Su autorización",
+      "parrafos": [
+        "Al marcar la casilla del formulario, usted autoriza el tratamiento de sus datos para las finalidades de este aviso. Puede revocar esa autorización en cualquier momento por los canales que aparecen abajo."
+      ]
+    },
+    {
+      "h2": "Sus derechos",
+      "parrafos": ["Como titular de los datos, usted puede:"],
+      "lista": [
+        "Conocer, actualizar y rectificar sus datos.",
+        "Pedir prueba de la autorización que me dio.",
+        "Saber, si lo pide, qué uso le he dado a sus datos.",
+        "Presentar quejas ante la Superintendencia de Industria y Comercio.",
+        "Revocar la autorización o pedir que suprima sus datos.",
+        "Acceder a sus datos de forma gratuita."
+      ]
+    },
+    {
+      "h2": "Cómo ejercer sus derechos",
+      "parrafos": [
+        "Escríbame a {correo} o por WhatsApp al {whatsapp}, con su nombre, su solicitud y un dato de contacto.",
+        "Respondo las consultas en un máximo de diez (10) días hábiles, prorrogables por cinco (5) días hábiles, y los reclamos en un máximo de quince (15) días hábiles, prorrogables por ocho (8) días hábiles, según los artículos 14 y 15 de la Ley 1581 de 2012."
+      ]
+    },
+    {
+      "h2": "Proveedores que tratan datos por mi cuenta",
+      "parrafos": [
+        "Para recibir los mensajes del formulario uso el servicio Web3Forms, y para medir las visitas, Umami Cloud. Estos proveedores actúan como encargados del tratamiento y pueden guardar la información en servidores fuera de Colombia. No vendo ni cedo sus datos a terceros."
+      ]
+    },
+    {
+      "h2": "Seguridad",
+      "parrafos": [
+        "Aplico medidas razonables para proteger sus datos contra pérdida, acceso o uso no autorizado. El sitio usa conexión cifrada (HTTPS)."
+      ]
+    },
+    {
+      "h2": "Tiempo de conservación",
+      "parrafos": [
+        "Conservo sus datos mientras sean necesarios para las finalidades de este aviso o mientras exista una relación comercial, y por el tiempo que exijan las normas aplicables. Después los elimino."
+      ]
+    },
+    {
+      "h2": "Cambios y vigencia",
+      "parrafos": [
+        "Si cambio este aviso, publicaré la nueva versión en esta página, con su fecha.",
+        "Este aviso rige desde {vigencia}."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+---
+// /en/privacy/: only built when the notice is complete (see src/lib/privacidad.ts).
+import AvisoPrivacidad from '../../components/AvisoPrivacidad.astro';
+import { contenido } from '../../lib/contenido';
+import { privacidadLista } from '../../lib/privacidad';
+
+export function getStaticPaths() {
+  return privacidadLista(contenido('en')) ? [{ params: { aviso: 'privacy' } }] : [];
+}
+---
+<AvisoPrivacidad c={contenido('en')} />
