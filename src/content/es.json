@@ -1,0 +1,277 @@
+{
+  "_nota": "Contenido aprobado (ES) para deltafractional.com. Fuente única de los textos del sitio. Todo valor que empieza por \"TODO\" es un dato pendiente: NO se publica (el sitio lo oculta). Ver CONTENIDO.md.",
+  "meta": {
+    "lang": "es-CO",
+    "title": "CFO fraccional para pymes en Colombia | Delta Fractional",
+    "description": "Director financiero externo para pymes: concilio sus cifras, mido qué línea le deja utilidad y proyecto su caja. Más de 18 años en finanzas. Manizales, cobertura nacional.",
+    "ogImage": "/img/og/og-es.png"
+  },
+  "marca": {
+    "nombre": "Delta Fractional",
+    "nombreCorto": "Delta",
+    "persona": "Daniel Villegas",
+    "cargo": "Director financiero externo",
+    "ubicacion": "Manizales, Caldas · Cobertura nacional"
+  },
+  "contacto": {
+    "whatsappNumero": "+57 310 221 6863",
+    "whatsappUrlBase": "https://wa.me/573102216863",
+    "whatsappMensaje": "Hola Daniel, me interesa conocer más sobre sus servicios de dirección financiera.",
+    "whatsappMensajeDiagnostico": "Hola Daniel, quiero hacer el diagnóstico financiero gratuito.",
+    "linkedin": "https://www.linkedin.com/in/daniel-villegas-deltafractional/",
+    "correo": "TODO:correo-de-contacto",
+    "diagnosticoUrl": "TODO:url-del-diagnostico-de-15-preguntas",
+    "nit": "TODO:nit",
+    "direccionFiscal": "TODO:direccion-para-aviso-de-privacidad"
+  },
+  "features": {
+    "formularioContacto": false,
+    "caso": false,
+    "testimonios": false,
+    "logosClientes": false,
+    "curso": false,
+    "capturaDeltaBI": false,
+    "_nota": "formularioContacto se activa cuando exista CONTACT_TO_EMAIL (o el endpoint del servicio de formularios). Las demás, cuando haya contenido real aprobado."
+  },
+  "nav": [
+    {
+      "label": "Cómo trabajo",
+      "href": "#como-trabajo"
+    },
+    {
+      "label": "Delta BI",
+      "href": "#delta-bi"
+    },
+    {
+      "label": "Sobre mí",
+      "href": "#sobre-daniel"
+    },
+    {
+      "label": "Preguntas",
+      "href": "#preguntas"
+    }
+  ],
+  "ctaPrincipal": "Hacer diagnóstico gratis",
+  "ctaWhatsApp": "Escribir por WhatsApp",
+  "hero": {
+    "antetitulo": "Director financiero externo para pymes",
+    "h1": "Su empresa vende. Hagamos que también deje plata.",
+    "h1Resaltado": "deje plata",
+    "subtitulo": "Concilio sus cifras, mido qué línea le deja utilidad y proyecto su caja. Más de 18 años en finanzas, desde Manizales con cobertura nacional.",
+    "foto": "hero-retrato"
+  },
+  "prueba": {
+    "items": [
+      {
+        "cifra": "18+",
+        "texto": "años en finanzas"
+      },
+      {
+        "cifra": null,
+        "texto": "Director y gerente financiero de planta en empresas industriales, comerciales, de tecnología y del sector público"
+      },
+      {
+        "cifra": null,
+        "texto": "Cerca de ocho años en el mercado de valores y en banca de desarrollo"
+      },
+      {
+        "cifra": null,
+        "texto": "M.Sc. en Finanzas Internacionales (EADA, Barcelona)"
+      }
+    ]
+  },
+  "problema": {
+    "h2": "¿Le pasa esto?",
+    "intro": "Toma decisiones sin saber con certeza qué línea, sede o cliente le deja utilidad, ni cuánta caja tendrá el próximo mes.",
+    "dolores": [
+      {
+        "titulo": "Rentabilidad invisible",
+        "texto": "No sabe qué línea, sede o cliente le deja utilidad."
+      },
+      {
+        "titulo": "Caja incierta",
+        "texto": "No sabe cuánta caja tendrá el próximo mes."
+      }
+    ],
+    "cierre": "Vender más no siempre deja más. Miremos por qué."
+  },
+  "servicios": {
+    "h2": "Cómo trabajo",
+    "items": [
+      {
+        "id": "diagnostico",
+        "nivel": "Para empezar",
+        "titulo": "Diagnóstico financiero",
+        "texto": "Concilio la información, mido la rentabilidad de cada unidad de negocio y proyecto la caja.",
+        "resultado": "Hallazgos priorizados y un plan de 90 días.",
+        "duracion": "TODO:duracion-del-diagnostico"
+      },
+      {
+        "id": "mensual",
+        "nivel": "Cada mes",
+        "titulo": "Dirección financiera mensual",
+        "texto": "Presupuesto, seguimiento contra lo real, comité financiero con compromisos y un tablero propio, Delta BI.",
+        "resultado": "La gerencia ve cada mes su caja y su rentabilidad."
+      },
+      {
+        "id": "proyectos",
+        "nivel": "Cuando lo necesite",
+        "titulo": "Proyectos",
+        "texto": "Valoración de empresas, financiación y estructuración financiera de operaciones.",
+        "resultado": "TODO:resultado-proyectos"
+      }
+    ],
+    "inversion": {
+      "precio": "Desde $2 M mensuales",
+      "nota": "Según tamaño de la empresa y tipo de servicio.",
+      "iva": "TODO:incluye-iva"
+    }
+  },
+  "diferencial": {
+    "h2": "Mi forma de trabajar",
+    "pilares": [
+      {
+        "titulo": "Cifras conciliadas antes de opinar",
+        "texto": "No opino sobre cifras que no están conciliadas."
+      },
+      {
+        "titulo": "Causa antes que recomendación",
+        "texto": "Primero encuentro la causa de cada diferencia y después recomiendo."
+      },
+      {
+        "titulo": "Modelos que quedan en su empresa",
+        "texto": "Los modelos que entrego son auditables y quedan en manos de la empresa."
+      }
+    ]
+  },
+  "deltaBI": {
+    "h2": "Delta BI",
+    "texto": "Delta BI es la plataforma que creé. Conecto los datos de su empresa y armo tableros que cruzan la información, para que entienda sus cifras. Cada cliente tiene acceso a Delta BI.",
+    "nota": "El acceso está incluido en el servicio.",
+    "captura": "delta-bi-captura"
+  },
+  "sobre": {
+    "h2": "Sobre mí",
+    "parrafos": [
+      "Soy Daniel Villegas. Trabajo como director financiero externo bajo la marca Delta Fractional.",
+      "Fui director y gerente financiero de planta en empresas industriales, comerciales, de tecnología y del sector público. Antes trabajé cerca de ocho años en el mercado de valores y en banca de desarrollo.",
+      "M.Sc. en Finanzas Internacionales (EADA, Barcelona) y Administración de Empresas (Pontificia Universidad Javeriana).",
+      "Esa experiencia es la que pongo al servicio de empresas que necesitan un director financiero, pero no de tiempo completo."
+    ],
+    "foto": "sobre-daniel",
+    "linkedinLabel": "Ver mi perfil en LinkedIn"
+  },
+  "diagnostico": {
+    "antetitulo": "Diagnóstico gratuito",
+    "h2": "¿Sabe qué línea de su negocio le deja plata?",
+    "texto": "Responda 15 preguntas y reciba un primer diagnóstico de rentabilidad y caja.",
+    "cta": "Empezar el diagnóstico",
+    "fondo": "banda-detalle"
+  },
+  "curso": {
+    "nombre": "TODO:nombre-del-curso",
+    "modulos": "TODO:modulos-del-curso"
+  },
+  "caso": {
+    "titulo": "TODO:caso",
+    "antes": "TODO",
+    "queHice": "TODO",
+    "despues": "TODO"
+  },
+  "testimonios": [],
+  "logosClientes": [],
+  "segmento": {
+    "tamanoEmpresa": "TODO:tamano-de-empresa",
+    "sectores": "TODO:sectores"
+  },
+  "faq": {
+    "h2": "Preguntas frecuentes",
+    "items": [
+      {
+        "p": "¿Cuánto cuesta?",
+        "r": "Desde $2 M mensuales, según el tamaño de la empresa y el tipo de servicio."
+      },
+      {
+        "p": "¿Trabaja solo en Manizales?",
+        "r": "No. Estoy en Manizales y tengo cobertura nacional."
+      },
+      {
+        "p": "¿El acceso a Delta BI tiene costo aparte?",
+        "r": "No. El acceso a Delta BI está incluido en el servicio."
+      },
+      {
+        "p": "¿Qué pasa con los modelos cuando termina el trabajo?",
+        "r": "Los modelos que entrego son auditables y quedan en manos de la empresa."
+      }
+    ]
+  },
+  "cierre": {
+    "h2": "Si vende más y no le queda más, hablemos.",
+    "texto": "Escríbame por WhatsApp o empiece por el diagnóstico gratis."
+  },
+  "footer": {
+    "linea": "Delta Fractional · Dirección financiera externa para pymes",
+    "privacidad": "Aviso de privacidad"
+  },
+  "fotos": {
+    "hero-retrato": {
+      "ratio": "4/5",
+      "min": "1600x2000",
+      "tratamiento": "natural",
+      "alt": "TODO:alt-al-recibir-foto (ej.: Daniel Villegas en su oficina en Manizales)",
+      "placeholder": "/img/placeholders/placeholder-retrato-4x5.svg",
+      "archivo": "hero-retrato.jpg"
+    },
+    "sobre-daniel": {
+      "ratio": "3/2",
+      "min": "2400x1600",
+      "tratamiento": "natural",
+      "alt": "TODO:alt-al-recibir-foto",
+      "placeholder": "/img/placeholders/placeholder-hero-3x2.svg",
+      "archivo": "sobre-daniel.jpg"
+    },
+    "trabajo-cliente": {
+      "ratio": "3/2",
+      "min": "2400x1600",
+      "tratamiento": "natural",
+      "alt": "TODO:alt-al-recibir-foto",
+      "placeholder": "/img/placeholders/placeholder-hero-3x2.svg",
+      "archivo": "trabajo-cliente.jpg"
+    },
+    "banda-detalle": {
+      "ratio": "16/9",
+      "min": "2400x1350",
+      "tratamiento": "duotono",
+      "alt": "",
+      "placeholder": null,
+      "archivo": "banda-detalle.jpg"
+    },
+    "delta-bi-captura": {
+      "ratio": "16/10",
+      "min": "2400x1500",
+      "tratamiento": "ninguno",
+      "alt": "Tablero de Delta BI con datos de ejemplo",
+      "placeholder": "/img/placeholders/placeholder-captura-16x10-claro.svg",
+      "archivo": "delta-bi-captura.png"
+    },
+    "curso": {
+      "ratio": "16/9",
+      "min": "2400x1350",
+      "tratamiento": "natural",
+      "alt": "TODO:alt-al-recibir-foto",
+      "placeholder": "/img/placeholders/placeholder-ancha-16x9.svg",
+      "archivo": "curso.jpg"
+    }
+  },
+  "ui": {
+    "saltar": "Saltar al contenido",
+    "menuAbrir": "Abrir menú",
+    "menuCerrar": "Cerrar menú",
+    "navPrincipal": "Principal",
+    "idioma": "Idioma",
+    "resultado": "Resultado",
+    "pestanaNueva": "abre en otra pestaña",
+    "inicio": "inicio",
+    "trayectoria": "Trayectoria"
+  }
+}

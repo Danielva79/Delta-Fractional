@@ -1,0 +1,13 @@
+---
+// Página de inicio (la misma para ES y EN; cambia el contenido).
+import Base from '../layouts/Base.astro';
+import Hero from './secciones/Hero.astro';
+import { contenido, type Idioma } from '../lib/contenido';
+
+interface Props { idioma: Idioma }
+const c = contenido(Astro.props.idioma);
+const alternos = { es: '/', en: '/en/' };
+---
+<Base c={c} ruta={c.idioma === 'es' ? '/' : '/en/'} alternos={alternos}>
+  <Hero c={c} />
+</Base>

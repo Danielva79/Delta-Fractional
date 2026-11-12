@@ -1,0 +1,50 @@
+---
+// Página interna de revisión: NO se indexa y queda fuera del sitemap.
+// Muestra los slots de fotos y, en las fases siguientes, los componentes futuros
+// (caso, testimonios, logos, curso, formulario) con datos de ejemplo.
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import { contenido } from '../lib/contenido';
+import type { IdFoto } from '../content/schema';
+
+const c = contenido('es');
+const slots = Object.keys(c.fotos) as IdFoto[];
+---
+<Base c={c} ruta="/vista-interna/" alternos={{ es: '/', en: '/en/' }} titulo="Vista interna · Delta Fractional" noindex>
+  <section class="seccion">
+    <div class="wrap">
+      <p class="eyebrow">Solo para revisión</p>
+      <h1 class="titulo">Vista interna</h1>
+      <p class="sub">Página sin indexar. Muestra el estado de cada slot de foto: con el archivo en la carpeta fotos/, la foto optimizada; sin él, el marcador de marca.</p>
+      <h2 class="h2">Slots de fotos</h2>
+      <div class="rejilla">
+        {slots.map((id) => {
+          const f = c.fotos[id];
+          return (
+            <figure>
+              <Photo c={c} id={id} sizes="(max-width: 900px) 100vw, 380px" class="slot" />
+              {!f.placeholder && <div class="sin-marcador" style={`aspect-ratio:${f.ratio}`}>Sin marcador: sin foto no se muestra nada.</div>}
+              <figcaption class="small">
+                <strong>{id}</strong> · {f.ratio} · {f.tratamiento} · archivo: fotos/{f.archivo}<br />
+                alt: {f.alt === null ? 'pendiente' : f.alt === '' ? '(decorativa)' : f.alt}
+              </figcaption>
+            </figure>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .titulo { margin: var(--space-3) 0 var(--space-4); font-size: var(--fs-h2); }
+  .h2 { margin: var(--space-8) 0 var(--space-5); font-size: var(--fs-h3); }
+  .rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-6); align-items: start; }
+  figure { display: flex; flex-direction: column; gap: var(--space-3); }
+  figure :global(.slot) { border-radius: var(--radius-lg); }
+  .sin-marcador {
+    display: grid; place-items: center; padding: var(--space-4); text-align: center;
+    border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--ink-2); font-size: var(--fs-small);
+  }
+  figcaption { color: var(--ink-2); }
+</style>

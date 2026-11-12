@@ -1,0 +1,41 @@
+---
+// 7.1 Hero: promesa + CTA.
+import Photo from '../Photo.astro';
+import Icono from '../Icono.astro';
+import type { Contenido } from '../../lib/contenido';
+import { diagnostico, whatsapp } from '../../lib/enlaces';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+const { h1, h1Resaltado } = c.hero;
+const i = h1.indexOf(h1Resaltado);
+const partes = i >= 0 ? [h1.slice(0, i), h1Resaltado, h1.slice(i + h1Resaltado.length)] : [h1, '', ''];
+---
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap grid">
+    <div class="texto">
+      <p class="eyebrow">{c.hero.antetitulo}</p>
+      <h1 id="h1">{partes[0]}{partes[1] && <span class="subrayado">{partes[1]}</span>}{partes[2]}</h1>
+      <p class="sub">{c.hero.subtitulo}</p>
+      <div class="botones" data-hero-ctas>
+        <a class="btn btn-primario" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="hero">{c.ctaPrincipal}</a>
+        <a class="btn btn-secundario" href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="hero">
+          <Icono nombre="message-circle" />{c.ctaWhatsApp}
+        </a>
+      </div>
+    </div>
+    <Photo c={c} id={c.hero.foto} class="retrato" prioridad sizes="(max-width: 900px) min(420px, 100vw), 480px" />
+  </div>
+</section>
+
+<style>
+  .hero { padding: clamp(40px, 6vw, 88px) 0 clamp(48px, 6vw, 96px); }
+  .grid { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .texto { display: flex; flex-direction: column; gap: var(--space-5); }
+  .botones { margin-top: var(--space-2); }
+  .grid :global(.retrato) { border-radius: var(--radius-xl); }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .grid :global(.retrato) { max-width: 420px; width: 100%; }
+  }
+</style>

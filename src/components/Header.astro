@@ -1,0 +1,174 @@
+---
+// Header: logo, menú, selector ES/EN y botón del diagnóstico.
+// En móvil (≤ 900 px): logo + botón de menú; el panel atrapa el foco y se cierra con Esc.
+import Icono from './Icono.astro';
+import type { Contenido } from '../lib/contenido';
+import { ruta, inicio, diagnostico } from '../lib/enlaces';
+
+interface Props {
+  c: Contenido;
+  alternos: { es: string; en: string };
+}
+const { c, alternos } = Astro.props;
+const home = inicio(c.idioma);
+const otro = c.idioma === 'es' ? 'en' : 'es';
+const enlaceNav = (href: string) => (href.startsWith('#') ? `${home}${href}` : ruta(href));
+const idiomas = [
+  { codigo: 'es', etiqueta: 'ES', nombre: 'Español', href: ruta(alternos.es) },
+  { codigo: 'en', etiqueta: 'EN', nombre: 'English', href: ruta(alternos.en) },
+] as const;
+const diag = diagnostico(c);
+---
+<header class="site" data-header>
+  <div class="wrap fila">
+    <a class="logo" href={home} aria-label={`${c.marca.nombre}, ${c.ui.inicio}`}>
+      <!-- Logo a 144 px de ancho: entre 140 y 180 px se usa la versión con el descriptor oscuro. -->
+      <img src={ruta('/img/logo/delta-horizontal-color-descriptor-oscuro.svg')} alt={c.marca.nombre} width="144" height="56" />
+    </a>
+
+    <nav class="nav-escritorio" aria-label={c.ui.navPrincipal}>
+      <ul>
+        {c.nav.map((n) => <li><a href={enlaceNav(n.href)}>{n.label}</a></li>)}
+      </ul>
+      <div class="idioma" role="group" aria-label={c.ui.idioma}>
+        {idiomas.map((i) =>
+          i.codigo === c.idioma ? (
+            <span aria-current="page" lang={i.codigo}><span aria-hidden="true">{i.etiqueta}</span><span class="sr-only">{i.nombre}</span></span>
+          ) : (
+            <a href={i.href} lang={i.codigo} hreflang={i.codigo} data-evento="idioma_cambio"><span aria-hidden="true">{i.etiqueta}</span><span class="sr-only">{i.nombre}</span></a>
+          ),
+        )}
+      </div>
+      <a class="btn btn-primario" href={diag} data-evento="cta_diagnostico_click" data-ubicacion="header">{c.ctaPrincipal}</a>
+    </nav>
+
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movil" data-menu-abrir
+      data-label-abrir={c.ui.menuAbrir} data-label-cerrar={c.ui.menuCerrar} aria-label={c.ui.menuAbrir}>
+      <span class="ico-abrir"><Icono nombre="menu" tamano={24} /></span>
+      <span class="ico-cerrar"><Icono nombre="x" tamano={24} /></span>
+    </button>
+  </div>
+
+  <div class="panel" id="menu-movil" data-menu-panel hidden>
+    <nav aria-label={c.ui.navPrincipal}>
+      <ul>
+        {c.nav.map((n) => <li><a href={enlaceNav(n.href)} data-menu-cerrar>{n.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="panel-pie">
+      <a class="btn btn-primario" href={diag} data-evento="cta_diagnostico_click" data-ubicacion="header">{c.ctaPrincipal}</a>
+      <div class="idioma" role="group" aria-label={c.ui.idioma}>
+        {idiomas.map((i) =>
+          i.codigo === c.idioma ? (
+            <span aria-current="page" lang={i.codigo}>{i.nombre}</span>
+          ) : (
+            <a href={i.href} lang={i.codigo} hreflang={i.codigo} data-evento="idioma_cambio">{i.nombre}</a>
+          ),
+        )}
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  header.site {
+    position: sticky; top: 0; z-index: 50; height: var(--header-h);
+    background: var(--bg); border-bottom: 1px solid transparent; transition: border-color 0.2s;
+  }
+  header.site[data-scrolled], header.site[data-abierto] { border-bottom-color: var(--line); }
+  .fila { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); }
+  /* El SVG trae su área de reserva (≈ 8 px a este tamaño): se compensa para alinear el símbolo. */
+  .logo { display: block; margin-left: -8px; border-radius: var(--radius-sm); }
+  .logo img { width: 144px; height: auto; }
+  .nav-escritorio { display: flex; align-items: center; gap: 28px; }
+  .nav-escritorio ul { display: flex; gap: var(--space-5); list-style: none; margin: 0; padding: 0; }
+  .nav-escritorio ul a {
+    display: inline-flex; align-items: center; min-height: var(--tap);
+    color: var(--ink); text-decoration: none; font-weight: var(--fw-medium); font-size: var(--fs-small);
+  }
+  .nav-escritorio ul a:hover { color: var(--accent-text); }
+  .idioma { display: flex; gap: 2px; font-size: var(--fs-small); font-weight: var(--fw-semibold); }
+  .idioma > a, .idioma > span {
+    display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: 40px;
+    padding: 0 6px; color: var(--ink-2); text-decoration: none;
+  }
+  .idioma > a:hover { color: var(--ink); }
+  .idioma > [aria-current] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
+
+  .menu-btn {
+    display: none; width: var(--tap); height: var(--tap); align-items: center; justify-content: center;
+    margin-right: -12px; background: none; border: 0; color: var(--ink); border-radius: var(--radius); cursor: pointer;
+  }
+  .menu-btn .ico-cerrar { display: none; }
+  .menu-btn[aria-expanded='true'] .ico-abrir { display: none; }
+  .menu-btn[aria-expanded='true'] .ico-cerrar { display: block; }
+
+  .panel {
+    position: fixed; inset: var(--header-h) 0 0 0; z-index: 49; overflow-y: auto;
+    background: var(--bg); padding: var(--space-5) var(--page-margin) var(--space-7);
+    display: flex; flex-direction: column; gap: var(--space-6);
+  }
+  .panel[hidden] { display: none; }
+  .panel ul { list-style: none; margin: 0; padding: 0; }
+  .panel li + li { border-top: 1px solid var(--line); }
+  .panel ul a {
+    display: flex; align-items: center; min-height: 56px;
+    color: var(--ink); text-decoration: none; font-size: var(--fs-sub); font-weight: var(--fw-semibold);
+  }
+  .panel-pie { display: flex; flex-direction: column; gap: var(--space-4); }
+  .panel-pie .btn { width: 100%; }
+  .panel-pie .idioma { font-size: var(--fs-body); gap: var(--space-4); }
+
+  @media (max-width: 900px) {
+    .nav-escritorio { display: none; }
+    .menu-btn { display: inline-flex; }
+  }
+  @media (min-width: 901px) {
+    .panel { display: none !important; }
+  }
+</style>
+
+<script>
+  // Línea inferior al hacer scroll y menú móvil accesible.
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const boton = header.querySelector<HTMLButtonElement>('[data-menu-abrir]')!;
+  const panel = header.querySelector<HTMLElement>('[data-menu-panel]')!;
+
+  const alScroll = () => header.toggleAttribute('data-scrolled', window.scrollY > 8);
+  addEventListener('scroll', alScroll, { passive: true });
+  alScroll();
+
+  const enfocables = () =>
+    [boton, ...panel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')].filter((e) => e.offsetParent !== null);
+
+  function abrir() {
+    panel.hidden = false;
+    header.setAttribute('data-abierto', '');
+    boton.setAttribute('aria-expanded', 'true');
+    boton.setAttribute('aria-label', boton.dataset.labelCerrar!);
+    document.documentElement.style.overflow = 'hidden';
+    panel.querySelector<HTMLElement>('a')?.focus();
+  }
+  function cerrar(devolverFoco = true) {
+    panel.hidden = true;
+    header.removeAttribute('data-abierto');
+    boton.setAttribute('aria-expanded', 'false');
+    boton.setAttribute('aria-label', boton.dataset.labelAbrir!);
+    document.documentElement.style.overflow = '';
+    if (devolverFoco) boton.focus();
+  }
+  boton.addEventListener('click', () => (panel.hidden ? abrir() : cerrar()));
+  panel.querySelectorAll('[data-menu-cerrar]').forEach((a) => a.addEventListener('click', () => cerrar(false)));
+  document.addEventListener('keydown', (e) => {
+    if (panel.hidden) return;
+    if (e.key === 'Escape') { e.preventDefault(); cerrar(); return; }
+    if (e.key !== 'Tab') return;
+    // Foco atrapado entre el botón del menú y el panel.
+    const lista = enfocables();
+    const primero = lista[0], ultimo = lista[lista.length - 1];
+    if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+    else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+  });
+  // Si la ventana pasa a escritorio con el menú abierto, se cierra.
+  matchMedia('(min-width: 901px)').addEventListener('change', (m) => { if (m.matches && !panel.hidden) cerrar(false); });
+</script>
