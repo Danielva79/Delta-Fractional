@@ -1,0 +1,77 @@
+---
+// 7.4 Cómo trabajo: tres servicios en escalera (el chevrón "sube" de paso en paso) y la inversión.
+// Los datos pendientes (duración, resultado de Proyectos, IVA) no se muestran.
+import Icono from '../Icono.astro';
+import type { Contenido } from '../../lib/contenido';
+import { diagnostico, whatsapp, ruta } from '../../lib/enlaces';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+const { inversion } = c.servicios;
+---
+<section class="seccion" id="como-trabajo" aria-labelledby="h-servicios">
+  <div class="wrap">
+    <h2 id="h-servicios" class="titulo">{c.servicios.h2}</h2>
+    <div class="escalera">
+      {c.servicios.items.map((s) => {
+        const esDiagnostico = s.id === 'diagnostico';
+        return (
+          <article class="servicio" aria-labelledby={`servicio-${s.id}`}>
+            <img class="chev" src={ruta('/img/graficos/chevron-bullet.svg')} alt="" width="22" height="18" loading="lazy" />
+            <p class="eyebrow">{s.nivel}</p>
+            <h3 id={`servicio-${s.id}`}>{s.titulo}</h3>
+            <p class="muted">{s.texto}</p>
+            {s.precio && <p class="precio-servicio tnum">{s.precio}</p>}
+            {s.resultado && (
+              <p class="resultado"><strong>{c.ui.resultado}</strong><span>{s.resultado}</span></p>
+            )}
+            {esDiagnostico ? (
+              <a class="enlace-flecha accion" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="servicios">{c.ctaPrincipal}<Icono nombre="arrow-right" tamano={18} /></a>
+            ) : (
+              <a class="enlace-flecha accion" href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="servicios">{c.ctaWhatsApp}<Icono nombre="arrow-right" tamano={18} /></a>
+            )}
+          </article>
+        );
+      })}
+    </div>
+    <p class="inversion">
+      <span class="precio tnum">{inversion.precio}</span>
+      <span class="muted">{inversion.nota}{inversion.iva && <> {inversion.iva}</>}</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .titulo { margin-bottom: clamp(32px, 4vw, 48px); }
+  .escalera { display: grid; grid-template-columns: 1fr; gap: var(--gutter); }
+  .servicio {
+    background: var(--surface); border-radius: var(--radius-lg); padding: clamp(24px, 2.6vw, 36px);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .chev { width: 22px; height: auto; }
+  .eyebrow { margin-top: var(--space-1); }
+  .resultado {
+    padding-top: var(--space-4); border-top: 1px solid var(--line);
+    font-size: var(--fs-small); line-height: var(--lh-small); display: flex; flex-direction: column;
+  }
+  .resultado strong { font-weight: var(--fw-semibold); color: var(--ink); }
+  .resultado span { color: var(--ink-2); }
+  .precio-servicio {
+    font-size: var(--fs-sub); font-weight: var(--fw-bold); color: var(--ink); letter-spacing: -0.01em;
+    border-left: 4px solid var(--accent); padding-left: var(--space-3);
+  }
+  .accion { margin-top: auto; }
+  /* En escritorio: bases alineadas y techos que suben un paso por tarjeta. */
+  @media (min-width: 1024px) {
+    .escalera { grid-template-columns: repeat(3, 1fr); grid-template-rows: 32px 32px auto; }
+    .servicio:nth-child(1) { grid-row: 3 / 4; }
+    .servicio:nth-child(2) { grid-row: 2 / 4; }
+    .servicio:nth-child(n + 3) { grid-row: 1 / 4; }
+  }
+  .inversion {
+    margin-top: clamp(32px, 4vw, 48px); max-width: none;
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) 20px;
+    border-left: 4px solid var(--accent); padding: var(--space-2) 0 var(--space-2) 20px;
+  }
+  .precio { font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem); font-weight: var(--fw-bold); letter-spacing: -0.015em; color: var(--ink); }
+</style>

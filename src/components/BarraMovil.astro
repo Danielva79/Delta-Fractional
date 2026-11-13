@@ -1,0 +1,61 @@
+---
+// Barra fija en móvil (≤ 900 px): diagnóstico (naranja) + WhatsApp (carbón con ícono blanco).
+// Aparece cuando el visitante pasa los botones del hero y se oculta al llegar al cierre,
+// que ya tiene los dos botones; así nunca tapa el pie.
+import Icono from './Icono.astro';
+import type { Contenido } from '../lib/contenido';
+import { diagnostico, whatsapp } from '../lib/enlaces';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+---
+<div class="barra" data-barra-movil>
+  <a class="btn btn-primario diag" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="flotante_movil" tabindex="-1">{c.ctaPrincipal}</a>
+  <a class="btn wa" href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="flotante_movil" tabindex="-1"><Icono nombre="message-circle" />WhatsApp</a>
+</div>
+
+<style>
+  .barra { display: none; }
+  @media (max-width: 900px) {
+    .barra {
+      display: flex; gap: var(--space-2); position: fixed; z-index: 40;
+      left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom));
+      transform: translateY(calc(100% + 24px)); visibility: hidden;
+      transition: transform 0.2s ease, visibility 0s linear 0.2s;
+    }
+    .barra.visible { transform: none; visibility: visible; transition: transform 0.2s ease; }
+    .btn { box-shadow: var(--shadow-2); }
+    .diag { flex: 1; padding: 0 var(--space-3); font-size: var(--fs-small); }
+    .wa { background: var(--dark); color: var(--on-dark); padding: 0 var(--space-4); }
+    .wa:hover { background: var(--ink); color: var(--on-dark); }
+  }
+  /* A menos de 360 px no caben los dos: queda WhatsApp (el diagnóstico está en el menú). */
+  @media (max-width: 359px) {
+    .diag { display: none; }
+    .barra { left: auto; }
+  }
+</style>
+
+<script>
+  const barra = document.querySelector<HTMLElement>('[data-barra-movil]');
+  const hero = document.querySelector('[data-hero-ctas]');
+  const cierre = document.querySelector('[data-cierre]');
+  if (barra && hero && cierre) {
+    let pasoHero = false;
+    let enCierre = false;
+    const actualizar = () => {
+      const visible = pasoHero && !enCierre;
+      barra.classList.toggle('visible', visible);
+      // Fuera de vista no recibe el foco del teclado.
+      barra.querySelectorAll('a').forEach((a) => (a.tabIndex = visible ? 0 : -1));
+    };
+    new IntersectionObserver(([e]) => {
+      pasoHero = !e.isIntersecting && e.boundingClientRect.top < 0;
+      actualizar();
+    }).observe(hero);
+    new IntersectionObserver(([e]) => {
+      enCierre = e.isIntersecting || e.boundingClientRect.top < 0;
+      actualizar();
+    }).observe(cierre);
+  }
+</script>

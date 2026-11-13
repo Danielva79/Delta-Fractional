@@ -1,0 +1,27 @@
+---
+// Logos de clientes (solo con permiso): SVG monocromo carbón, 32 a 40 px de alto.
+// Archivos en public/img/clientes/. Se muestran solo si features.logosClientes está activo.
+import type { Contenido } from '../../lib/contenido';
+import { ruta } from '../../lib/enlaces';
+
+interface Props {
+  c: Contenido;
+  logos: { nombre: string; archivo: string }[];
+}
+const { c, logos } = Astro.props;
+---
+<div class="logos">
+  <p class="eyebrow">{c.ui.clientes}</p>
+  <ul>
+    {logos.map((l) => (
+      <li><img src={l.archivo.startsWith('data:') ? l.archivo : ruta(`/img/clientes/${l.archivo}`)} alt={l.nombre} height="36" loading="lazy" /></li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .logos { margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: var(--space-4); }
+  .eyebrow { color: var(--ink-2); }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-5) var(--space-7); }
+  img { height: 36px; width: auto; max-width: 160px; object-fit: contain; }
+</style>

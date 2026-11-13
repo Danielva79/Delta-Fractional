@@ -1,0 +1,44 @@
+---
+// 7.3 "¿Le pasa esto?": el dolor del cliente y el paso siguiente.
+import Icono from '../Icono.astro';
+import type { Contenido } from '../../lib/contenido';
+import { diagnostico } from '../../lib/enlaces';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+---
+<section class="seccion" aria-labelledby="h-problema">
+  <div class="wrap">
+    <div class="cabeza">
+      <h2 id="h-problema">{c.problema.h2}</h2>
+      <p class="sub">{c.problema.intro}</p>
+    </div>
+    <div class="dolores">
+      {c.problema.dolores.map((d) => (
+        <div class="tarjeta">
+          <h3>{d.titulo}</h3>
+          <p class="muted">{d.texto}</p>
+        </div>
+      ))}
+    </div>
+    <p class="cierre">
+      {c.problema.cierre}
+      <a class="enlace-flecha" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="problema">{c.ctaPrincipal}<Icono nombre="arrow-right" tamano={18} /></a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .cabeza { display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: clamp(32px, 4vw, 48px); }
+  .cabeza .sub { max-width: 60ch; }
+  .dolores { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); }
+  .tarjeta { background: var(--surface); border-radius: var(--radius-lg); padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; gap: var(--space-3); }
+  .cierre {
+    margin-top: clamp(24px, 3vw, 40px); max-width: none;
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) 20px;
+    font-size: var(--fs-sub); font-weight: var(--fw-medium); color: var(--ink);
+  }
+  @media (max-width: 640px) {
+    .dolores { grid-template-columns: 1fr; }
+  }
+</style>

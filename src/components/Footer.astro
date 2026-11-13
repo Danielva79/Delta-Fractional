@@ -1,0 +1,44 @@
+---
+import type { Contenido } from '../lib/contenido';
+import { ruta, whatsapp } from '../lib/enlaces';
+import { privacidadLista as avisoCompleto, rutaPrivacidad as rutaAviso } from '../lib/privacidad';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+const anio = new Date().getFullYear(); // año del build
+// El aviso de privacidad solo se enlaza cuando tiene NIT, dirección, correo y vigencia.
+const privacidadLista = avisoCompleto(c);
+const rutaPrivacidad = rutaAviso(c.idioma);
+---
+<footer class="site band-dark">
+  <div class="wrap grid">
+    <img class="logo" src={ruta('/img/logo/delta-horizontal-negativo.svg')} alt={c.marca.nombre} width="144" height="56" loading="lazy" />
+    <div>
+      <p class="linea">{c.footer.linea}</p>
+      <p>{c.marca.ubicacion}</p>
+    </div>
+    <ul>
+      <li><a href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="footer">WhatsApp {c.contacto.whatsappNumero}</a></li>
+      <li><a href={c.contacto.linkedin} target="_blank" rel="noopener" data-evento="linkedin_click">LinkedIn<span class="sr-only">, {c.ui.pestanaNueva}</span></a></li>
+      {c.contacto.correo && <li><a href={`mailto:${c.contacto.correo}`}>{c.contacto.correo}</a></li>}
+      {privacidadLista && <li><a href={ruta(rutaPrivacidad)}>{c.footer.privacidad}</a></li>}
+    </ul>
+    <p class="legal">© {anio} {c.marca.nombre}{c.contacto.nit && <> · NIT {c.contacto.nit}</>}</p>
+  </div>
+</footer>
+
+<style>
+  footer.site { padding: var(--space-7) 0 var(--space-6); border-top: 1px solid var(--line-on-dark); }
+  .grid { display: grid; grid-template-columns: auto 1fr auto; gap: var(--space-5) var(--space-7); align-items: start; }
+  /* El SVG trae su área de reserva (40/753 del ancho ≈ 8 px): se compensa para alinear el símbolo con el texto. */
+  .logo { width: 144px; height: auto; margin-left: -8px; }
+  p, li { font-size: var(--fs-small); line-height: var(--lh-small); }
+  .linea { color: var(--on-dark); }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  footer.site ul a { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--on-dark); text-decoration: none; }
+  footer.site ul a:hover { text-decoration: underline; }
+  .legal { grid-column: 1 / -1; max-width: none; border-top: 1px solid var(--line-on-dark); padding-top: var(--space-5); font-size: 13px; }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

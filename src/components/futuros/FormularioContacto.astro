@@ -1,0 +1,196 @@
+---
+// Formulario de contacto (Web3Forms). Solo se muestra si features.formularioContacto está activo,
+// existe PUBLIC_WEB3FORMS_KEY y el aviso de privacidad está completo (ver Cierre.astro).
+// Validación en el cliente con mensajes junto a cada campo; antispam: campo trampa, tiempo
+// mínimo de 3 s y hCaptcha opcional de Web3Forms (PUBLIC_WEB3FORMS_HCAPTCHA=true).
+// "endpoint" acepta "simulado-ok" y "simulado-error" para probar sin enviar nada (vista interna).
+import Icono from '../Icono.astro';
+import type { Contenido } from '../../lib/contenido';
+import { ruta, whatsapp } from '../../lib/enlaces';
+import { rutaPrivacidad } from '../../lib/privacidad';
+
+interface Props {
+  c: Contenido;
+  endpoint: string;
+  clave: string;
+  hcaptcha?: boolean;
+}
+const { c, endpoint, clave, hcaptcha = false } = Astro.props;
+const f = c.formulario;
+const id = (n: string) => `form-${n}`;
+const campos = [
+  { n: 'nombre', etiqueta: f.nombre, tipo: 'text', auto: 'name', req: true, max: 100 },
+  { n: 'empresa', etiqueta: f.empresa, tipo: 'text', auto: 'organization', req: true, max: 120 },
+  { n: 'cargo', etiqueta: f.cargo, tipo: 'text', auto: 'organization-title', req: false, max: 100 },
+  { n: 'telefono', etiqueta: f.telefono, tipo: 'tel', auto: 'tel', req: true, max: 20 },
+  { n: 'correo', etiqueta: f.correo, tipo: 'email', auto: 'email', req: true, max: 150 },
+];
+const mensajes = {
+  requerido: f.errorRequerido, correo: f.errorCorreo, telefono: f.errorTelefono,
+  autorizacion: f.errorAutorizacion, rapido: f.errorRapido, resumen: f.resumenErrores,
+  enviar: f.enviar, enviando: f.enviando,
+};
+---
+<div class="tarjeta-form">
+  <h3 class="titulo">{f.titulo}</h3>
+  <form
+    class="formulario"
+    novalidate
+    data-formulario
+    data-endpoint={endpoint}
+    data-mensajes={JSON.stringify(mensajes)}
+  >
+    <input type="hidden" name="access_key" value={clave} />
+    <input type="hidden" name="subject" value={`Contacto desde deltafractional.com (${c.idioma.toUpperCase()})`} />
+    <input type="hidden" name="from_name" value="deltafractional.com" />
+    <!-- Campo trampa: las personas no lo ven; si llega marcado, Web3Forms descarta el envío. -->
+    <input type="checkbox" name="botcheck" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    {campos.map((k) => (
+      <div class="campo">
+        <label for={id(k.n)}>{k.etiqueta}</label>
+        <input
+          id={id(k.n)} name={k.n} type={k.tipo} autocomplete={k.auto} maxlength={k.max}
+          required={k.req} aria-describedby={`${id(k.n)}-error`} inputmode={k.tipo === 'tel' ? 'tel' : undefined}
+        />
+        <p class="error" id={`${id(k.n)}-error`}></p>
+      </div>
+    ))}
+    <div class="campo">
+      <label for={id('mensaje')}>{f.mensaje}</label>
+      <textarea id={id('mensaje')} name="mensaje" rows="3" maxlength="500" aria-describedby={`${id('mensaje')}-error`}></textarea>
+      <p class="error" id={`${id('mensaje')}-error`}></p>
+    </div>
+    <div class="campo casilla">
+      <input id={id('autorizacion')} name="autorizacion" type="checkbox" value="sí" required aria-describedby={`${id('autorizacion')}-error`} />
+      <label for={id('autorizacion')}>{f.autorizacionAntes} <a href={ruta(rutaPrivacidad(c.idioma))} target="_blank" rel="noopener">{f.autorizacionEnlace}<span class="sr-only">, {c.ui.pestanaNueva}</span></a>.</label>
+      <p class="error" id={`${id('autorizacion')}-error`}></p>
+    </div>
+    {hcaptcha && <div class="h-captcha" data-captcha="true"></div>}
+    <button class="btn btn-primario" type="submit">{f.enviar}</button>
+    <div class="estado" role="status" aria-live="polite" data-estado></div>
+    <p class="exito" hidden data-exito tabindex="-1">{f.exito}</p>
+    <p class="fallo" hidden data-fallo tabindex="-1">
+      {f.error}
+      <a class="enlace-flecha" href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="cierre"><Icono nombre="message-circle" tamano={18} />{c.ctaWhatsApp}</a>
+    </p>
+  </form>
+</div>
+{hcaptcha && <script is:inline src="https://web3forms.com/client/script.js" async defer></script>}
+
+<style>
+  .tarjeta-form { background: var(--bg); color: var(--ink); border-radius: var(--radius-lg); padding: clamp(24px, 3vw, 36px); }
+  .tarjeta-form :focus-visible { outline-color: var(--focus); }
+  .titulo { color: var(--ink); margin-bottom: var(--space-5); }
+  .formulario { display: flex; flex-direction: column; gap: var(--space-4); }
+  .campo { display: flex; flex-direction: column; gap: 6px; }
+  label { font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--ink); }
+  input:not([type='checkbox']), textarea {
+    font: inherit; color: var(--ink); background: var(--bg); min-height: var(--tap);
+    border: 1.5px solid var(--line-strong); border-radius: var(--radius); padding: 10px 14px; width: 100%;
+  }
+  textarea { resize: vertical; }
+  [aria-invalid='true'] { border-color: var(--neg) !important; }
+  .error { min-height: 0; font-size: var(--fs-small); color: var(--neg); }
+  .error:empty { display: none; }
+  .casilla { display: grid; grid-template-columns: 24px 1fr; gap: var(--space-1) var(--space-3); align-items: start; }
+  .casilla input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--ink); }
+  .casilla label { font-weight: var(--fw-regular); }
+  .casilla .error { grid-column: 2; }
+  .tarjeta-form a { color: var(--accent-text); }
+  .btn { align-self: flex-start; }
+  .formulario [hidden] { display: none !important; }
+  .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .estado:empty { display: none; }
+  .estado { font-size: var(--fs-small); color: var(--ink-2); }
+  .exito { font-weight: var(--fw-semibold); color: var(--ink); border-left: 4px solid var(--pos); padding-left: var(--space-3); }
+  .fallo { color: var(--ink); border-left: 4px solid var(--neg); padding-left: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2); }
+  .fallo[hidden], .exito[hidden] { display: none; }
+  @media (max-width: 640px) {
+    .btn { width: 100%; }
+  }
+</style>
+
+<script>
+  type Mensajes = Record<'requerido' | 'correo' | 'telefono' | 'autorizacion' | 'rapido' | 'resumen' | 'enviar' | 'enviando', string>;
+  const TEL_CO = /^(\+?57)?(3\d{9}|60\d{8})$/; // celular (3xx) o fijo (60x) de 10 dígitos
+  const CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const cargado = Date.now();
+
+  document.querySelectorAll<HTMLFormElement>('[data-formulario]').forEach((form) => {
+    const m: Mensajes = JSON.parse(form.dataset.mensajes!);
+    const estado = form.querySelector<HTMLElement>('[data-estado]')!;
+    const exito = form.querySelector<HTMLElement>('[data-exito]')!;
+    const fallo = form.querySelector<HTMLElement>('[data-fallo]')!;
+    const boton = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    let empezado = false;
+
+    form.addEventListener('focusin', () => {
+      if (!empezado) { empezado = true; window.track?.('form_start', { ubicacion: 'cierre' }); }
+    });
+
+    const marcar = (campo: HTMLInputElement | HTMLTextAreaElement, error: string) => {
+      const p = document.getElementById(`${campo.id}-error`)!;
+      p.textContent = error;
+      campo.setAttribute('aria-invalid', error ? 'true' : 'false');
+    };
+    const validar = (campo: HTMLInputElement | HTMLTextAreaElement): string => {
+      const v = campo.value.trim();
+      if (campo instanceof HTMLInputElement && campo.type === 'checkbox') return campo.checked ? '' : m.autorizacion;
+      if (campo.required && !v) return m.requerido;
+      if (!v) return '';
+      if (campo.type === 'email' && !CORREO.test(v)) return m.correo;
+      if (campo.type === 'tel' && !TEL_CO.test(v.replace(/[\s().-]/g, ''))) return m.telefono;
+      return '';
+    };
+    const visibles = () =>
+      [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[id], textarea[id]')];
+
+    // Al salir de un campo con error, se vuelve a revisar.
+    visibles().forEach((campo) =>
+      campo.addEventListener('blur', () => { if (campo.getAttribute('aria-invalid') === 'true') marcar(campo, validar(campo)); }),
+    );
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      exito.hidden = true; fallo.hidden = true; estado.textContent = '';
+      let primero: HTMLElement | null = null;
+      for (const campo of visibles()) {
+        const error = validar(campo);
+        marcar(campo, error);
+        if (error && !primero) primero = campo;
+      }
+      if (primero) { estado.textContent = m.resumen; primero.focus(); return; }
+      if (Date.now() - cargado < 3000) { estado.textContent = m.rapido; return; }
+
+      const datos = Object.fromEntries(new FormData(form).entries());
+      if ((form.querySelector('input[name="botcheck"]') as HTMLInputElement).checked) return; // bot: no se envía
+      boton.disabled = true; boton.textContent = m.enviando; estado.textContent = m.enviando;
+      let ok = false;
+      try {
+        const destino = form.dataset.endpoint!;
+        if (destino === 'simulado-ok' || destino === 'simulado-error') {
+          await new Promise((r) => setTimeout(r, 400));
+          ok = destino === 'simulado-ok';
+        } else {
+          const r = await fetch(destino, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(datos),
+          });
+          const j = await r.json().catch(() => ({}));
+          ok = r.ok && j.success === true;
+        }
+      } catch { ok = false; }
+      boton.disabled = false; boton.textContent = m.enviar; estado.textContent = '';
+      if (ok) {
+        form.querySelectorAll<HTMLElement>('.campo, button[type="submit"], .h-captcha').forEach((el) => (el.hidden = true));
+        exito.hidden = false; exito.focus();
+        window.track?.('form_submit_success', { ubicacion: 'cierre' });
+      } else {
+        fallo.hidden = false; fallo.focus();
+        window.track?.('form_submit_error', { ubicacion: 'cierre' });
+      }
+    });
+  });
+</script>

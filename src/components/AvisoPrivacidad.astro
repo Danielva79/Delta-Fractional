@@ -1,0 +1,50 @@
+---
+// Página del aviso de privacidad. En producción solo se genera completa;
+// en /vista-interna/privacidad/ los datos faltantes se ven como [PENDIENTE: …].
+import Base from '../layouts/Base.astro';
+import type { Contenido } from '../lib/contenido';
+import { avisoPrivacidad, rellenar, rutaPrivacidad, faltantesPrivacidad } from '../lib/privacidad';
+
+interface Props {
+  c: Contenido;
+  interno?: boolean;
+}
+const { c, interno = false } = Astro.props;
+const a = avisoPrivacidad(c.idioma);
+const r = (t: string) => rellenar(t, c, a.vigencia);
+const rutaPagina = interno ? `/vista-interna/${c.idioma === 'es' ? 'privacidad' : 'privacy'}/` : rutaPrivacidad(c.idioma);
+const faltan = faltantesPrivacidad(c);
+---
+<Base c={c} ruta={rutaPagina} alternos={{ es: rutaPrivacidad('es'), en: rutaPrivacidad('en') }} titulo={`${a.titulo} | ${c.marca.nombre}`} descripcion={a.titulo} noindex={interno}>
+  <article class="seccion">
+    <div class="wrap texto-legal">
+      {interno && faltan.length > 0 && (
+        <p class="faltan"><strong>Vista interna.</strong> La página pública no se genera hasta completar: {faltan.join('; ')}.</p>
+      )}
+      <p class="aviso-revision" role="note">{a.avisoRevision}</p>
+      <h1>{a.titulo}</h1>
+      {a.secciones.map((s) => (
+        <section>
+          <h2>{s.h2}</h2>
+          {s.parrafos?.map((p) => <p>{r(p)}</p>)}
+          {s.lista && <ul>{s.lista.map((i) => <li>{r(i)}</li>)}</ul>}
+        </section>
+      ))}
+    </div>
+  </article>
+</Base>
+
+<style>
+  .texto-legal { max-width: calc(760px + 2 * var(--page-margin)); }
+  h1 { font-size: var(--fs-h2); line-height: var(--lh-h2); margin: var(--space-5) 0 var(--space-7); }
+  section { margin-top: var(--space-7); }
+  h2 { font-size: var(--fs-h3); line-height: var(--lh-h3); margin-bottom: var(--space-3); }
+  p, li { color: var(--ink); }
+  p + p { margin-top: var(--space-3); }
+  ul { margin: var(--space-3) 0 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: var(--space-2); }
+  .aviso-revision {
+    display: inline-block; font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--ink);
+    background: var(--surface); border-left: 4px solid var(--accent); padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm);
+  }
+  .faltan { margin-bottom: var(--space-4); font-size: var(--fs-small); color: var(--ink); background: var(--surface); padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); }
+</style>

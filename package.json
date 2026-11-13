@@ -1,0 +1,20 @@
+{
+  "name": "delta-fractional-web",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "revisar": "node scripts/revisar.mjs",
+    "vista-previa": "node scripts/publicar-vista-previa.mjs"
+  },
+  "dependencies": {
+    "astro": "7.4.11",
+    "sharp": "0.35.5"
+  }
+}

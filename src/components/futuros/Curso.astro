@@ -1,0 +1,34 @@
+---
+// Tarjeta del curso (banda del diagnóstico). Se muestra solo con features.curso y nombre real.
+import Photo from '../Photo.astro';
+import Icono from '../Icono.astro';
+import type { Contenido } from '../../lib/contenido';
+
+interface Props {
+  c: Contenido;
+  curso: { nombre: string | null; modulos: string | null; url: string | null };
+}
+const { c, curso } = Astro.props;
+---
+{curso.nombre && (
+  <article class="curso">
+    <Photo c={c} id="curso" class="foto-curso" sizes="(max-width: 900px) 100vw, 420px" />
+    <div class="cuerpo">
+      <p class="eyebrow">{c.ui.curso}</p>
+      <h3>{curso.nombre}</h3>
+      {curso.modulos && <p class="modulos">{curso.modulos}</p>}
+      {curso.url && (
+        <a class="enlace-flecha" href={curso.url} target="_blank" rel="noopener">{curso.nombre}<span class="sr-only">, {c.ui.pestanaNueva}</span><Icono nombre="arrow-right" tamano={18} /></a>
+      )}
+    </div>
+  </article>
+)}
+
+<style>
+  .curso { background: var(--surface); border-radius: var(--radius-lg); overflow: hidden; color: var(--ink); }
+  .cuerpo { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+  .curso .eyebrow { color: var(--accent-text); }
+  .curso h3 { color: var(--ink); }
+  .modulos { color: var(--ink-2); font-size: var(--fs-small); line-height: var(--lh-small); white-space: pre-line; }
+  .curso a { color: var(--accent-text); }
+</style>

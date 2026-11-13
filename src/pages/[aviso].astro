@@ -1,0 +1,11 @@
+---
+// /privacidad/: solo se genera cuando el aviso está completo (NIT, dirección, correo y vigencia).
+import AvisoPrivacidad from '../components/AvisoPrivacidad.astro';
+import { contenido } from '../lib/contenido';
+import { privacidadLista } from '../lib/privacidad';
+
+export function getStaticPaths() {
+  return privacidadLista(contenido('es')) ? [{ params: { aviso: 'privacidad' } }] : [];
+}
+---
+<AvisoPrivacidad c={contenido('es')} />

@@ -1,0 +1,43 @@
+---
+// 7.9 Preguntas frecuentes: acordeón nativo <details>/<summary> (teclado y lector de pantalla sin JS).
+import Icono from '../Icono.astro';
+import type { Contenido } from '../../lib/contenido';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+---
+<section class="seccion faq" id="preguntas" aria-labelledby="h-faq">
+  <div class="wrap grid">
+    <h2 id="h-faq">{c.faq.h2}</h2>
+    <div class="lista">
+      {c.faq.items.map((f) => (
+        <details data-faq={f.p}>
+          <summary>
+            <span>{f.p}</span>
+            <Icono nombre="chevron-down" tamano={22} />
+          </summary>
+          <p>{f.r}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: 4fr 8fr; gap: clamp(24px, 5vw, 72px); }
+  details { border-bottom: 1px solid var(--line); }
+  details:first-child { border-top: 1px solid var(--line); }
+  summary {
+    list-style: none; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);
+    min-height: 64px; padding: var(--space-4) 0; cursor: pointer;
+    font-size: var(--fs-sub); line-height: 1.4; font-weight: var(--fw-semibold); color: var(--ink);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover span { color: var(--accent-text); }
+  summary :global(svg) { flex: none; transition: transform 0.2s; }
+  details[open] summary :global(svg) { transform: rotate(180deg); color: var(--accent-text); }
+  details p { padding: 0 0 20px; color: var(--ink-2); }
+  @media (max-width: 1023px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

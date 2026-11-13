@@ -1,0 +1,141 @@
+---
+// Slot de foto. Lee fotos[id] del contenido y busca el archivo en la carpeta /fotos.
+// - Si el archivo existe: <picture> con AVIF y WebP en varios anchos + JPEG/PNG de respaldo,
+//   con width/height reales. Si su alt sigue en "TODO", el build falla.
+// - Si no existe: marcador de marca decorativo (o nada, si el slot no tiene marcador).
+// - Si el slot tiene archivoMovil, el <picture> sirve ese recorte en ≤ 900 px (<source media>).
+// El contenedor reserva el aspect-ratio, así que la página no se mueve cuando llega la foto.
+// Recorte, proporción en móvil y ajuste salen de fotos[id] en es.json (las props los pisan).
+import { Picture, getImage } from 'astro:assets';
+import type { Contenido } from '../lib/contenido';
+import type { IdFoto } from '../content/schema';
+import { ruta } from '../lib/enlaces';
+import { imagenDe, imagenMovilDe, anchosDe } from '../lib/fotos';
+
+interface Props {
+  c: Contenido;
+  id: IdFoto;
+  /** Atributo sizes del srcset, p. ej. "(max-width: 900px) 100vw, 40vw". */
+  sizes: string;
+  /** Foto del hero: sin lazy y con fetchpriority alto. */
+  prioridad?: boolean;
+  /** Proporción en móvil (≤ 900 px), si cambia. Ej.: "4/5". */
+  ratioMovil?: string;
+  /** Recorte (object-position), útil cuando cambia la proporción en móvil. */
+  posicion?: string;
+  class?: string;
+}
+const f = Astro.props.c.fotos[Astro.props.id];
+const {
+  c, id, sizes, prioridad = false,
+  ratioMovil = f.ratioMovil, posicion = f.posicion ?? 'center', class: clase,
+} = Astro.props;
+const img = imagenDe(c, id);
+const imgMovil = img ? imagenMovilDe(c, id) : undefined;
+
+if (img && f.alt === null) {
+  throw new Error(
+    `\n\nLa foto "fotos/${f.archivo}" ya existe, pero su texto alternativo sigue pendiente.\n` +
+      `Escriba en src/content/${c.idioma}.json, en fotos.${id}.alt, qué muestra la foto ` +
+      `(ej.: "Daniel Villegas en su oficina en Manizales"). Guía: CONTENIDO.md\n`,
+  );
+}
+
+const [a, b] = f.ratio.split('/').map(Number);
+const estilo = `--ratio:${a}/${b};--ratio-movil:${ratioMovil ?? `${a}/${b}`};--posicion:${posicion};--ajuste:${f.ajuste ?? 'cover'}`;
+const anchos = img ? anchosDe(img) : [];
+const respaldo = img?.format === 'png' ? 'png' : 'jpg';
+
+// Dirección de arte (dos recortes): fuentes armadas a mano con getImage.
+type Fuente = { media?: string; type?: string; srcset: string };
+let fuentes: Fuente[] = [];
+let imgRespaldo: { src: string; srcset: string } | undefined;
+if (img && imgMovil) {
+  const srcset = async (im: typeof img, format: 'avif' | 'webp' | 'png' | 'jpg') => {
+    const ws = anchosDe(im);
+    const r = await Promise.all(ws.map((w) => getImage({ src: im, width: w, format })));
+    return r.map((x, i) => `${x.src} ${ws[i]}w`).join(', ');
+  };
+  const tipo = { avif: 'image/avif', webp: 'image/webp' } as const;
+  const media = '(max-width: 900px)';
+  // Orden: primero el recorte móvil (AVIF, WebP, respaldo), luego el de escritorio (AVIF, WebP).
+  fuentes = await Promise.all([
+    ...(['avif', 'webp'] as const).map(async (fmt) => ({ media, type: tipo[fmt], srcset: await srcset(imgMovil, fmt) })),
+    (async () => ({ media, srcset: await srcset(imgMovil, respaldo) }))(),
+    ...(['avif', 'webp'] as const).map(async (fmt) => ({ type: tipo[fmt], srcset: await srcset(img, fmt) })),
+  ]);
+  const grande = await getImage({ src: img, width: img.width, format: respaldo });
+  imgRespaldo = { src: grande.src, srcset: await srcset(img, respaldo) };
+}
+const duotono = f.tratamiento === 'duotono';
+const anchoMarcador = 1200;
+const altoMarcador = Math.round((anchoMarcador * b) / a);
+---
+{img ? (
+  <div class:list={['foto', clase]} style={estilo} data-foto={id} data-estado="foto">
+    {duotono && (
+      <svg class="filtro" width="0" height="0" aria-hidden="true" focusable="false">
+        <filter id="duo-carbon" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues="0.1216 0.3569 0.7882" />
+            <feFuncG type="table" tableValues="0.1373 0.3922 0.8078" />
+            <feFuncB type="table" tableValues="0.1608 0.4392 0.8314" />
+          </feComponentTransfer>
+        </filter>
+      </svg>
+    )}
+    {imgRespaldo ? (
+      <picture>
+        {fuentes.map((s) => <source media={s.media} type={s.type} srcset={s.srcset} sizes={sizes} />)}
+        <img
+          src={imgRespaldo.src}
+          srcset={imgRespaldo.srcset}
+          sizes={sizes}
+          alt={f.alt ?? ''}
+          width={img.width}
+          height={img.height}
+          loading={prioridad ? 'eager' : 'lazy'}
+          decoding={prioridad ? 'auto' : 'async'}
+          fetchpriority={prioridad ? 'high' : 'auto'}
+        />
+      </picture>
+    ) : (
+    <Picture
+      src={img}
+      alt={f.alt ?? ''}
+      formats={['avif', 'webp']}
+      fallbackFormat={respaldo}
+      widths={anchos}
+      sizes={sizes}
+      loading={prioridad ? 'eager' : 'lazy'}
+      decoding={prioridad ? 'auto' : 'async'}
+      fetchpriority={prioridad ? 'high' : 'auto'}
+      class:list={[duotono && 'photo-duo']}
+    />
+    )}
+  </div>
+) : f.placeholder ? (
+  <div class:list={['foto', 'marcador', clase]} style={estilo} data-foto={id} data-estado="marcador">
+    <img
+      src={ruta(f.placeholder)}
+      alt=""
+      aria-hidden="true"
+      width={anchoMarcador}
+      height={altoMarcador}
+      loading={prioridad ? 'eager' : 'lazy'}
+      decoding={prioridad ? 'auto' : 'async'}
+      fetchpriority={prioridad ? 'high' : 'auto'}
+    />
+  </div>
+) : null}
+
+<style>
+  .foto { position: relative; overflow: hidden; aspect-ratio: var(--ratio); background: var(--surface); }
+  .foto.marcador { background: var(--dark); }
+  .foto :global(img) { width: 100%; height: 100%; object-fit: var(--ajuste, cover); object-position: var(--posicion); }
+  .filtro { position: absolute; }
+  @media (max-width: 900px) {
+    .foto { aspect-ratio: var(--ratio-movil); }
+  }
+</style>

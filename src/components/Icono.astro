@@ -1,0 +1,31 @@
+---
+// Ícono Lucide de línea (licencia ISC, src/iconos/LICENSE-lucide.txt).
+// Trazo 1,75 px hasta 24 px y 2 px en tamaños mayores. Color: currentColor. Decorativo.
+const archivos = import.meta.glob<string>('../iconos/lucide-*.svg', { query: '?raw', import: 'default', eager: true });
+
+interface Props {
+  nombre: 'message-circle' | 'menu' | 'x' | 'chevron-down' | 'arrow-right' | 'map-pin';
+  tamano?: number;
+  class?: string;
+}
+const { nombre, tamano = 20, class: clase } = Astro.props;
+const fuente = archivos[`../iconos/lucide-${nombre}.svg`];
+if (!fuente) throw new Error(`Ícono no encontrado: lucide-${nombre}.svg (cópielo a src/iconos/)`);
+const trazo = tamano <= 24 ? 1.75 : 2;
+const interior = fuente.replace(/<!--[\s\S]*?-->/g, '').replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+---
+<svg
+  class={clase}
+  xmlns="http://www.w3.org/2000/svg"
+  width={tamano}
+  height={tamano}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={trazo}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  set:html={interior}
+/>

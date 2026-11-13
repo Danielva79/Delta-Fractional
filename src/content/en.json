@@ -1,0 +1,290 @@
+{
+  "_nota": "English translation of es.json. It adds no new claims. Every block has \"needsReview\": true until Natalia approves it. Contact data, features and photo files come from es.json; only texts live here. Values starting with \"TODO\" are pending and are not published.",
+  "meta": {
+    "needsReview": true,
+    "lang": "en",
+    "title": "Fractional CFO for SMEs in Colombia | Delta Fractional",
+    "description": "Outsourced finance director for SMEs: I reconcile your figures, measure which line makes you a profit and project your cash. More than 18 years in finance. Manizales, nationwide coverage.",
+    "ogImage": "/img/og/og-en.jpg",
+    "ogImageAlt": "Delta Fractional. Your company sells. Let's make it keep the cash."
+  },
+  "marca": {
+    "needsReview": true,
+    "nombre": "Delta Fractional",
+    "nombreCorto": "Delta",
+    "persona": "Daniel Villegas",
+    "cargo": "Outsourced finance director",
+    "ubicacion": "Manizales, Caldas · Nationwide coverage"
+  },
+  "contacto": {
+    "needsReview": true,
+    "whatsappMensaje": "Hello Daniel, I'd like to learn more about your finance director services.",
+    "whatsappMensajeDiagnostico": "Hello Daniel, I'd like to book the financial diagnostic."
+  },
+  "nav": [
+    {
+      "label": "How I work",
+      "href": "#como-trabajo"
+    },
+    {
+      "label": "Delta BI",
+      "href": "#delta-bi"
+    },
+    {
+      "label": "About me",
+      "href": "#sobre-daniel"
+    },
+    {
+      "label": "Questions",
+      "href": "#preguntas"
+    }
+  ],
+  "ctaPrincipal": "Book a diagnostic",
+  "ctaWhatsApp": "Message me on WhatsApp",
+  "hero": {
+    "needsReview": true,
+    "antetitulo": "Outsourced finance director for SMEs",
+    "h1": "Your company sells. Let's make it keep the cash.",
+    "h1Resaltado": "keep the cash",
+    "subtitulo": "I reconcile your figures, measure which line makes you a profit and project your cash. More than 18 years in finance, from Manizales with nationwide coverage.",
+    "foto": "hero-retrato"
+  },
+  "prueba": {
+    "needsReview": true,
+    "items": [
+      {
+        "cifra": "18+",
+        "texto": "years in finance"
+      },
+      {
+        "cifra": null,
+        "texto": "In-house finance director and finance manager at industrial, commercial, technology and public sector companies"
+      },
+      {
+        "cifra": null,
+        "texto": "Nearly eight years in the securities market and in development banking"
+      },
+      {
+        "cifra": null,
+        "texto": "M.Sc. in International Finance (EADA, Barcelona)"
+      }
+    ]
+  },
+  "problema": {
+    "needsReview": true,
+    "h2": "Does this sound familiar?",
+    "intro": "You make decisions without knowing for sure which line, branch or client makes you a profit, or how much cash you will have next month.",
+    "dolores": [
+      {
+        "titulo": "Invisible profitability",
+        "texto": "You don't know which line, branch or client makes you a profit."
+      },
+      {
+        "titulo": "Uncertain cash",
+        "texto": "You don't know how much cash you will have next month."
+      }
+    ],
+    "cierre": "Selling more doesn't always mean keeping more. Let's look at why."
+  },
+  "servicios": {
+    "needsReview": true,
+    "h2": "How I work as an outsourced finance director",
+    "items": [
+      {
+        "id": "diagnostico",
+        "nivel": "To start",
+        "titulo": "Financial diagnostic",
+        "texto": "I reconcile the information, measure the profitability of each business unit and project the cash.",
+        "resultado": "Prioritized findings and a 90-day plan.",
+        "duracion": "TODO:duracion-del-diagnostico",
+        "precio": "From COP 2 M"
+      },
+      {
+        "id": "mensual",
+        "nivel": "Every month",
+        "titulo": "Monthly financial management",
+        "texto": "Budget, tracking against actuals, a finance committee with commitments and a dashboard of its own, Delta BI.",
+        "resultado": "Management sees its cash and profitability every month."
+      },
+      {
+        "id": "proyectos",
+        "nivel": "When you need it",
+        "titulo": "Projects",
+        "texto": "Company valuation, financing and financial structuring of transactions.",
+        "resultado": "TODO:resultado-proyectos"
+      }
+    ],
+    "inversion": {
+      "precio": "From COP 2 M per month",
+      "nota": "Depending on company size and type of service.",
+      "iva": "TODO:incluye-iva"
+    }
+  },
+  "diferencial": {
+    "needsReview": true,
+    "h2": "My way of working",
+    "pilares": [
+      {
+        "titulo": "Reconciled figures before opinions",
+        "texto": "I don't give opinions on figures that are not reconciled."
+      },
+      {
+        "titulo": "Cause before recommendation",
+        "texto": "First I find the cause of each difference, then I recommend."
+      },
+      {
+        "titulo": "Models that stay in your company",
+        "texto": "The models I deliver are auditable and remain in the company's hands."
+      }
+    ]
+  },
+  "deltaBI": {
+    "needsReview": true,
+    "h2": "Delta BI",
+    "texto": "Delta BI is the platform I built. I connect your company's data and build dashboards that cross-reference the information, so you understand your figures. Every client has access to Delta BI.",
+    "nota": "Access is included in the service.",
+    "captura": "delta-bi-captura",
+    "leyenda": "Data from a fictitious company",
+    "verCompleta": "View full screenshot"
+  },
+  "sobre": {
+    "needsReview": true,
+    "h2": "About me",
+    "parrafos": [
+      "I'm Daniel Villegas. I work as an outsourced finance director under the Delta Fractional brand.",
+      "I was an in-house finance director and finance manager at industrial, commercial, technology and public sector companies. Before that I worked nearly eight years in the securities market and in development banking.",
+      "M.Sc. in International Finance (EADA, Barcelona) and Business Administration (Pontificia Universidad Javeriana).",
+      "That experience is what I put at the service of companies that need a finance director, but not full time."
+    ],
+    "foto": "sobre-daniel",
+    "linkedinLabel": "See my LinkedIn profile"
+  },
+  "diagnostico": {
+    "needsReview": true,
+    "antetitulo": "Financial diagnostic",
+    "h2": "Do you know which line of your business makes you money?",
+    "texto": "I reconcile the information, measure the profitability of each business unit and project the cash. Result: prioritized findings and a 90-day plan.",
+    "cta": "Book a diagnostic",
+    "fondo": "banda-detalle"
+  },
+  "curso": {
+    "nombre": "TODO:nombre-del-curso",
+    "modulos": "TODO:modulos-del-curso",
+    "url": "TODO:course-url"
+  },
+  "caso": {
+    "titulo": "TODO:caso",
+    "antes": "TODO",
+    "queHice": "TODO",
+    "despues": "TODO"
+  },
+  "testimonios": [],
+  "logosClientes": [],
+  "segmento": {
+    "tamanoEmpresa": "TODO:tamano-de-empresa",
+    "sectores": "TODO:sectores"
+  },
+  "faq": {
+    "needsReview": true,
+    "h2": "Frequently asked questions",
+    "items": [
+      {
+        "p": "How much does it cost?",
+        "r": "From COP 2 M per month, depending on company size and type of service."
+      },
+      {
+        "p": "Do you only work in Manizales?",
+        "r": "No. I'm based in Manizales and have nationwide coverage."
+      },
+      {
+        "p": "Does access to Delta BI cost extra?",
+        "r": "No. Access to Delta BI is included in the service."
+      },
+      {
+        "p": "What happens to the models when the work ends?",
+        "r": "The models I deliver are auditable and remain in the company's hands."
+      }
+    ]
+  },
+  "cierre": {
+    "needsReview": true,
+    "h2": "If you're selling more but not keeping more, let's talk.",
+    "texto": "Message me on WhatsApp or start with the diagnostic."
+  },
+  "footer": {
+    "needsReview": true,
+    "linea": "Delta Fractional · Outsourced financial management for SMEs",
+    "privacidad": "Privacy notice"
+  },
+  "fotos": {
+    "hero-retrato": {
+      "needsReview": true,
+      "alt": "Daniel Villegas, outsourced finance director at Delta Fractional, with his arms crossed."
+    },
+    "sobre-daniel": {
+      "needsReview": true,
+      "alt": "Daniel Villegas standing by a whiteboard, speaking to a group."
+    },
+    "trabajo-cliente": {
+      "needsReview": true,
+      "alt": "Daniel Villegas draws a diagram on a whiteboard."
+    },
+    "banda-detalle": {
+      "alt": ""
+    },
+    "delta-bi-captura": {
+      "needsReview": true,
+      "alt": "Monthly profitability dashboard in Delta BI, with data from a fictitious company."
+    },
+    "curso": {
+      "needsReview": true,
+      "alt": "Daniel Villegas explains to a group next to a whiteboard."
+    }
+  },
+  "cuestionario": {
+    "needsReview": true,
+    "nombre": "TODO:questionnaire-name",
+    "texto": "TODO:questionnaire-sentence",
+    "cta": "Start"
+  },
+  "ui": {
+    "needsReview": true,
+    "saltar": "Skip to content",
+    "menuAbrir": "Open menu",
+    "menuCerrar": "Close menu",
+    "navPrincipal": "Main",
+    "idioma": "Language",
+    "resultado": "Result",
+    "pestanaNueva": "opens in a new tab",
+    "inicio": "home",
+    "trayectoria": "Track record",
+    "casoAntes": "Before",
+    "casoQueHice": "What I did",
+    "casoDespues": "After",
+    "testimonios": "Testimonials",
+    "clientes": "Clients",
+    "curso": "Course"
+  },
+  "formulario": {
+    "needsReview": true,
+    "titulo": "Or leave me your details and I will write to you",
+    "nombre": "Name",
+    "empresa": "Company",
+    "cargo": "Job title (optional)",
+    "telefono": "WhatsApp or phone",
+    "correo": "Email",
+    "mensaje": "Short message (optional)",
+    "autorizacionAntes": "I authorize the processing of my personal data under the",
+    "autorizacionEnlace": "Privacy notice",
+    "enviar": "Send",
+    "enviando": "Sending…",
+    "exito": "Thank you. I will write to you soon by WhatsApp or email.",
+    "error": "The message could not be sent. Message me on WhatsApp and I will reply.",
+    "errorRequerido": "This field is required.",
+    "errorCorreo": "Enter a valid email, for example name@company.com.",
+    "errorTelefono": "Enter a 10-digit Colombian number, with or without +57.",
+    "errorAutorizacion": "To send, check the authorization.",
+    "errorRapido": "Wait a moment and try again.",
+    "resumenErrores": "Check the highlighted fields."
+  }
+}

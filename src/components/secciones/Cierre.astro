@@ -1,0 +1,46 @@
+---
+// 7.10 Cierre: conversión. WhatsApp es el botón principal en esta banda.
+// El formulario aparece al lado solo si: features.formularioContacto = true, existe
+// PUBLIC_WEB3FORMS_KEY y el aviso de privacidad está completo. Si no, solo WhatsApp y diagnóstico.
+import Icono from '../Icono.astro';
+import FormularioContacto from '../futuros/FormularioContacto.astro';
+import type { Contenido } from '../../lib/contenido';
+import { diagnostico, whatsapp, ruta } from '../../lib/enlaces';
+import { privacidadLista } from '../../lib/privacidad';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+const clave = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+const conFormulario = c.features.formularioContacto && clave !== '' && privacidadLista(c);
+---
+<section class="band-dark cierre" id="cierre" aria-labelledby="h-cierre" data-cierre>
+  <img class="trama" src={ruta('/img/graficos/trama-alas.svg')} alt="" aria-hidden="true" width="357" height="318" loading="lazy" />
+  <div class:list={['wrap', 'seccion', conFormulario && 'con-formulario']}>
+    <div class="contenido">
+      <h2 id="h-cierre">{c.cierre.h2}</h2>
+      <p class="texto">{c.cierre.texto}</p>
+      <div class="botones">
+        <a class="btn btn-primario" href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="cierre"><Icono nombre="message-circle" />{c.ctaWhatsApp}</a>
+        <a class="btn btn-secundario" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="cierre">{c.ctaPrincipal}</a>
+      </div>
+    </div>
+    {conFormulario && (
+      <FormularioContacto
+        c={c}
+        clave={clave}
+        endpoint="https://api.web3forms.com/submit"
+        hcaptcha={import.meta.env.PUBLIC_WEB3FORMS_HCAPTCHA === 'true'}
+      />
+    )}
+  </div>
+</section>
+
+<style>
+  .wrap { display: grid; gap: var(--space-7); align-items: start; }
+  .wrap.con-formulario { grid-template-columns: 1fr minmax(320px, 480px); }
+  .contenido { max-width: 720px; display: flex; flex-direction: column; gap: 20px; }
+  .texto { font-size: var(--fs-sub); line-height: var(--lh-sub); }
+  @media (max-width: 900px) {
+    .wrap.con-formulario { grid-template-columns: 1fr; }
+  }
+</style>

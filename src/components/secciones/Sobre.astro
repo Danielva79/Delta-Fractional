@@ -1,0 +1,39 @@
+---
+// 7.7 Sobre mí. LinkedIn funciona aquí como prueba, no como CTA principal.
+import Photo from '../Photo.astro';
+import Icono from '../Icono.astro';
+import type { Contenido } from '../../lib/contenido';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+const [primero, ...resto] = c.sobre.parrafos;
+---
+<section class="seccion" id="sobre-daniel" aria-labelledby="h-sobre">
+  <div class="wrap grid">
+    <Photo c={c} id={c.sobre.foto} class="foto-sobre" sizes="(max-width: 900px) min(420px, 100vw), 580px" />
+    <div class="texto">
+      <h2 id="h-sobre">{c.sobre.h2}</h2>
+      <p class="primero">{primero}</p>
+      {resto.map((p) => <p class="muted">{p}</p>)}
+      <div class="meta">
+        <a class="enlace-flecha" href={c.contacto.linkedin} target="_blank" rel="noopener" data-evento="linkedin_click" data-ubicacion="sobre">
+          {c.sobre.linkedinLabel}<span class="sr-only">, {c.ui.pestanaNueva}</span><Icono nombre="arrow-right" tamano={18} />
+        </a>
+        <span class="ubicacion"><Icono nombre="map-pin" tamano={18} />{c.marca.ubicacion}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .grid :global(.foto-sobre) { border-radius: var(--radius-lg); }
+  .texto { display: flex; flex-direction: column; gap: var(--space-4); }
+  .primero { font-size: var(--fs-sub); line-height: var(--lh-sub); color: var(--ink); }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-5); margin-top: var(--space-2); }
+  .ubicacion { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--ink-2); font-size: var(--fs-small); }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .grid :global(.foto-sobre) { max-width: 420px; width: 100%; }
+  }
+</style>

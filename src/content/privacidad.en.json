@@ -1,0 +1,86 @@
+{
+  "_nota": "English translation of privacidad.es.json. BASE TEXT FOR LEGAL REVIEW; needsReview until Natalia and the lawyer approve it. The Spanish version governs.",
+  "needsReview": true,
+  "titulo": "Privacy notice and personal data processing policy",
+  "avisoRevision": "Base text for review by a lawyer.",
+  "vigencia": "TODO:effective-date",
+  "secciones": [
+    {
+      "h2": "Data controller",
+      "parrafos": [
+        "Daniel Villegas, who works under the Delta Fractional brand, tax ID (NIT) {nit}, address {direccion}. Email: {correo}. WhatsApp: {whatsapp}."
+      ]
+    },
+    {
+      "h2": "Legal framework",
+      "parrafos": [
+        "This notice and the policy it contains are governed by Colombian Law 1581 of 2012, Decree 1377 of 2013, compiled in Decree 1074 of 2015, and the rules that amend or complement them."
+      ]
+    },
+    {
+      "h2": "Data I collect",
+      "parrafos": [
+        "Through the form on this site I collect your name, your company, your job title (optional), your WhatsApp or phone number, your email and the message you write (optional). I do not collect sensitive data or data from minors.",
+        "The site measures visits in aggregate, with a tool that does not use cookies or store data that identifies you."
+      ]
+    },
+    {
+      "h2": "What I use your data for",
+      "lista": [
+        "To answer your request.",
+        "To send you the financial diagnostic you asked for.",
+        "To send you commercial communications about my services, only if you expressly authorize it."
+      ]
+    },
+    {
+      "h2": "Your authorization",
+      "parrafos": [
+        "By checking the box on the form, you authorize the processing of your data for the purposes in this notice. You can revoke that authorization at any time through the channels below."
+      ]
+    },
+    {
+      "h2": "Your rights",
+      "parrafos": ["As the owner of the data, you can:"],
+      "lista": [
+        "Know, update and correct your data.",
+        "Ask for proof of the authorization you gave me.",
+        "Find out, on request, how I have used your data.",
+        "File complaints with the Superintendence of Industry and Commerce (SIC).",
+        "Revoke the authorization or ask me to delete your data.",
+        "Access your data free of charge."
+      ]
+    },
+    {
+      "h2": "How to exercise your rights",
+      "parrafos": [
+        "Write to me at {correo} or on WhatsApp at {whatsapp}, with your name, your request and a way to contact you.",
+        "I answer inquiries within ten (10) business days, extendable by five (5) business days, and complaints within fifteen (15) business days, extendable by eight (8) business days, as set out in articles 14 and 15 of Law 1581 of 2012."
+      ]
+    },
+    {
+      "h2": "Providers that process data on my behalf",
+      "parrafos": [
+        "I use Web3Forms to receive the form messages and Umami Cloud to measure visits. These providers act as data processors and may store information on servers outside Colombia. I do not sell or transfer your data to third parties."
+      ]
+    },
+    {
+      "h2": "Security",
+      "parrafos": [
+        "I apply reasonable measures to protect your data against loss and unauthorized access or use. The site uses an encrypted connection (HTTPS)."
+      ]
+    },
+    {
+      "h2": "Retention",
+      "parrafos": [
+        "I keep your data while it is needed for the purposes in this notice or while there is a business relationship, and for as long as applicable rules require. Then I delete it."
+      ]
+    },
+    {
+      "h2": "Changes and effective date",
+      "parrafos": [
+        "If I change this notice, I will publish the new version on this page, with its date.",
+        "This notice is effective from {vigencia}."
+      ]
+    }
+  ]
+}

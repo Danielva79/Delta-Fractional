@@ -1,0 +1,50 @@
+---
+// Testimonios reales (nombre, cargo, empresa, foto opcional 1:1), solo con permiso.
+// Foto opcional en fotos/testimonios/<archivo>. Se muestran solo con features.testimonios.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Contenido } from '../../lib/contenido';
+
+const fotos = import.meta.glob<{ default: ImageMetadata }>('/fotos/testimonios/*.{jpg,jpeg,png,webp}', { eager: true });
+
+interface Props {
+  c: Contenido;
+  testimonios: { nombre: string; cargo: string; empresa: string; texto: string; foto?: string }[];
+}
+const { c, testimonios } = Astro.props;
+---
+{testimonios.length > 0 && (
+  <section class="seccion testimonios" aria-label={c.ui.testimonios}>
+    <div class="wrap">
+      <ul>
+        {testimonios.map((t) => {
+          const img = t.foto ? fotos[`/fotos/testimonios/${t.foto}`]?.default : undefined;
+          return (
+            <li>
+              <blockquote>
+                <p>{t.texto}</p>
+              </blockquote>
+              <div class="autor">
+                {img && <Picture src={img} alt="" formats={['avif', 'webp']} widths={[96, 192]} sizes="48px" class="foto" />}
+                <p><strong>{t.nombre}</strong><span>{t.cargo}, {t.empresa}</span></p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .testimonios { padding-top: 0; }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: var(--gutter); }
+  li { border-left: 4px solid var(--accent); padding: var(--space-2) 0 var(--space-2) var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
+  blockquote { margin: 0; }
+  blockquote p { font-size: var(--fs-sub); line-height: var(--lh-sub); color: var(--ink); }
+  .autor { display: flex; align-items: center; gap: var(--space-3); }
+  .autor :global(.foto) { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+  .autor p { display: flex; flex-direction: column; font-size: var(--fs-small); line-height: var(--lh-small); }
+  .autor strong { color: var(--ink); font-weight: var(--fw-semibold); }
+  .autor span { color: var(--ink-2); }
+</style>

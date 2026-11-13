@@ -1,0 +1,41 @@
+---
+// 7.5 Mi forma de trabajar, junto a la foto "trabajo-cliente".
+import Photo from '../Photo.astro';
+import type { Contenido } from '../../lib/contenido';
+import { ruta } from '../../lib/enlaces';
+
+interface Props { c: Contenido }
+const { c } = Astro.props;
+---
+<section class="seccion diferencial" aria-labelledby="h-diferencial">
+  <div class="wrap grid">
+    <Photo c={c} id="trabajo-cliente" class="foto-trabajo" sizes="(max-width: 900px) 100vw, 580px" />
+    <div>
+      <h2 id="h-diferencial">{c.diferencial.h2}</h2>
+      <ul class="pilares">
+        {c.diferencial.pilares.map((p) => (
+          <li>
+            <img src={ruta('/img/graficos/chevron-bullet.svg')} alt="" width="16" height="13" loading="lazy" />
+            <h3>{p.titulo}</h3>
+            <p>{p.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .diferencial { padding-top: 0; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .grid :global(.foto-trabajo) { border-radius: var(--radius-lg); }
+  .pilares { list-style: none; margin: var(--space-5) 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-5); }
+  .pilares li { display: grid; grid-template-columns: 18px 1fr; gap: var(--space-1) 14px; }
+  .pilares img { width: 16px; height: auto; margin-top: 6px; }
+  .pilares h3 { font-size: var(--fs-sub); line-height: 1.35; }
+  .pilares p { grid-column: 2; color: var(--ink-2); }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .grid :global(.foto-trabajo) { order: 2; }
+  }
+</style>

@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Delta Fractional · tokens de diseño (tema A1 "naranja en acentos")
+   Fuente: Manual de marca 1.0, noviembre 2026 (brand/Delta-Fractional-Brandbook.pdf)
+   No editar los HEX a mano en componentes: usar siempre estas variables.
+   ========================================================================== */
+
+/* Las @font-face de Figtree se declaran en src/layouts/Base.astro para respetar la
+   ruta base (vista previa en subcarpeta). Archivos en public/fonts/. */
+
+:root {
+  /* ---- Color: base ---- */
+  --bg:            #FFFFFF;  /* fondo principal */
+  --surface:       #F4F5F7;  /* tarjetas, bandas claras, filas destacadas */
+  --surface-2:     #ECEDEE;  /* bandas de referencia en gráficas, hover de tarjetas */
+  --line:          #E3E5E8;  /* divisores (decorativos, no bordes de campos) */
+  --line-strong:   #7B8189;  /* bordes de campos de formulario (3,9:1 sobre blanco) */
+  --ink:           #353C46;  /* texto principal (11,13:1 sobre blanco) */
+  --ink-2:         #5B6470;  /* texto secundario (6,0:1 blanco · 5,5:1 sobre --surface) */
+  --dark:          #2A3038;  /* bandas oscuras, footer */
+  --on-dark:       #FFFFFF;  /* 13,31:1 sobre --dark */
+  --on-dark-2:     #D5DAE0;  /* texto secundario sobre oscuro (9,46:1) */
+
+  /* ---- Color: acento (solo CTA, íconos activos, detalles pequeños) ---- */
+  --accent:        #EE7D22;  /* fondo del botón principal, chevrón, subrayado, marca lateral */
+  --accent-light:  #F58634;  /* SOLO faceta izquierda del chevrón */
+  --on-accent:     #1F2329;  /* texto sobre --accent (5,71:1). Nunca blanco sobre naranja (2,77:1) */
+  --accent-text:   #B8520F;  /* texto naranja pequeño y enlaces sobre blanco (4,94:1) / --surface (4,53:1) */
+  --accent-on-dark:#EE7D22;  /* antetítulos y enlaces sobre --dark (4,81:1) */
+
+  /* ---- Estados ---- */
+  --pos:           #2E7D4F;  /* siempre con ▲ y signo (5,05:1) */
+  --neg:           #C0392B;  /* siempre con ▼ y signo menos (5,44:1) */
+  --focus:         #B8520F;  /* anillo de foco sobre claro */
+  --focus-on-dark: #EE7D22;  /* anillo de foco sobre oscuro */
+
+  /* ---- Paleta de datos (Delta BI, gráficas) en este orden ---- */
+  --data-1: #353C46; --data-2: #EE7D22; --data-3: #47769D; --data-4: #A0500A; --data-5: #9A9FA6;
+
+  /* ---- Escalas (para datos ordenados; no para fondos de sección) ---- */
+  --orange-50:#FFF4EE; --orange-100:#FEE8DA; --orange-200:#FED2B7; --orange-300:#FFB485; --orange-400:#FE9449;
+  --orange-500:#EE7D22; --orange-600:#C3620A; --orange-700:#A0500A; --orange-800:#803E03; --orange-900:#602D03;
+  --gray-50:#F6F7F8; --gray-100:#ECEDEE; --gray-200:#D6D7DA; --gray-300:#BBBEC3; --gray-400:#9A9FA6;
+  --gray-500:#7B8189; --gray-600:#5D646E; --gray-700:#474E58; --gray-800:#353C46; --gray-900:#212730;
+
+  /* ---- Duotono carbón para fotos detrás de texto ---- */
+  --duo-shadow: #1F2329; --duo-mid: #5B6470; --duo-light: #C9CED4;
+
+  /* ---- Tipografía ---- */
+  --font: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  /* escritorio → móvil con clamp (360 px → 1280 px) */
+  --fs-h1:      clamp(2.5rem, 1.93rem + 2.5vw, 3.75rem);   /* 40 → 60 px */
+  --fs-h2:      clamp(1.875rem, 1.63rem + 1.1vw, 2.5rem);  /* 30 → 40 px */
+  --fs-h3:      clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);  /* 20 → 24 px */
+  --fs-sub:     clamp(1.125rem, 1.08rem + 0.2vw, 1.25rem); /* 18 → 20 px */
+  --fs-body:    clamp(1rem, 0.98rem + 0.1vw, 1.0625rem);   /* 16 → 17 px */
+  --fs-small:   0.9375rem;                                  /* 15 px */
+  --fs-eyebrow: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem); /* 12 → 13 px, mayúsculas */
+  --fs-button:  1rem;                                       /* 16 px */
+  --fs-kpi:     clamp(2.5rem, 2.16rem + 1.5vw, 3.25rem);   /* 40 → 52 px, tabular */
+  --lh-h1: 1.08; --lh-h2: 1.15; --lh-h3: 1.3; --lh-sub: 1.5; --lh-body: 1.6; --lh-small: 1.55;
+  --ls-h1: -0.02em; --ls-h2: -0.015em; --ls-h3: -0.01em; --ls-eyebrow: 0.08em;
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+
+  /* ---- Espaciado (base 4 px) ---- */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px;
+  --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px; --space-10: 128px;
+  --section-y: clamp(64px, 8vw, 128px);     /* padding vertical de sección */
+
+  /* ---- Rejilla ---- */
+  --container: 1200px;                       /* ancho máximo de contenido */
+  --gutter: clamp(16px, 2.5vw, 32px);        /* separación entre columnas (12 columnas) */
+  --page-margin: clamp(24px, 4vw, 40px);     /* margen lateral: 24 móvil / 40 escritorio */
+
+  /* ---- Forma ---- */
+  --radius-sm: 6px; --radius: 10px; --radius-lg: 16px; --radius-xl: 20px;
+  --shadow-1: 0 1px 2px rgba(31,35,41,.06), 0 2px 8px rgba(31,35,41,.06);
+  --shadow-2: 0 4px 24px rgba(31,35,41,.10);
+  --tap: 48px;                               /* alto mínimo de botones y objetivos táctiles */
+
+  /* ---- Íconos (Lucide, línea) ---- */
+  --icon-stroke-sm: 1.75;  /* ≤ 24 px */
+  --icon-stroke-lg: 2;     /* > 24 px */
+
+  /* ---- Trama de alas (bandas oscuras) ---- */
+  --trama-opacity: 0.07;
+}
+
+/* Puntos de quiebre de referencia: 375 / 768 / 1024 / 1280 px */
+
+/* ---- Base mínima sugerida ---- */
+html { -webkit-text-size-adjust: 100%; }
+body { font-family: var(--font); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink); background: var(--bg); font-weight: 400; }
+.tnum, table, .kpi, [data-num] { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+.on-dark :focus-visible, .band-dark :focus-visible { outline-color: var(--focus-on-dark); }
+
+/* Duotono carbón (aplicar a <img> detrás de texto). Requiere el SVG #duo-carbon en la página
+   (ver brand/graphics/duotono-filtro.svg). Respaldo: grayscale + capa carbón. */
+.photo-duo { filter: url(#duo-carbon); }
+@supports not (filter: url(#x)) { .photo-duo { filter: grayscale(1) contrast(1.05) brightness(.9); } }
