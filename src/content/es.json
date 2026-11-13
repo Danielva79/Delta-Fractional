@@ -31,7 +31,7 @@
     "testimonios": false,
     "logosClientes": false,
     "curso": false,
-    "capturaDeltaBI": false,
+    "capturaDeltaBI": true,
     "_nota": "formularioContacto se activa cuando exista CONTACT_TO_EMAIL (o el endpoint del servicio de formularios). Las demás, cuando haya contenido real aprobado."
   },
   "nav": [
