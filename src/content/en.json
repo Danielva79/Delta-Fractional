@@ -5,7 +5,8 @@
     "lang": "en",
     "title": "Fractional CFO for SMEs in Colombia | Delta Fractional",
     "description": "Outsourced finance director for SMEs: I reconcile your figures, measure which line makes you a profit and project your cash. More than 18 years in finance. Manizales, nationwide coverage.",
-    "ogImage": "/img/og/og-en.png"
+    "ogImage": "/img/og/og-en.jpg",
+    "ogImageAlt": "Delta Fractional. Your company sells. Let's make it keep the cash."
   },
   "marca": {
     "needsReview": true,
@@ -142,7 +143,9 @@
     "h2": "Delta BI",
     "texto": "Delta BI is the platform I built. I connect your company's data and build dashboards that cross-reference the information, so you understand your figures. Every client has access to Delta BI.",
     "nota": "Access is included in the service.",
-    "captura": "delta-bi-captura"
+    "captura": "delta-bi-captura",
+    "leyenda": "Data from a fictitious company",
+    "verCompleta": "View full screenshot"
   },
   "sobre": {
     "needsReview": true,
@@ -160,8 +163,8 @@
     "needsReview": true,
     "antetitulo": "Financial diagnostic",
     "h2": "Do you know which line of your business makes you money?",
-    "texto": "Answer 15 questions and get a first diagnostic of profitability and cash.",
-    "cta": "Start the diagnostic",
+    "texto": "I reconcile the information, measure the profitability of each business unit and project the cash. Result: prioritized findings and a 90-day plan.",
+    "cta": "Book a diagnostic",
     "fondo": "banda-detalle"
   },
   "curso": {
@@ -215,23 +218,34 @@
   },
   "fotos": {
     "hero-retrato": {
-      "alt": "TODO:alt-when-photo-arrives"
+      "needsReview": true,
+      "alt": "Daniel Villegas, outsourced finance director at Delta Fractional, with his arms crossed."
     },
     "sobre-daniel": {
-      "alt": "TODO:alt-when-photo-arrives"
+      "needsReview": true,
+      "alt": "Daniel Villegas standing by a whiteboard, speaking to a group."
     },
     "trabajo-cliente": {
-      "alt": "TODO:alt-when-photo-arrives"
+      "needsReview": true,
+      "alt": "Daniel Villegas draws a diagram on a whiteboard."
     },
     "banda-detalle": {
       "alt": ""
     },
     "delta-bi-captura": {
-      "alt": "Delta BI dashboard with sample data"
+      "needsReview": true,
+      "alt": "Monthly profitability dashboard in Delta BI, with data from a fictitious company."
     },
     "curso": {
-      "alt": "TODO:alt-when-photo-arrives"
+      "needsReview": true,
+      "alt": "Daniel Villegas explains to a group next to a whiteboard."
     }
+  },
+  "cuestionario": {
+    "needsReview": true,
+    "nombre": "TODO:questionnaire-name",
+    "texto": "TODO:questionnaire-sentence",
+    "cta": "Start"
   },
   "ui": {
     "needsReview": true,

@@ -32,9 +32,8 @@ Entre los pasos 2 y 3 puede haber uno o dos minutos en que GitHub cambia de modo
 
 | Dato | Dónde se escribe | Qué habilita |
 |---|---|---|
-| Fotos reales (6 espacios) | carpeta `fotos/` + `alt` en `es.json` y `en.json` | reemplaza los marcadores |
-| Captura de Delta BI con datos de ejemplo | `fotos/delta-bi-captura.png` + `features.capturaDeltaBI` | la imagen en la sección Delta BI |
-| URL del diagnóstico de 15 preguntas | `contacto.diagnosticoUrl` | los botones dejan de abrir WhatsApp |
+| Captura de Delta BI con cifras que no sean de un cliente | `fotos/delta-bi-captura.png` y `fotos/delta-bi-captura-movil.png` + `features.capturaDeltaBI` | la captura con marco y la leyenda "Datos de una empresa ficticia" (el código ya está listo) |
+| Cuestionario de 15 preguntas: nombre, frase y URL | `cuestionario` en `es.json` y `en.json` + `contacto.diagnosticoUrl` + `cuestionario.activo` | la banda presenta el cuestionario en vez del diagnóstico |
 | Correo de contacto | `contacto.correo` | pie, aviso de privacidad y formulario |
 | NIT y dirección | `contacto.nit`, `contacto.direccionFiscal` | aviso de privacidad |
 | Fecha de entrada en vigor del aviso | `vigencia` en `privacidad.es.json` y `privacidad.en.json` | aviso de privacidad (después de revisión del abogado) |

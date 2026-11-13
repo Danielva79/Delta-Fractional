@@ -1,14 +1,20 @@
 ---
 // 7.6 Delta BI. Con capturaDeltaBI en false (o sin archivo), solo texto sobre --surface.
-// No se menciona la tecnología ni se dibujan tableros inventados.
+// Con la captura: a todo el ancho bajo el texto, en un marco de navegador simple (sin URL ni
+// íconos de sistema), con la leyenda obligatoria "Datos de una empresa ficticia".
+// En móvil se sirve otro recorte (fotos.delta-bi-captura.archivoMovil) y la imagen enlaza a la
+// captura completa. No se menciona la tecnología ni se dibujan tableros inventados.
+import { getImage } from 'astro:assets';
 import Photo from '../Photo.astro';
 import type { Contenido } from '../../lib/contenido';
-import { existeFoto } from '../../lib/fotos';
+import { existeFoto, imagenDe } from '../../lib/fotos';
 import { ruta } from '../../lib/enlaces';
 
 interface Props { c: Contenido }
 const { c } = Astro.props;
 const conCaptura = c.features.capturaDeltaBI && existeFoto(c, c.deltaBI.captura);
+const img = conCaptura ? imagenDe(c, c.deltaBI.captura) : undefined;
+const completa = img ? await getImage({ src: img, width: img.width, format: img.format === 'png' ? 'png' : 'jpg' }) : undefined;
 ---
 <section class="seccion deltabi" id="delta-bi" aria-labelledby="h-deltabi">
   <div class:list={['wrap', 'grid', conCaptura && 'con-captura']}>
@@ -17,7 +23,18 @@ const conCaptura = c.features.capturaDeltaBI && existeFoto(c, c.deltaBI.captura)
       <p>{c.deltaBI.texto}</p>
       <p class="nota"><img src={ruta('/img/graficos/chevron-bullet.svg')} alt="" width="16" height="13" loading="lazy" />{c.deltaBI.nota}</p>
     </div>
-    {conCaptura && <Photo c={c} id={c.deltaBI.captura} class="captura" sizes="(max-width: 900px) 100vw, 1200px" />}
+    {completa && (
+      <figure class="captura">
+        <div class="marco">
+          <div class="barra" aria-hidden="true"><span></span><span></span><span></span><b>Delta BI</b></div>
+          <a class="enlace" href={completa.src} target="_blank" rel="noopener">
+            <Photo c={c} id={c.deltaBI.captura} class="imagen" sizes="(max-width: 900px) 100vw, 1200px" />
+            <span class="sr-only">{c.deltaBI.verCompleta}, {c.ui.pestanaNueva}</span>
+          </a>
+        </div>
+        <figcaption>{c.deltaBI.leyenda}</figcaption>
+      </figure>
+    )}
   </div>
 </section>
 
@@ -27,7 +44,20 @@ const conCaptura = c.features.capturaDeltaBI && existeFoto(c, c.deltaBI.captura)
   .texto { display: flex; flex-direction: column; gap: var(--space-4); font-size: var(--fs-sub); line-height: var(--lh-sub); }
   .nota { display: inline-flex; align-items: center; gap: 10px; font-size: var(--fs-body); font-weight: var(--fw-semibold); color: var(--ink); }
   .nota img { width: 16px; height: auto; }
-  .grid :global(.captura) { grid-column: 1 / -1; border-radius: var(--radius-lg); box-shadow: var(--shadow-1); }
+  .captura { grid-column: 1 / -1; margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+  .marco {
+    background: var(--bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-1);
+    overflow: hidden; border: 1px solid var(--line);
+  }
+  .barra {
+    height: 34px; display: flex; align-items: center; gap: 6px; padding: 0 14px;
+    background: var(--surface); border-bottom: 1px solid var(--line);
+  }
+  .barra span { width: 10px; height: 10px; border-radius: 50%; background: var(--gray-200); }
+  .barra b { margin-left: 10px; font-size: 12px; font-weight: var(--fw-medium); color: var(--ink-2); }
+  .enlace { display: block; }
+  .enlace :global(.imagen) { background: var(--bg); }
+  figcaption { font-size: 13px; line-height: 1.4; color: var(--ink-2); text-align: left; max-width: none; }
   @media (max-width: 900px) {
     .grid { grid-template-columns: 1fr; }
   }

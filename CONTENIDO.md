@@ -7,7 +7,7 @@ Todo el texto del sitio vive en dos archivos. No hace falta tocar código.
 | Cualquier texto en español (titular, servicios, preguntas…) | `src/content/es.json` | la sección con el mismo nombre (`hero`, `servicios`, `faq`…) |
 | El mismo texto en inglés | `src/content/en.json` | la misma sección |
 | Precio y nota del precio | los dos archivos | `servicios.inversion` y `faq` |
-| WhatsApp, LinkedIn, correo, NIT, URL del diagnóstico | `src/content/es.json` | `contacto` (valen para los dos idiomas) |
+| WhatsApp, LinkedIn, correo, NIT, URL del cuestionario | `src/content/es.json` | `contacto` (valen para los dos idiomas) |
 | Mostrar u ocultar una sección futura | `src/content/es.json` | `features` |
 | Una foto | carpeta `fotos/` + `fotos` en los dos archivos | ver abajo |
 
@@ -31,15 +31,21 @@ Los textos principales (titular, servicios, preguntas) no pueden quedar en `TODO
 
    | Espacio | Archivo | Proporción | Tamaño mínimo |
    |---|---|---|---|
-   | Hero (retrato) | `hero-retrato.jpg` | 4:5 vertical | 1.600 × 2.000 px |
+   | Hero (retrato) | `hero-retrato.jpg` | 4:5 vertical | 860 × 1.075 px (mejor 1.600 × 2.000) |
    | Sobre mí | `sobre-daniel.jpg` | 3:2 horizontal | 2.400 × 1.600 px |
    | Trabajo con un cliente | `trabajo-cliente.jpg` | 3:2 horizontal | 2.400 × 1.600 px |
    | Fondo de la banda del diagnóstico | `banda-detalle.jpg` | 16:9 | 2.400 × 1.350 px (se pone en duotono carbón) |
-   | Captura de Delta BI | `delta-bi-captura.png` | 16:10 | 2.400 × 1.500 px, con datos de ejemplo |
+   | Captura de Delta BI | `delta-bi-captura.png` (escritorio) y `delta-bi-captura-movil.png` (celular) | la del archivo (se pone en `ratio` y `ratioMovil`) | 1.484 px de ancho o más; **cifras que no sean de un cliente** |
    | Curso | `curso.jpg` | 16:9 | 2.400 × 1.350 px |
 
 2. Escriba qué muestra la foto en `fotos.<espacio>.alt`, en `es.json` y en `en.json` (por ejemplo `"Daniel Villegas en su oficina en Manizales"`). Es el texto que leen los lectores de pantalla y Google. **Si la foto existe y su `alt` sigue en `TODO`, el sitio no se publica.**
-3. Publique. El sitio genera solo las versiones livianas (AVIF y WebP en 4 tamaños) y reemplaza el marcador.
+3. Publique. El sitio genera solo las versiones livianas (AVIF y WebP en hasta 4 tamaños, nunca más grandes que el original) y reemplaza el marcador.
+
+Ajustes opcionales de cada foto en `fotos.<espacio>` de `es.json`:
+- `posicion`: qué parte de la foto se conserva al recortar, p. ej. `"50% 30%"` (horizontal, vertical).
+- `ratioMovil`: otra proporción en el celular, p. ej. `"4/5"`.
+- `archivoMovil`: otro archivo para el celular (la captura de Delta BI lo usa).
+- `ajuste`: `"contain"` muestra la imagen completa sin recortar (capturas).
 
 Mientras una foto no exista, se ve un marcador con la marca (fondo carbón, alas y chevrón), sin texto. El espacio tiene el tamaño de la foto, así que nada se mueve cuando llega.
 
@@ -55,14 +61,16 @@ En `src/content/es.json`, dentro de `features`, cambie `false` por `true` **solo
 | `testimonios` | Testimonios | `testimonios` con nombre, cargo, empresa y permiso |
 | `logosClientes` | Logos de clientes en la barra de prueba | `logosClientes` y los SVG, con permiso |
 | `curso` | Tarjeta del curso en Recursos | `curso.nombre` y `curso.modulos` |
-| `capturaDeltaBI` | Captura en la sección Delta BI | `fotos/delta-bi-captura.png` |
+| `capturaDeltaBI` | Captura en la sección Delta BI, con marco y la leyenda "Datos de una empresa ficticia" | `fotos/delta-bi-captura.png` y `-movil.png` con cifras que no sean de ningún cliente (ojo: la empresa demo de Delta BI usa cifras reales con los nombres cambiados) |
 | `formularioContacto` | Formulario de contacto en el cierre | aviso de privacidad completo (NIT, dirección, correo) y la clave de Web3Forms |
 
 Puede ver cómo se verán estas secciones, con datos de ejemplo, en la página interna `/vista-interna/` (no aparece en Google).
 
-## Botones de diagnóstico y WhatsApp
+## Botones de diagnóstico, cuestionario y WhatsApp
 
-- Mientras `contacto.diagnosticoUrl` esté en `TODO`, todos los botones "Agendar diagnóstico" y "Empezar el diagnóstico" abren WhatsApp con el mensaje `contacto.whatsappMensajeDiagnostico`. Cuando exista el cuestionario, ponga su URL (empieza por `https://`) y los botones van a ella.
+- El diagnóstico financiero **no es gratis** (desde $2 M). Los botones "Agendar diagnóstico" abren WhatsApp con el mensaje `contacto.whatsappMensajeDiagnostico`.
+- El cuestionario de 15 preguntas es **otro producto, con nombre propio**. Para publicarlo: escriba `cuestionario.nombre` y `cuestionario.texto` en `es.json` y `en.json`, su URL en `contacto.diagnosticoUrl` (empieza por `https://`) y ponga `cuestionario.activo` en `true`. Entonces la banda oscura presenta el cuestionario, con el botón `cuestionario.cta` ("Empezar"). Si falta algo, el sitio no se publica y dice qué falta.
+- El build falla si `es.json` o `en.json` contienen "gratis", "gratuito", "sin costo" o "free".
 - Los enlaces de WhatsApp abren la app en el celular y una pestaña nueva en el computador.
 
 ## Aviso de privacidad
@@ -83,6 +91,6 @@ Para crear la clave: en web3forms.com, escriba el correo donde quiere recibir lo
 ## Analítica (Umami)
 
 - Se activa poniendo `PUBLIC_UMAMI_WEBSITE_ID` en las variables de GitHub. Umami no usa cookies: no hace falta banner.
-- Eventos que se registran, con la ubicación del botón y el idioma: `cta_diagnostico_click`, `cta_whatsapp_click`, `linkedin_click`, `faq_open` (con la pregunta), `idioma_cambio`, `form_start`, `form_submit_success`, `form_submit_error`.
+- Eventos que se registran, con la ubicación del botón y el idioma: `cta_diagnostico_click`, `cta_cuestionario_click`, `cta_whatsapp_click`, `linkedin_click`, `faq_open` (con la pregunta), `idioma_cambio`, `form_start`, `form_submit_success`, `form_submit_error`.
 - En Umami, marque como objetivos (Goals) `cta_diagnostico_click`, `cta_whatsapp_click` y `form_submit_success`.
 - Para ver los eventos sin Umami, abra el sitio con `?analitica=debug` al final de la dirección y mire la consola del navegador.

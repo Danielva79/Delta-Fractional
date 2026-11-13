@@ -2,17 +2,21 @@
 // 7.8 Recursos: diagnóstico financiero en banda oscura (no es gratis: desde $2 M).
 // - Sin la foto "banda-detalle": carbón con la trama de alas.
 // - Con la foto: duotono carbón + degradado de legibilidad, sin trama (la trama nunca va sobre fotos).
+// - Con cuestionario.activo: la banda presenta el cuestionario de 15 preguntas (otro producto,
+//   con nombre propio) y su botón lleva a contacto.diagnosticoUrl. Si no, el texto del diagnóstico.
 // - Tarjeta del curso solo si features.curso está activo y tiene nombre.
 import Photo from '../Photo.astro';
 import Curso from '../futuros/Curso.astro';
 import type { Contenido } from '../../lib/contenido';
-import { diagnostico, ruta } from '../../lib/enlaces';
+import { diagnostico, cuestionario, ruta } from '../../lib/enlaces';
 import { existeFoto } from '../../lib/fotos';
 
 interface Props { c: Contenido }
 const { c } = Astro.props;
 const conFoto = existeFoto(c, c.diagnostico.fondo);
 const conCurso = c.features.curso && Boolean(c.curso.nombre);
+const q = c.cuestionario;
+const conCuestionario = q.activo && Boolean(q.nombre && q.texto && c.contacto.diagnosticoUrl);
 ---
 <section class="band-dark banda" aria-labelledby="h-diagnostico">
   {conFoto ? (
@@ -24,14 +28,24 @@ const conCurso = c.features.curso && Boolean(c.curso.nombre);
     <img class="trama" src={ruta('/img/graficos/trama-alas.svg')} alt="" aria-hidden="true" width="357" height="318" loading="lazy" />
   )}
   <div class:list={['wrap', 'seccion', conCurso && 'con-curso']}>
-    <div class="contenido">
-      <p class="eyebrow">{c.diagnostico.antetitulo}</p>
-      <h2 id="h-diagnostico">{c.diagnostico.h2}</h2>
-      <p class="texto">{c.diagnostico.texto}</p>
-      <div class="botones">
-        <a class="btn btn-primario" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="banda_diagnostico">{c.diagnostico.cta}</a>
+    {conCuestionario ? (
+      <div class="contenido">
+        <h2 id="h-diagnostico">{q.nombre}</h2>
+        <p class="texto">{q.texto}</p>
+        <div class="botones">
+          <a class="btn btn-primario" href={cuestionario(c)} data-evento="cta_cuestionario_click" data-ubicacion="banda_diagnostico">{q.cta}</a>
+        </div>
       </div>
-    </div>
+    ) : (
+      <div class="contenido">
+        <p class="eyebrow">{c.diagnostico.antetitulo}</p>
+        <h2 id="h-diagnostico">{c.diagnostico.h2}</h2>
+        <p class="texto">{c.diagnostico.texto}</p>
+        <div class="botones">
+          <a class="btn btn-primario" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="banda_diagnostico">{c.diagnostico.cta}</a>
+        </div>
+      </div>
+    )}
     {conCurso && <Curso c={c} curso={c.curso} />}
   </div>
 </section>
@@ -45,17 +59,22 @@ const conCurso = c.features.curso && Boolean(c.curso.nombre);
   .fondo :global(.fondo-foto) { position: absolute; inset: 0; aspect-ratio: auto; height: 100%; }
   .degradado {
     position: absolute; inset: 0;
-    /* Degradado del manual: rgba(31,35,41,.92) → .70 al 45% → 0 al 75% (31,35,41 = --duo-shadow). */
+    /* Basado en el degradado del manual (--duo-shadow al 92% → 70% → 0), pero anclado al borde
+       derecho del texto y no a % del ancho: con % fijos, entre 1024 y 1440 px el texto quedaba
+       sobre la parte clara de la foto (contraste medido de 2,2:1). Ahora el tono se mantiene al
+       94% hasta el final de la columna de texto (máx. 720 px) y después se desvanece. */
+    --fin-texto: calc(max(var(--page-margin), (100% - var(--container)) / 2 + var(--page-margin)) + 720px);
     background: linear-gradient(
       90deg,
-      color-mix(in srgb, var(--duo-shadow) 92%, transparent),
-      color-mix(in srgb, var(--duo-shadow) 70%, transparent) 45%,
-      transparent 75%
+      color-mix(in srgb, var(--duo-shadow) 94%, transparent) 0,
+      color-mix(in srgb, var(--duo-shadow) 94%, transparent) var(--fin-texto),
+      color-mix(in srgb, var(--duo-shadow) 70%, transparent) calc(var(--fin-texto) + 10%),
+      transparent calc(var(--fin-texto) + 30%)
     );
   }
   @media (max-width: 900px) {
     .banda > .wrap.con-curso { grid-template-columns: 1fr; }
     /* En móvil el texto ocupa todo el ancho: el degradado cubre toda la foto. */
-    .degradado { background: color-mix(in srgb, var(--duo-shadow) 85%, transparent); }
+    .degradado { background: color-mix(in srgb, var(--duo-shadow) 90%, transparent); }
   }
 </style>

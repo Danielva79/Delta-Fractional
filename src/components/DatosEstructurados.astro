@@ -1,8 +1,11 @@
 ---
-// Schema.org en JSON-LD: ProfessionalService + Person + FAQPage (solo las preguntas aprobadas).
+// Schema.org en JSON-LD: WebSite + ProfessionalService + Person + FAQPage (solo las preguntas aprobadas).
 // Sin aggregateRating, review ni dirección exacta. priceRange aprobado por Daniel.
+// image = foto del hero (JPG en su ancho original) cuando existe; si no, la imagen para compartir.
+import { getImage } from 'astro:assets';
 import type { Contenido } from '../lib/contenido';
 import { absoluta } from '../lib/enlaces';
+import { imagenDe } from '../lib/fotos';
 
 interface Props { c: Contenido; ruta: string }
 const { c, ruta } = Astro.props;
@@ -10,6 +13,19 @@ const site = Astro.site;
 const url = absoluta('/', site);
 const idNegocio = `${url}#negocio`;
 const idPersona = `${url}#daniel-villegas`;
+const hero = imagenDe(c, c.hero.foto);
+const imagen = hero
+  ? absoluta((await getImage({ src: hero, width: hero.width, format: 'jpg' })).src, site)
+  : absoluta(c.meta.ogImage, site);
+
+const sitio = {
+  '@type': 'WebSite',
+  '@id': `${absoluta(ruta, site)}#sitio`,
+  url: absoluta(ruta, site),
+  name: c.marca.nombre,
+  inLanguage: c.meta.lang,
+  publisher: { '@id': `${url}#negocio` },
+};
 
 const negocio = {
   '@type': 'ProfessionalService',
@@ -17,7 +33,7 @@ const negocio = {
   name: c.marca.nombre,
   url,
   logo: absoluta('/img/logo/delta-horizontal-color@2x.png', site),
-  image: absoluta(c.meta.ogImage, site),
+  image: imagen,
   description: c.meta.description,
   telephone: '+573102216863',
   priceRange: c.idioma === 'es' ? 'Desde COP 2 M mensuales' : 'From COP 2 M per month',
@@ -33,6 +49,7 @@ const persona = {
   '@id': idPersona,
   name: c.marca.persona,
   jobTitle: c.marca.cargo,
+  image: imagen,
   worksFor: { '@id': idNegocio },
   alumniOf: [
     { '@type': 'CollegeOrUniversity', name: 'EADA Business School' },
@@ -50,6 +67,6 @@ const faq = {
     acceptedAnswer: { '@type': 'Answer', text: f.r },
   })),
 };
-const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': [negocio, persona, faq] }).replace(/</g, '\\u003c');
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': [sitio, negocio, persona, faq] }).replace(/</g, '\\u003c');
 ---
 <script type="application/ld+json" set:html={json} />

@@ -16,9 +16,17 @@ export function whatsapp(c: Contenido, mensaje: string = c.contacto.whatsappMens
   return `${c.contacto.whatsappUrlBase}?text=${encodeURIComponent(mensaje)}`;
 }
 
-/** Mientras no exista la URL del diagnóstico, el CTA abre WhatsApp con el mensaje del diagnóstico. */
+/**
+ * "Agendar diagnóstico" (el diagnóstico financiero, que es pago) abre WhatsApp con su mensaje.
+ * contacto.diagnosticoUrl es del cuestionario de 15 preguntas, que es otro producto: ver cuestionario().
+ */
 export function diagnostico(c: Contenido) {
-  return c.contacto.diagnosticoUrl ?? whatsapp(c, c.contacto.whatsappMensajeDiagnostico);
+  return whatsapp(c, c.contacto.whatsappMensajeDiagnostico);
+}
+
+/** URL del cuestionario de 15 preguntas (solo existe con cuestionario.activo; contenido.ts lo exige). */
+export function cuestionario(c: Contenido) {
+  return c.contacto.diagnosticoUrl ?? diagnostico(c);
 }
 
 export const esExterno = (href: string) => /^https?:\/\//.test(href);

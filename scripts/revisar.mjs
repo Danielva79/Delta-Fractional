@@ -14,7 +14,7 @@ const PROHIBIDAS = [
   'ecosistema', 'cerrar la brecha', 'siguiente nivel', 'nosotros', 'hemos ', 'nuestro equipo', 'próximamente',
   'logo cliente', 'foto aquí', 'lorem',
   // El diagnóstico no es gratis (Daniel, 2026-11-12): cuesta desde $2 M.
-  'gratis', 'gratuito', 'gratuita',
+  'gratis', 'gratuito', 'gratuita', 'sin costo',
 ];
 // Equivalentes en inglés: muletillas de consultora y plural ("we", "our team") para una sola persona.
 const PROHIBIDAS_EN = [
@@ -57,6 +57,17 @@ function aprobados(c) {
 const problemas = [];
 const avisar = (pagina, msg) => problemas.push(`${pagina}: ${msg}`);
 
+// El diagnóstico (y el cuestionario) no son gratis: nada de "gratis" ni "free" en ningún texto,
+// tampoco en los que hoy no se publican (TODO, bloques apagados, mensajes de WhatsApp, alts).
+// El aviso de privacidad queda fuera: allí "gratuita" es el derecho de consulta de la Ley 1581.
+const NO_GRATIS = /gratis|gratuit[oa]s?|sin costo|\bfree\b/i;
+for (const archivo of ['src/content/es.json', 'src/content/en.json']) {
+  fs.readFileSync(archivo, 'utf8').split(/\r?\n/).forEach((linea, i) => {
+    const m = linea.match(NO_GRATIS);
+    if (m) avisar(`${archivo}:${i + 1}`, `"${m[0]}": el diagnóstico no es gratis`);
+  });
+}
+
 for (const [ruta, c] of Object.entries(paginas)) {
   const archivo = path.join(DIST, ruta, 'index.html');
   if (!fs.existsSync(archivo)) { avisar(ruta, 'no existe en dist/ (¿corrió npm run build?)'); continue; }
@@ -64,6 +75,10 @@ for (const [ruta, c] of Object.entries(paginas)) {
   const texto = textoVisible(html);
   const minus = texto.toLowerCase();
 
+  let crudo = decodificar(html);
+  try { crudo = decodeURIComponent(crudo); } catch { /* % suelto: se revisa sin decodificar */ }
+  const sinGratis = crudo.match(NO_GRATIS);
+  if (sinGratis) avisar(ruta, `"${sinGratis[0]}" en el HTML: el diagnóstico no es gratis`);
   if (/TODO/.test(texto) || /TODO/.test(html.replace(/<script[\s\S]*?<\/script>/gi, ''))) avisar(ruta, 'aparece "TODO"');
   if (/—/.test(texto)) avisar(ruta, 'hay rayas largas (—)');
   // © ® ™ son pictográficos para Unicode, pero no emojis.
@@ -90,7 +105,7 @@ for (const [ruta, c] of Object.entries(paginas)) {
     if (!texto.includes(t)) avisar(ruta, `no aparece el texto aprobado: "${t.slice(0, 70)}${t.length > 70 ? '…' : ''}"`);
   }
   for (const m of html.matchAll(/<img\b[^>]*>/g)) {
-    if (!/\balt=/.test(m[0])) avisar(ruta, `imagen sin alt: ${m[0].slice(0, 90)}`);
+    if (!/\salt(=|\s|>)/.test(m[0])) avisar(ruta, `imagen sin alt: ${m[0].slice(0, 90)}`);
   }
   for (const m of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
     if (!/rel="[^"]*noopener/.test(m[0])) avisar(ruta, `enlace externo sin rel="noopener": ${m[0].slice(0, 90)}`);
@@ -129,7 +144,7 @@ for (const [r, c] of Object.entries(paginas)) {
   try {
     const g = JSON.parse(ld[1])['@graph'];
     const tipos = g.map((x) => x['@type']).sort().join(',');
-    if (tipos !== 'FAQPage,Person,ProfessionalService') problemas.push(`${r}: JSON-LD con tipos ${tipos}`);
+    if (tipos !== 'FAQPage,Person,ProfessionalService,WebSite') problemas.push(`${r}: JSON-LD con tipos ${tipos}`);
     const faq = g.find((x) => x['@type'] === 'FAQPage');
     if (faq.mainEntity.length !== c.faq.items.length) problemas.push(`${r}: FAQPage no tiene las ${c.faq.items.length} preguntas`);
     if (JSON.stringify(g).match(/aggregateRating|"review"|streetAddress/)) problemas.push(`${r}: JSON-LD con datos no permitidos`);

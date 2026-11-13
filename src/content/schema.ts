@@ -30,7 +30,7 @@ export type IdFoto = z.infer<typeof idFoto>;
 // ---------- Textos (iguales en los dos idiomas) ----------
 const textos = {
   _nota: z.string().optional(),
-  meta: bloque({ lang: texto, title: texto, description: texto, ogImage: texto }),
+  meta: bloque({ lang: texto, title: texto, description: texto, ogImage: texto, ogImageAlt: texto }),
   marca: bloque({ nombre: texto, nombreCorto: texto, persona: texto, cargo: texto, ubicacion: texto }),
   nav: z.array(bloque({ label: texto, href: texto })).min(1),
   ctaPrincipal: texto,
@@ -61,7 +61,7 @@ const textos = {
     inversion: bloque({ precio: texto, nota: texto, iva: pendiente }),
   }),
   diferencial: bloque({ h2: texto, pilares: z.array(bloque({ titulo: texto, texto })).min(1) }),
-  deltaBI: bloque({ h2: texto, texto, nota: texto, captura: idFoto }),
+  deltaBI: bloque({ h2: texto, texto, nota: texto, captura: idFoto, leyenda: texto, verCompleta: texto }),
   sobre: bloque({ h2: texto, parrafos: z.array(texto).min(1), foto: idFoto, linkedinLabel: texto }),
   diagnostico: bloque({ antetitulo: texto, h2: texto, texto, cta: texto, fondo: idFoto }),
   curso: bloque({ nombre: pendiente, modulos: pendiente, url: urlPendiente }),
@@ -111,6 +111,16 @@ const foto = bloque({
   // sigue en TODO, el build falla (ver src/components/Photo.astro).
   alt: altFoto,
   placeholder: texto.nullable(),
+  /** Recorte (object-position), p. ej. "50% 30%". */
+  posicion: texto.optional(),
+  /** Proporción en móvil (≤ 900 px) si cambia, p. ej. "4/5". */
+  ratioMovil: texto.refine((v) => /^\d+\/\d+$/.test(v), { message: 'la proporción va como "4/5"' }).optional(),
+  /** Otro recorte del mismo slot para móvil (≤ 900 px), servido con <source media>. */
+  archivoMovil: texto.refine((v) => /^[a-z0-9-]+\.(jpg|jpeg|png|webp)$/.test(v), {
+    message: 'el nombre del archivo va en minúsculas, sin espacios, y termina en .jpg, .png o .webp',
+  }).optional(),
+  /** "contain" muestra la imagen completa (capturas); "cover" recorta (fotos). */
+  ajuste: z.enum(['cover', 'contain']).optional(),
 });
 
 export const esquemaES = z
@@ -137,6 +147,8 @@ export const esquemaES = z
       _nota: z.string().optional(),
     }),
     fotos: z.record(idFoto, foto),
+    // Cuestionario de 15 preguntas: otro producto, con nombre propio. Su URL es contacto.diagnosticoUrl.
+    cuestionario: bloque({ _nota: z.string().optional(), activo: z.boolean(), nombre: pendiente, texto: pendiente, cta: texto }),
   })
   .strict();
 
@@ -145,6 +157,7 @@ export const esquemaEN = z
     ...textos,
     contacto: bloque({ whatsappMensaje: texto, whatsappMensajeDiagnostico: texto }),
     fotos: z.record(idFoto, bloque({ alt: altFoto })),
+    cuestionario: bloque({ nombre: pendiente, texto: pendiente, cta: texto }),
   })
   .strict();
 
