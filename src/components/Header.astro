@@ -3,7 +3,7 @@
 // En móvil y tableta (≤ 1080 px, para que el menú de 5 enlaces quepa en una línea): logo + botón de menú; el panel atrapa el foco y se cierra con Esc.
 import Icono from './Icono.astro';
 import type { Contenido } from '../lib/contenido';
-import { ruta, inicio, diagnostico } from '../lib/enlaces';
+import { ruta, inicio, botonPrincipal } from '../lib/enlaces';
 
 interface Props {
   c: Contenido;
@@ -17,7 +17,7 @@ const idiomas = [
   { codigo: 'es', etiqueta: 'ES', nombre: 'Español', href: ruta(alternos.es) },
   { codigo: 'en', etiqueta: 'EN', nombre: 'English', href: ruta(alternos.en) },
 ] as const;
-const diag = diagnostico(c);
+const principal = botonPrincipal(c);
 ---
 <header class="site" data-header>
   <div class="wrap fila">
@@ -39,7 +39,7 @@ const diag = diagnostico(c);
           ),
         )}
       </div>
-      <a class="btn btn-primario" href={diag} data-evento="cta_diagnostico_click" data-ubicacion="header">{c.ctaPrincipal}</a>
+      <a class="btn btn-primario" href={principal.href} data-evento={principal.evento} data-ubicacion="header">{principal.texto}</a>
     </nav>
 
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movil" data-menu-abrir
@@ -56,7 +56,7 @@ const diag = diagnostico(c);
       </ul>
     </nav>
     <div class="panel-pie">
-      <a class="btn btn-primario" href={diag} data-evento="cta_diagnostico_click" data-ubicacion="header">{c.ctaPrincipal}</a>
+      <a class="btn btn-primario" href={principal.href} data-evento={principal.evento} data-ubicacion="header">{principal.texto}</a>
       <div class="idioma" role="group" aria-label={c.ui.idioma}>
         {idiomas.map((i) =>
           i.codigo === c.idioma ? (

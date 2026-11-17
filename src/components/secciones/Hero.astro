@@ -3,11 +3,13 @@
 import Photo from '../Photo.astro';
 import Icono from '../Icono.astro';
 import type { Contenido } from '../../lib/contenido';
-import { diagnostico, whatsapp } from '../../lib/enlaces';
+import { botonPrincipal, botonWhatsApp } from '../../lib/enlaces';
 
 interface Props { c: Contenido }
 const { c } = Astro.props;
 const { h1, h1Resaltado } = c.hero;
+const principal = botonPrincipal(c);
+const wa = botonWhatsApp(c);
 const i = h1.indexOf(h1Resaltado);
 const partes = i >= 0 ? [h1.slice(0, i), h1Resaltado, h1.slice(i + h1Resaltado.length)] : [h1, '', ''];
 ---
@@ -18,9 +20,9 @@ const partes = i >= 0 ? [h1.slice(0, i), h1Resaltado, h1.slice(i + h1Resaltado.l
       <h1 id="h1">{partes[0]}{partes[1] && <span class="subrayado">{partes[1]}</span>}{partes[2]}</h1>
       <p class="sub">{c.hero.subtitulo}</p>
       <div class="botones" data-hero-ctas>
-        <a class="btn btn-primario" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="hero">{c.ctaPrincipal}</a>
-        <a class="btn btn-secundario" href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="hero">
-          <Icono nombre="message-circle" />{c.ctaWhatsApp}
+        <a class="btn btn-primario" href={principal.href} data-evento={principal.evento} data-ubicacion="hero">{principal.texto}</a>
+        <a class="btn btn-secundario" href={wa.href} data-evento={wa.evento} data-ubicacion="hero">
+          <Icono nombre="message-circle" />{wa.texto}
         </a>
       </div>
     </div>

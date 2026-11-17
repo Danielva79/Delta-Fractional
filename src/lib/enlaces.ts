@@ -35,3 +35,28 @@ export function cuestionario(c: Contenido) {
 }
 
 export const esExterno = (href: string) => /^https?:\/\//.test(href);
+
+/** El autodiagnóstico existe solo en español y con features.autodiagnostico. */
+export const conAutodiagnostico = (c: Contenido) => c.idioma === 'es' && c.features.autodiagnostico;
+
+interface Boton { href: string; texto: string; evento: string }
+
+/**
+ * Botón principal (naranja). Con el autodiagnóstico: "Autodiagnóstico financiero" → /autodiagnostico/.
+ * Sin él (o en inglés): "Agendar diagnóstico" → WhatsApp con el mensaje del diagnóstico.
+ */
+export function botonPrincipal(c: Contenido): Boton {
+  return conAutodiagnostico(c)
+    ? { href: ruta('/autodiagnostico/'), texto: c.ctaAutodiagnostico, evento: 'cta_autodiagnostico_click' }
+    : { href: diagnostico(c), texto: c.ctaPrincipal, evento: 'cta_diagnostico_click' };
+}
+
+/**
+ * Botón de WhatsApp (con su ícono). Con el autodiagnóstico, el diagnóstico se agenda por WhatsApp:
+ * "Agendar diagnóstico" con el mensaje del diagnóstico. Sin él: "Escribir por WhatsApp" con el mensaje general.
+ */
+export function botonWhatsApp(c: Contenido): Boton {
+  return conAutodiagnostico(c)
+    ? { href: whatsapp(c, c.contacto.whatsappMensajeDiagnostico), texto: c.ctaPrincipal, evento: 'cta_whatsapp_click' }
+    : { href: whatsapp(c), texto: c.ctaWhatsApp, evento: 'cta_whatsapp_click' };
+}

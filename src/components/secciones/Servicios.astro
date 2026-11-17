@@ -3,7 +3,7 @@
 // Los datos pendientes (duración, resultado de Proyectos, IVA) no se muestran.
 import Icono from '../Icono.astro';
 import type { Contenido } from '../../lib/contenido';
-import { diagnostico, whatsapp, ruta } from '../../lib/enlaces';
+import { diagnostico, whatsapp, ruta, conAutodiagnostico, botonWhatsApp } from '../../lib/enlaces';
 
 interface Props { c: Contenido }
 const { c } = Astro.props;
@@ -25,7 +25,9 @@ const { inversion } = c.servicios;
             {s.resultado && (
               <p class="resultado"><strong>{c.ui.resultado}</strong><span>{s.resultado}</span></p>
             )}
-            {esDiagnostico ? (
+            {esDiagnostico && conAutodiagnostico(c) ? (
+              <a class="enlace-flecha accion" href={botonWhatsApp(c).href} data-evento="cta_whatsapp_click" data-ubicacion="servicios">{botonWhatsApp(c).texto}<Icono nombre="arrow-right" tamano={18} /></a>
+            ) : esDiagnostico ? (
               <a class="enlace-flecha accion" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="servicios">{c.ctaPrincipal}<Icono nombre="arrow-right" tamano={18} /></a>
             ) : (
               <a class="enlace-flecha accion" href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="servicios">{c.ctaWhatsApp}<Icono nombre="arrow-right" tamano={18} /></a>

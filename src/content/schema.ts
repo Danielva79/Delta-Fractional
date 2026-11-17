@@ -143,6 +143,8 @@ export const esquemaES = z
       nit: pendiente,
       direccionFiscal: pendiente,
     }),
+    /** Botón principal con features.autodiagnostico (lleva a /autodiagnostico/). */
+    ctaAutodiagnostico: texto,
     features: bloque({
       formularioContacto: z.boolean(),
       caso: z.boolean(),

@@ -2,7 +2,7 @@
 // 7.3 "¿Le pasa esto?": el dolor del cliente y el paso siguiente.
 import Icono from '../Icono.astro';
 import type { Contenido } from '../../lib/contenido';
-import { diagnostico } from '../../lib/enlaces';
+import { botonPrincipal } from '../../lib/enlaces';
 
 interface Props { c: Contenido }
 const { c } = Astro.props;
@@ -23,7 +23,7 @@ const { c } = Astro.props;
     </div>
     <p class="cierre">
       {c.problema.cierre}
-      <a class="enlace-flecha" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="problema">{c.ctaPrincipal}<Icono nombre="arrow-right" tamano={18} /></a>
+      <a class="enlace-flecha" href={botonPrincipal(c).href} data-evento={botonPrincipal(c).evento} data-ubicacion="problema">{botonPrincipal(c).texto}<Icono nombre="arrow-right" tamano={18} /></a>
     </p>
   </div>
 </section>
