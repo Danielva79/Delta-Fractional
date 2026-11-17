@@ -38,6 +38,8 @@ const porIdioma: Record<Idioma, Contenido> = {
     idioma: 'en',
     // Datos que no dependen del idioma: siempre salen de es.json.
     features: ES.features,
+    // Los logos son nombres propios: la lista sale de es.json.
+    logosClientes: ES.logosClientes,
     cuestionario: { ...EN.cuestionario, activo: ES.cuestionario.activo },
     contacto: { ...ES.contacto, ...EN.contacto },
     fotos: Object.fromEntries(

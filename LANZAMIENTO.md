@@ -42,7 +42,7 @@ Entre los pasos 2 y 3 puede haber uno o dos minutos en que GitHub cambia de modo
 | Duración del diagnóstico | `servicios.items[0].duracion` | se muestra en la tarjeta |
 | Resultado tipo de "Proyectos" | `servicios.items[2].resultado` | se muestra en la tarjeta |
 | Tamaño de empresa y sectores | `segmento` | (reservado para una sección futura) |
-| Caso, testimonios, logos de clientes (con permiso) | `caso`, `testimonios`, `logosClientes` + sus banderas | prueba social |
+| Caso y testimonios (con permiso) | `caso`, `testimonios` + sus banderas | prueba social (los logos de clientes ya están publicados) |
 | Nombre y módulos del curso | `curso` + `features.curso` | tarjeta del curso |
 
 ## 5. Textos nuevos por aprobar

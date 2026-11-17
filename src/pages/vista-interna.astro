@@ -13,7 +13,7 @@ import FormularioContacto from '../components/futuros/FormularioContacto.astro';
 import { faltantesPrivacidad } from '../lib/privacidad';
 import { ruta } from '../lib/enlaces';
 import { contenido } from '../lib/contenido';
-import { casoEjemplo, testimoniosEjemplo, logosEjemplo, cursoEjemplo } from '../content/ejemplos';
+import { casoEjemplo, testimoniosEjemplo, cursoEjemplo } from '../content/ejemplos';
 import type { IdFoto } from '../content/schema';
 
 const c = contenido('es');
@@ -51,8 +51,8 @@ const slots = Object.keys(c.fotos) as IdFoto[];
   <Caso c={c} caso={casoEjemplo} />
   <div class="wrap"><p class="etiqueta">features.testimonios · va después del caso</p></div>
   <Testimonios c={c} testimonios={testimoniosEjemplo} />
-  <div class="wrap"><p class="etiqueta">features.logosClientes · va dentro de la barra de prueba</p></div>
-  <div class="franja"><div class="wrap"><LogosClientes c={c} logos={logosEjemplo} /></div></div>
+  <div class="wrap"><p class="etiqueta">features.logosClientes · va dentro de la barra de prueba (logos reales)</p></div>
+  <div class="franja"><div class="wrap"><LogosClientes c={c} logos={c.logosClientes} /></div></div>
   <div class="wrap"><p class="etiqueta">features.curso · va en la banda del diagnóstico</p></div>
   <div class="band-dark franja-oscura"><div class="wrap"><div class="curso"><Curso c={c} curso={cursoEjemplo} /></div></div></div>
 

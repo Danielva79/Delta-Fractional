@@ -1,20 +1,46 @@
 ---
-// Logos de clientes (solo con permiso): SVG monocromo carbón, 32 a 40 px de alto.
-// Archivos en public/img/clientes/. Se muestran solo si features.logosClientes está activo.
+// Logos de empresas con las que Daniel ha trabajado (con permiso de cada una).
+// Cuadros en escala de grises de 1024 × 1024, cada uno con su propio fondo (fotos/clientes/).
+// El sitio genera AVIF y WebP livianos; el archivo original no se publica.
+// Se muestran dentro de la barra de prueba solo si features.logosClientes está activo.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import type { Contenido } from '../../lib/contenido';
-import { ruta } from '../../lib/enlaces';
 
 interface Props {
   c: Contenido;
   logos: { nombre: string; archivo: string }[];
 }
 const { c, logos } = Astro.props;
+
+const archivos = import.meta.glob<{ default: ImageMetadata }>('/fotos/clientes/*.{png,jpg,jpeg,webp}', { eager: true });
+const conImagen = logos.map((l) => {
+  const img = archivos[`/fotos/clientes/${l.archivo}`]?.default;
+  if (!img) {
+    throw new Error(
+      `\n\nEl logo de "${l.nombre}" apunta a fotos/clientes/${l.archivo}, pero ese archivo no existe.\n` +
+        `Revise el nombre en logosClientes de src/content/es.json. Guía: CONTENIDO.md\n`,
+    );
+  }
+  return { ...l, img };
+});
 ---
 <div class="logos">
-  <p class="eyebrow">{c.ui.clientes}</p>
-  <ul>
-    {logos.map((l) => (
-      <li><img src={l.archivo.startsWith('data:') ? l.archivo : ruta(`/img/clientes/${l.archivo}`)} alt={l.nombre} height="36" loading="lazy" /></li>
+  <p class="eyebrow" id="titulo-clientes">{c.ui.clientes}</p>
+  <ul aria-labelledby="titulo-clientes">
+    {conImagen.map((l) => (
+      <li>
+        <Picture
+          src={l.img}
+          alt={l.nombre}
+          formats={['avif', 'webp']}
+          fallbackFormat="png"
+          widths={[160, 320]}
+          sizes="(max-width: 640px) 30vw, 140px"
+          loading="lazy"
+          decoding="async"
+        />
+      </li>
     ))}
   </ul>
 </div>
@@ -22,6 +48,12 @@ const { c, logos } = Astro.props;
 <style>
   .logos { margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: var(--space-4); }
   .eyebrow { color: var(--ink-2); }
-  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-5) var(--space-7); }
-  img { height: 36px; width: auto; max-width: 160px; object-fit: contain; }
+  ul {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: clamp(10px, 1.4vw, 16px);
+  }
+  li { aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; background: var(--gray-200); }
+  li :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 1023px) { ul { grid-template-columns: repeat(5, 1fr); } }
+  @media (max-width: 640px) { ul { grid-template-columns: repeat(3, 1fr); } }
 </style>

@@ -59,7 +59,7 @@ En `src/content/es.json`, dentro de `features`, cambie `false` por `true` **solo
 |---|---|---|
 | `caso` | Caso antes / qué hice / después | `caso` completo, con cifras reales y permiso del cliente |
 | `testimonios` | Testimonios | `testimonios` con nombre, cargo, empresa y permiso |
-| `logosClientes` | Logos de clientes en la barra de prueba | `logosClientes` y los SVG, con permiso |
+| `logosClientes` (activo) | Logos de clientes en la barra de prueba, en cuadros | cada logo en `fotos/clientes/` (cuadrado, 1024 × 1024, escala de grises) y su `nombre` y `archivo` en `logosClientes` de `es.json`, con permiso de la empresa |
 | `curso` | Tarjeta del curso en Recursos | `curso.nombre` y `curso.modulos` |
 | `capturaDeltaBI` | Captura en la sección Delta BI, con marco y la leyenda "Datos de una empresa ficticia" | `fotos/delta-bi-captura.png` y `-movil.png` con cifras que no sean de ningún cliente (ojo: la empresa demo de Delta BI usa cifras reales con los nombres cambiados) |
 | `formularioContacto` | Formulario de contacto en el cierre | aviso de privacidad completo (NIT, dirección, correo) y la clave de Web3Forms |

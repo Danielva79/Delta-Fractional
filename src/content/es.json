@@ -29,7 +29,7 @@
     "formularioContacto": false,
     "caso": false,
     "testimonios": false,
-    "logosClientes": false,
+    "logosClientes": true,
     "curso": false,
     "capturaDeltaBI": true,
     "_nota": "formularioContacto se activa cuando exista CONTACT_TO_EMAIL (o el endpoint del servicio de formularios). Las demás, cuando haya contenido real aprobado."
@@ -184,7 +184,64 @@
     "despues": "TODO"
   },
   "testimonios": [],
-  "logosClientes": [],
+  "logosClientes": [
+    {
+      "nombre": "Venecia",
+      "archivo": "venecia-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Bacso",
+      "archivo": "bacso-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Hilalma",
+      "archivo": "hilalma-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Espacio Fix",
+      "archivo": "espacio-fix-bn-cuadrado.png"
+    },
+    {
+      "nombre": "ISM Ingeniería y Servicios de Mantenimiento",
+      "archivo": "ism-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Manizales Más",
+      "archivo": "manizales-mas-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Fenalco Caldas",
+      "archivo": "fenalco-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Universidad Católica de Manizales",
+      "archivo": "ucm-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Siete 20 Estudio",
+      "archivo": "siete20-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Embrujo Specialty Coffee",
+      "archivo": "embrujo-bn-cuadrado.png"
+    },
+    {
+      "nombre": "AddVenture Más",
+      "archivo": "addventuremas-bn-cuadrado.png"
+    },
+    {
+      "nombre": "MDS",
+      "archivo": "mds-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Popoyán",
+      "archivo": "popoyan-bn-cuadrado.png"
+    },
+    {
+      "nombre": "Scientia Colombia",
+      "archivo": "scientia-bn-cuadrado.png"
+    }
+  ],
   "segmento": {
     "tamanoEmpresa": "TODO:tamano-de-empresa",
     "sectores": "TODO:sectores"
