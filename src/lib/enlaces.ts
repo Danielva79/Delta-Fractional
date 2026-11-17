@@ -52,11 +52,11 @@ export function botonPrincipal(c: Contenido): Boton {
 }
 
 /**
- * Botón de WhatsApp (con su ícono). Con el autodiagnóstico, el diagnóstico se agenda por WhatsApp:
- * "Agendar diagnóstico" con el mensaje del diagnóstico. Sin él: "Escribir por WhatsApp" con el mensaje general.
+ * Botón de WhatsApp (con su ícono). Con el autodiagnóstico, la cita se agenda por WhatsApp:
+ * "Agendar cita" con el mensaje del diagnóstico. Sin él: "Escribir por WhatsApp" con el mensaje general.
  */
 export function botonWhatsApp(c: Contenido): Boton {
   return conAutodiagnostico(c)
-    ? { href: whatsapp(c, c.contacto.whatsappMensajeDiagnostico), texto: c.ctaPrincipal, evento: 'cta_whatsapp_click' }
+    ? { href: whatsapp(c, c.contacto.whatsappMensajeDiagnostico), texto: c.ctaAgendarCita, evento: 'cta_whatsapp_click' }
     : { href: whatsapp(c), texto: c.ctaWhatsApp, evento: 'cta_whatsapp_click' };
 }

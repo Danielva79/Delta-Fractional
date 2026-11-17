@@ -42,6 +42,7 @@ const porIdioma: Record<Idioma, Contenido> = {
     // Datos que no dependen del idioma: siempre salen de es.json.
     features: ES.features,
     ctaAutodiagnostico: ES.ctaAutodiagnostico, // no se usa en inglés (sin autodiagnóstico)
+    ctaAgendarCita: ES.ctaAgendarCita, // ídem
     // Los logos son nombres propios: la lista sale de es.json.
     logosClientes: ES.logosClientes,
     cuestionario: { ...EN.cuestionario, activo: ES.cuestionario.activo },

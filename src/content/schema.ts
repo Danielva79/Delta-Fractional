@@ -145,6 +145,8 @@ export const esquemaES = z
     }),
     /** Botón principal con features.autodiagnostico (lleva a /autodiagnostico/). */
     ctaAutodiagnostico: texto,
+    /** Botón de WhatsApp con features.autodiagnostico. */
+    ctaAgendarCita: texto,
     features: bloque({
       formularioContacto: z.boolean(),
       caso: z.boolean(),

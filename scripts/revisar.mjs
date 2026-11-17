@@ -41,7 +41,9 @@ const bandaConCuestionario = (c) =>
 /** Textos aprobados que deben aparecer tal cual en la página. */
 function aprobados(c) {
   const t = [
-    c.ctaPrincipal, c.ctaWhatsApp, c.marca.ubicacion,
+    // Con el autodiagnóstico (solo español), los botones dicen "Autodiagnóstico financiero" y "Agendar cita".
+    ...(c === es && es.features.autodiagnostico ? [c.ctaAutodiagnostico, c.ctaAgendarCita] : [c.ctaPrincipal]),
+    c.ctaWhatsApp, c.marca.ubicacion,
     c.hero.antetitulo, c.hero.h1, c.hero.subtitulo,
     ...c.prueba.items.map((i) => i.texto), ...c.prueba.items.filter((i) => i.cifra).map((i) => i.cifra),
     c.problema.h2, c.problema.intro, c.problema.cierre, ...c.problema.dolores.flatMap((d) => [d.titulo, d.texto]),

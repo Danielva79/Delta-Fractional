@@ -51,15 +51,12 @@
     {
       "label": "Preguntas",
       "href": "#preguntas"
-    },
-    {
-      "label": "Autodiagnóstico",
-      "href": "/autodiagnostico/"
     }
   ],
   "ctaPrincipal": "Agendar diagnóstico",
   "ctaWhatsApp": "Escribir por WhatsApp",
   "ctaAutodiagnostico": "Autodiagnóstico financiero",
+  "ctaAgendarCita": "Agendar cita",
   "hero": {
     "antetitulo": "Director financiero externo para pymes",
     "h1": "Su empresa vende. Hagamos que también genere caja.",
