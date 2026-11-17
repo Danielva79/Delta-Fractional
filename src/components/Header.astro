@@ -1,6 +1,6 @@
 ---
 // Header: logo, menú, selector ES/EN y botón del diagnóstico.
-// En móvil (≤ 900 px): logo + botón de menú; el panel atrapa el foco y se cierra con Esc.
+// En móvil y tableta (≤ 1080 px, para que el menú de 5 enlaces quepa en una línea): logo + botón de menú; el panel atrapa el foco y se cierra con Esc.
 import Icono from './Icono.astro';
 import type { Contenido } from '../lib/contenido';
 import { ruta, inicio, diagnostico } from '../lib/enlaces';
@@ -84,7 +84,7 @@ const diag = diagnostico(c);
   .nav-escritorio ul { display: flex; gap: var(--space-5); list-style: none; margin: 0; padding: 0; }
   .nav-escritorio ul a {
     display: inline-flex; align-items: center; min-height: var(--tap);
-    color: var(--ink); text-decoration: none; font-weight: var(--fw-medium); font-size: var(--fs-small);
+    color: var(--ink); text-decoration: none; font-weight: var(--fw-medium); font-size: var(--fs-small); white-space: nowrap;
   }
   .nav-escritorio ul a:hover { color: var(--accent-text); }
   .idioma { display: flex; gap: 2px; font-size: var(--fs-small); font-weight: var(--fw-semibold); }
@@ -119,11 +119,11 @@ const diag = diagnostico(c);
   .panel-pie .btn { width: 100%; }
   .panel-pie .idioma { font-size: var(--fs-body); gap: var(--space-4); }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1080px) {
     .nav-escritorio { display: none; }
     .menu-btn { display: inline-flex; }
   }
-  @media (min-width: 901px) {
+  @media (min-width: 1081px) {
     .panel { display: none !important; }
   }
 </style>
@@ -170,5 +170,5 @@ const diag = diagnostico(c);
     else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
   });
   // Si la ventana pasa a escritorio con el menú abierto, se cierra.
-  matchMedia('(min-width: 901px)').addEventListener('change', (m) => { if (m.matches && !panel.hidden) cerrar(false); });
+  matchMedia('(min-width: 1081px)').addEventListener('change', (m) => { if (m.matches && !panel.hidden) cerrar(false); });
 </script>

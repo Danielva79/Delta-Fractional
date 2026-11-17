@@ -1,0 +1,341 @@
+---
+// /autodiagnostico/: autodiagnóstico financiero (solo en español). Una pantalla por sección:
+// inicio (nombre de la empresa) → 6 secciones → resultado (sin pedir datos) → contacto opcional.
+// Todo el contenido está en el HTML; src/scripts/autodiagnostico.ts muestra una pantalla a la vez,
+// calcula el resultado con el mismo cuestionario.ts que usa la Edge Function y guarda la sesión.
+// Solo existe con features.autodiagnostico.
+import Base from '../../layouts/Base.astro';
+import Icono from '../../components/Icono.astro';
+import { contenido } from '../../lib/contenido';
+import { ruta, absoluta, whatsapp } from '../../lib/enlaces';
+import { SECCIONES, PREGUNTAS, VERSION_CUESTIONARIO } from '../../lib/autodiagnostico/cuestionario';
+import { textosAD as t, conexion, rellenarPolitica, RUTA_AUTODIAGNOSTICO, RUTA_POLITICA } from '../../lib/autodiagnostico/contenido';
+
+export function getStaticPaths() {
+  return contenido('es').features.autodiagnostico ? [{ params: { p: undefined } }] : [];
+}
+
+const c = contenido('es');
+// Año de referencia del build (zona de Bogotá); el navegador lo actualiza al cargar.
+const anio = Number(new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Bogota', year: 'numeric' }).format(new Date()));
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+/** Texto con {ANIO} y {ANIO_ANTERIOR} como <span> que el script actualiza. */
+const conAnio = (s: string) =>
+  esc(s)
+    .replaceAll('{ANIO_ANTERIOR}', `<span data-anio-anterior>${anio - 1}</span>`)
+    .replaceAll('{ANIO}', `<span data-anio>${anio}</span>`);
+
+const totalSecciones = SECCIONES.length;
+const urlPolitica = absoluta(RUTA_POLITICA, Astro.site);
+const [antesPolitica, despuesPolitica] = rellenarPolitica(t.contacto.autorizacion, c).split('{politica}');
+const dimensiones = SECCIONES.filter((s) => s.id !== 'calificacion');
+
+// Lo que el script necesita (sin secretos: la llave publicable y la de Turnstile son públicas).
+const config = {
+  url: conexion.url,
+  llave: conexion.llave,
+  turnstile: conexion.turnstile,
+  version: VERSION_CUESTIONARIO,
+  versionAutorizacion: t.contacto.versionAutorizacion,
+  urlPolitica,
+  agenda: t.configuracion.agendaUrl,
+  textos: {
+    progreso: t.navegacion.progreso,
+    errorPregunta: t.navegacion.errorPregunta,
+    errorSeccion: t.navegacion.errorSeccion,
+    puntos: t.resultado.puntos,
+    semaforo: t.resultado.semaforo,
+    contacto: {
+      enviar: t.contacto.enviar, enviando: t.contacto.enviando, error: t.contacto.error, errorYaEnviado: t.contacto.errorYaEnviado,
+      noDisponible: t.contacto.noDisponible, errorRequerido: t.contacto.errorRequerido, errorCorreo: t.contacto.errorCorreo,
+      errorWhatsapp: t.contacto.errorWhatsapp, errorAutorizacion: t.contacto.errorAutorizacion,
+      errorVerificacion: t.contacto.errorVerificacion, resumenErrores: t.contacto.resumenErrores,
+    },
+  },
+};
+---
+<Base c={c} ruta={RUTA_AUTODIAGNOSTICO} alternos={{ es: RUTA_AUTODIAGNOSTICO, en: '/en/' }} soloUnIdioma titulo={t.meta.title} descripcion={t.meta.description}>
+  <section class="seccion ad" data-autodiagnostico aria-label={t.inicio.h1}>
+    <script type="application/json" id="ad-config" set:html={JSON.stringify(config).replace(/</g, '\\u003c')} />
+    <div class="wrap estrecho">
+
+      <!-- Título de la página: visible en el inicio; en las demás pantallas solo para lectores de pantalla
+           (así la página siempre tiene su H1 y cada pantalla su H2). -->
+      <div class="cabecera" data-cabecera>
+        <p class="eyebrow">{t.inicio.antetitulo}</p>
+        <h1 tabindex="-1">{t.inicio.h1}</h1>
+      </div>
+
+      <!-- Inicio -->
+      <div class="pantalla" data-pantalla="inicio">
+        <p class="promesa">{t.inicio.promesa}</p>
+        <p class="detalle"><Icono nombre="clock" tamano={18} />{t.inicio.detalle}</p>
+        <form class="inicio-form" data-form-inicio novalidate>
+          <div class="campo">
+            <label for="ad-empresa">{t.inicio.campoEmpresa}</label>
+            <input id="ad-empresa" name="empresa" type="text" required maxlength="120" autocomplete="organization" aria-describedby="ad-empresa-error" />
+            <p class="error" id="ad-empresa-error" data-error-texto={t.inicio.errorEmpresa}></p>
+          </div>
+          <button class="btn btn-primario" type="submit">{t.inicio.comenzar}</button>
+        </form>
+        <p class="nota">{t.inicio.nota}</p>
+      </div>
+
+      <!-- Secciones -->
+      {SECCIONES.map((s, i) => (
+        <form class="pantalla" data-pantalla={s.id} data-indice={i} hidden novalidate>
+          <div class="progreso">
+            <p class="progreso-texto">{t.navegacion.progreso.replace('{n}', String(i + 1)).replace('{total}', String(totalSecciones))}</p>
+            <div class="barra" role="progressbar" aria-label={t.navegacion.progreso.replace('{n}', String(i + 1)).replace('{total}', String(totalSecciones))}
+              aria-valuemin="0" aria-valuemax={totalSecciones} aria-valuenow={i}>
+              <span style={`width:${(i / totalSecciones) * 100}%`}></span>
+            </div>
+          </div>
+          <h2 tabindex="-1" data-titulo>{s.titulo}</h2>
+          <p class="error-seccion" role="alert" data-error-seccion></p>
+          {s.preguntas.map((q) => (
+            <fieldset class="pregunta" data-pregunta={q.id} aria-describedby={[q.aclaracion && `ad-${q.id}-ayuda`, `ad-${q.id}-error`].filter(Boolean).join(' ')}>
+              <legend set:html={conAnio(q.texto)} />
+              {q.aclaracion && <p class="aclaracion" id={`ad-${q.id}-ayuda`} set:html={conAnio(q.aclaracion)} />}
+              <div class="opciones">
+                {q.opciones.map((o, k) => (
+                  <label class="opcion">
+                    <input type="radio" name={q.id} value={k} required />
+                    <span>{o.texto}</span>
+                  </label>
+                ))}
+              </div>
+              <p class="error" id={`ad-${q.id}-error`}></p>
+            </fieldset>
+          ))}
+          <div class="acciones">
+            <button class="btn btn-secundario" type="button" data-anterior>{t.navegacion.anterior}</button>
+            <button class="btn btn-primario" type="submit">{i === totalSecciones - 1 ? t.navegacion.verResultado : t.navegacion.siguiente}</button>
+          </div>
+        </form>
+      ))}
+
+      <!-- Resultado -->
+      <div class="pantalla resultado" data-pantalla="resultado" hidden>
+        <p class="eyebrow">{t.resultado.antetitulo}</p>
+        <h2 tabindex="-1" data-titulo data-r-empresa></h2>
+
+        <div class="total" data-r-total>
+          <div class="total-cifra">
+            <span class="kpi tnum" data-r-porcentaje></span>
+            <span class="total-puntos" data-r-puntos></span>
+          </div>
+          <div class="total-texto">
+            <p class="semaforo" data-r-semaforo><span class="punto" aria-hidden="true"></span><span data-r-semaforo-etiqueta></span></p>
+            <p data-r-semaforo-texto></p>
+          </div>
+        </div>
+
+        <h3>{t.resultado.dimensiones}</h3>
+        <ul class="dimensiones">
+          {dimensiones.map((d) => (
+            <li data-r-dimension={d.id}>
+              <div class="dim-cabeza">
+                <span class="dim-nombre">{d.titulo}</span>
+                <span class="dim-valor tnum"><span data-r-dim-puntos></span> · <span data-r-dim-semaforo></span></span>
+              </div>
+              <div class="dim-barra" aria-hidden="true"><span data-r-dim-barra></span></div>
+              {d.id === 'costos' && <p class="dim-nota" data-r-sin-inventario hidden>{t.resultado.inventarioNoAplica}</p>}
+            </li>
+          ))}
+        </ul>
+
+        <div class="bloque banderas" data-r-banderas hidden>
+          <h3>{t.resultado.banderasTitulo}</h3>
+          <p>{t.resultado.banderasIntro}</p>
+          <ul>
+            {PREGUNTAS.filter((q) => q.textoBandera).map((q) => <li data-r-bandera={q.id} hidden>{q.textoBandera}</li>)}
+          </ul>
+        </div>
+
+        <div class="bloque ruta">
+          <h3>{t.resultado.rutaTitulo}</h3>
+          <ul>
+            <li data-r-ruta="esencial" hidden>{t.resultado.rutaBase.esencial}</li>
+            <li data-r-ruta="estandar" hidden>{t.resultado.rutaBase.estandar}</li>
+            <li data-r-ruta="moduloA" hidden>{t.resultado.rutaModuloA}</li>
+            <li data-r-ruta="moduloB" hidden>{t.resultado.rutaModuloB}</li>
+          </ul>
+          <p class="ruta-nota">{t.resultado.rutaNota}</p>
+        </div>
+
+        <p class="nota-ventas" data-r-nota-ventas hidden set:html={conAnio(t.resultado.notaVentas)} />
+        <p class="aviso">{t.resultado.aviso}</p>
+        <a class="btn btn-primario" data-r-agenda href="#contacto" data-evento="autodiagnostico_agenda_click" data-ubicacion="resultado">{t.resultado.cta}</a>
+
+        <!-- Contacto -->
+        <div class="contacto" id="contacto">
+          <h3 tabindex="-1">{t.contacto.titulo}</h3>
+          <form class="formulario" data-form-contacto novalidate>
+            <p class="resumen" role="alert" data-c-resumen></p>
+            <div class="campos">
+              <div class="campo">
+                <label for="ad-nombre">{t.contacto.nombre}</label>
+                <input id="ad-nombre" name="nombre" type="text" required maxlength="120" autocomplete="name" aria-describedby="ad-nombre-error" />
+                <p class="error" id="ad-nombre-error"></p>
+              </div>
+              <div class="campo">
+                <label for="ad-correo">{t.contacto.correo}</label>
+                <input id="ad-correo" name="correo" type="email" required maxlength="254" autocomplete="email" inputmode="email" aria-describedby="ad-correo-error" />
+                <p class="error" id="ad-correo-error"></p>
+              </div>
+              <div class="campo">
+                <label for="ad-whatsapp">{t.contacto.whatsapp}</label>
+                <input id="ad-whatsapp" name="whatsapp" type="tel" required maxlength="30" autocomplete="tel" inputmode="tel" aria-describedby="ad-whatsapp-ayuda ad-whatsapp-error" />
+                <p class="ayuda" id="ad-whatsapp-ayuda">{t.contacto.whatsappAyuda}</p>
+                <p class="error" id="ad-whatsapp-error"></p>
+              </div>
+              <div class="campo">
+                <label for="ad-ciudad">{t.contacto.ciudad}</label>
+                <input id="ad-ciudad" name="ciudad" type="text" required maxlength="80" autocomplete="address-level2" aria-describedby="ad-ciudad-error" />
+                <p class="error" id="ad-ciudad-error"></p>
+              </div>
+            </div>
+            <div class="trampa" aria-hidden="true">
+              <label for="ad-sitio-web">Sitio web</label>
+              <input id="ad-sitio-web" name="sitio_web" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+            <div class="casilla">
+              <input id="ad-autorizacion" name="autorizacion" type="checkbox" required aria-describedby="ad-autorizacion-error" />
+              <label for="ad-autorizacion">{antesPolitica}<a href={ruta(RUTA_POLITICA)} target="_blank" rel="noopener">{t.contacto.autorizacionEnlace}<span class="sr-only">, {c.ui.pestanaNueva}</span></a>{despuesPolitica}</label>
+              <p class="error" id="ad-autorizacion-error"></p>
+            </div>
+            {conexion.turnstile && <div class="turnstile" data-c-turnstile></div>}
+            <p class="error" data-c-turnstile-error></p>
+            <button class="btn btn-primario" type="submit" data-c-enviar>{t.contacto.enviar}</button>
+            <p class="estado" role="status" data-c-estado></p>
+          </form>
+          <div class="exito" role="status" data-c-exito hidden tabindex="-1">
+            <p>{t.contacto.exito}</p>
+          </div>
+          <p class="whatsapp-alterno" data-c-whatsapp hidden>
+            <a class="enlace-flecha" href={whatsapp(c, c.contacto.whatsappMensajeDiagnostico)} data-evento="cta_whatsapp_click" data-ubicacion="autodiagnostico">{c.ctaWhatsApp}<Icono nombre="arrow-right" tamano={18} /></a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .estrecho { max-width: calc(760px + 2 * var(--page-margin)); }
+  .pantalla[hidden] { display: none; }
+  .pantalla { display: flex; flex-direction: column; gap: var(--space-5); }
+  .cabecera { display: flex; flex-direction: column; gap: var(--space-5); margin-bottom: var(--space-5); }
+  /* Fuera del inicio, el título queda solo para lectores de pantalla (mismo patrón que .sr-only). */
+  .cabecera.oculta {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1); }
+  h1:focus, h2:focus, h3:focus { outline: none; }
+  .promesa { font-size: var(--fs-sub); line-height: var(--lh-sub); color: var(--ink); }
+  .detalle { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--ink-2); }
+  .nota { font-size: var(--fs-small); color: var(--ink-2); }
+  .inicio-form { display: flex; flex-direction: column; gap: var(--space-4); max-width: 480px; }
+
+  /* Campos: los mismos estilos del formulario de contacto del sitio. */
+  .campo { display: flex; flex-direction: column; gap: 6px; }
+  label { font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--ink); }
+  input[type='text'], input[type='email'], input[type='tel'] {
+    font: inherit; color: var(--ink); background: var(--bg); min-height: var(--tap);
+    border: 1.5px solid var(--line-strong); border-radius: var(--radius); padding: 10px 14px; width: 100%;
+  }
+  [aria-invalid='true'] { border-color: var(--neg) !important; }
+  .error { font-size: var(--fs-small); color: var(--neg); }
+  .error:empty, .error-seccion:empty, .resumen:empty, .estado:empty { display: none; }
+  .ayuda { font-size: var(--fs-small); color: var(--ink-2); }
+
+  /* Progreso */
+  .progreso { display: flex; flex-direction: column; gap: var(--space-2); }
+  .progreso-texto { font-size: var(--fs-small); color: var(--ink-2); }
+  .barra { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+  .barra span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+  .error-seccion, .resumen {
+    font-size: var(--fs-small); color: var(--ink); border-left: 4px solid var(--neg); padding: var(--space-2) var(--space-3);
+    background: var(--surface); border-radius: var(--radius-sm);
+  }
+
+  /* Preguntas */
+  /* El legend flotado se comporta como un título normal (si no, el navegador lo dibuja sobre el borde del fieldset). */
+  .pregunta { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .pregunta + .pregunta { padding-top: var(--space-5); border-top: 1px solid var(--line); }
+  legend { float: left; width: 100%; font-size: var(--fs-sub); line-height: var(--lh-sub); font-weight: var(--fw-semibold); color: var(--ink); padding: 0; }
+  legend + * { clear: both; }
+  .aclaracion { font-size: var(--fs-small); color: var(--ink-2); line-height: var(--lh-small); padding-top: var(--space-1); }
+  .opciones { display: grid; gap: var(--space-2); padding-top: var(--space-3); }
+  .pregunta .error { padding-top: var(--space-2); }
+  .opcion {
+    display: grid; grid-template-columns: 22px 1fr; gap: var(--space-3); align-items: center; cursor: pointer;
+    min-height: var(--tap); padding: 10px 14px; border: 1.5px solid var(--line-strong); border-radius: var(--radius);
+    font-weight: var(--fw-regular); font-size: var(--fs-body); background: var(--bg);
+  }
+  .opcion:hover { background: var(--surface); }
+  .opcion:has(input:checked) { border-color: var(--ink); background: var(--surface); box-shadow: inset 0 0 0 1px var(--ink); }
+  .opcion:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .opcion input { width: 20px; height: 20px; margin: 0; accent-color: var(--ink); }
+  .opcion input:focus-visible { outline: none; }
+  .pregunta[data-invalida] .opcion { border-color: var(--neg); }
+  .acciones { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); padding-top: var(--space-3); }
+
+  /* Resultado */
+  .resultado h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); }
+  .resultado h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); display: flex; align-items: center; gap: var(--space-2); }
+  .total { display: grid; grid-template-columns: auto 1fr; gap: var(--space-5) var(--space-6); align-items: center; background: var(--surface); border-radius: var(--radius-lg); padding: clamp(20px, 3vw, 32px); }
+  .total-cifra { display: flex; flex-direction: column; gap: var(--space-1); border-left: 4px solid var(--accent); padding-left: var(--space-4); }
+  .kpi { font-size: var(--fs-kpi); font-weight: var(--fw-bold); line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
+  .total-puntos { font-size: var(--fs-small); color: var(--ink-2); }
+  .total-texto { display: flex; flex-direction: column; gap: var(--space-2); }
+  .semaforo { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: var(--fw-bold); color: var(--ink); }
+  .punto { width: 14px; height: 14px; border-radius: 50%; background: var(--sem); }
+  [data-sem='rojo'] { --sem: var(--neg); }
+  [data-sem='amarillo'] { --sem: var(--orange-600); }
+  [data-sem='verde'] { --sem: var(--pos); }
+  .dimensiones { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .dim-cabeza { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-1) var(--space-3); }
+  .dim-nombre { font-weight: var(--fw-semibold); color: var(--ink); }
+  .dim-valor { font-size: var(--fs-small); color: var(--ink-2); }
+  .dim-barra { margin-top: var(--space-2); height: 10px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+  .dim-barra span { display: block; height: 100%; width: 0; background: var(--sem); border-radius: 999px; }
+  .dim-nota { margin-top: var(--space-1); font-size: var(--fs-small); color: var(--ink-2); }
+  .bloque { background: var(--surface); border-radius: var(--radius-lg); padding: clamp(20px, 3vw, 28px); display: flex; flex-direction: column; gap: var(--space-3); }
+  .bloque[hidden], .bloque li[hidden], .dim-nota[hidden], .nota-ventas[hidden] { display: none; }
+  .bloque ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: var(--space-2); color: var(--ink); }
+  .banderas { border-left: 4px solid var(--neg); }
+  .ruta-nota, .aviso { font-size: var(--fs-small); color: var(--ink-2); }
+  .nota-ventas { color: var(--ink); border-left: 4px solid var(--accent); padding-left: var(--space-3); }
+  .resultado > .btn { align-self: flex-start; }
+
+  /* Contacto */
+  .contacto { margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: var(--space-5); }
+  .formulario { display: flex; flex-direction: column; gap: var(--space-4); }
+  .campos { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+  .casilla { display: grid; grid-template-columns: 24px 1fr; gap: var(--space-1) var(--space-3); align-items: start; }
+  .casilla input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--ink); }
+  .casilla label { font-weight: var(--fw-regular); line-height: var(--lh-small); }
+  .casilla .error { grid-column: 2; }
+  .casilla a { color: var(--accent-text); }
+  .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+  /* Alto del widget de Turnstile reservado desde el inicio: si aparece tarde no mueve el botón. */
+  .turnstile { min-height: 65px; }
+  .formulario .btn { align-self: flex-start; }
+  .estado { font-size: var(--fs-small); color: var(--ink-2); }
+  .exito { font-weight: var(--fw-semibold); color: var(--ink); border-left: 4px solid var(--pos); padding-left: var(--space-3); }
+  .exito[hidden], .whatsapp-alterno[hidden] { display: none; }
+
+  @media (max-width: 640px) {
+    .campos { grid-template-columns: 1fr; }
+    .total { grid-template-columns: 1fr; }
+    .acciones .btn, .formulario .btn, .resultado > .btn, .inicio-form .btn { width: 100%; }
+    .acciones { flex-direction: column-reverse; }
+  }
+</style>
+
+<script>
+  import '../../scripts/autodiagnostico';
+</script>

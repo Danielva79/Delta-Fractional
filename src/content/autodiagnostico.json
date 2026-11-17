@@ -1,0 +1,90 @@
+{
+  "_nota": "Textos de /autodiagnostico/ (solo en español). Las preguntas, opciones, aclaraciones y puntajes están en src/lib/autodiagnostico/cuestionario.ts (archivo compartido con la Edge Function de Delta BI). Los bloques con needsReview: true son textos redactados durante la construcción que Daniel debe aprobar.",
+  "needsReview": true,
+  "configuracion": {
+    "_nota": "agendaUrl: enlace de la agenda (https://...). Mientras esté en TODO, el botón 'Agende su diagnóstico financiero' lleva al bloque de contacto. retencionDiasIncompletas: días que se guardan las sesiones incompletas (el mismo número va en el secret RETENCION_DIAS_INCOMPLETAS de la Edge Function).",
+    "agendaUrl": "TODO:enlace-de-la-agenda",
+    "retencionDiasIncompletas": "TODO:dias-de-retencion-de-sesiones-incompletas",
+    "responsable": "Delta Fractional – Daniel Villegas Arango"
+  },
+  "meta": {
+    "title": "Autodiagnóstico financiero para pymes | Delta Fractional",
+    "description": "Evalúe en unos 8 minutos si su empresa puede crecer sin quedarse sin caja: 20 preguntas de selección y resultado inmediato por dimensión."
+  },
+  "inicio": {
+    "antetitulo": "Delta Fractional",
+    "h1": "Autodiagnóstico financiero",
+    "promesa": "Evalúe si su empresa está preparada para crecer sin quedarse sin caja.",
+    "detalle": "20 preguntas de selección, unos 8 minutos.",
+    "nota": "Verá su resultado al final, sin dejar datos personales.",
+    "campoEmpresa": "Nombre de la empresa",
+    "errorEmpresa": "Escriba el nombre de la empresa.",
+    "comenzar": "Comenzar"
+  },
+  "navegacion": {
+    "progreso": "Sección {n} de {total}",
+    "anterior": "Anterior",
+    "siguiente": "Siguiente",
+    "verResultado": "Ver resultado",
+    "errorSeccion": "Responda todas las preguntas de esta sección para continuar.",
+    "errorPregunta": "Seleccione una opción."
+  },
+  "resultado": {
+    "antetitulo": "Resultado del autodiagnóstico",
+    "titulo": "{empresa}",
+    "puntaje": "Puntaje total",
+    "semaforo": {
+      "rojo": {
+        "etiqueta": "Rojo",
+        "texto": "La gestión financiera de la empresa necesita atención prioritaria. Hay áreas sin el control suficiente para crecer sin presionar la caja."
+      },
+      "amarillo": {
+        "etiqueta": "Amarillo",
+        "texto": "La empresa tiene bases de control, con vacíos que pueden afectar la caja a medida que crece. Conviene ordenarlos antes de acelerar."
+      },
+      "verde": {
+        "etiqueta": "Verde",
+        "texto": "La empresa tiene una gestión financiera sólida para su etapa. El reto es mantener la disciplina y anticipar la caja que exige el crecimiento."
+      }
+    },
+    "dimensiones": "Resultado por dimensión",
+    "puntos": "{puntos} de {maximo} puntos",
+    "inventarioNoAplica": "Sin la pregunta de inventario, porque la empresa no maneja inventario.",
+    "banderasTitulo": "Alertas para revisar pronto",
+    "banderasIntro": "Estas respuestas merecen atención, sin importar el resultado general.",
+    "rutaTitulo": "Ruta probable",
+    "rutaNota": "Se confirma en el diagnóstico financiero.",
+    "rutaBase": {
+      "esencial": "Base Esencial",
+      "estandar": "Base Estándar"
+    },
+    "rutaModuloA": "Módulo A: caja y crecimiento",
+    "rutaModuloB": "Módulo B: costos e inventarios",
+    "notaVentas": "Usted espera que las ventas de {ANIO} cierren iguales o por debajo de las de {ANIO_ANTERIOR}. En ese escenario, proteger la caja suele ser más urgente que crecer; el diagnóstico permite revisarlo con sus cifras.",
+    "aviso": "Este resultado es orientativo: se basa en sus respuestas y no reemplaza el análisis de las cifras de la empresa.",
+    "cta": "Agende su diagnóstico financiero"
+  },
+  "contacto": {
+    "titulo": "Reciba el informe detallado por dimensión y agende su diagnóstico financiero",
+    "nombre": "Nombre",
+    "correo": "Correo",
+    "whatsapp": "WhatsApp",
+    "whatsappAyuda": "Con el indicativo del país si no es de Colombia.",
+    "ciudad": "Ciudad",
+    "autorizacion": "Autorizo a {responsable}, identificado con {identificacion} y correo {correo}, a tratar mis datos personales para enviarme el informe de este autodiagnóstico y contactarme con fines comerciales, conforme a la {politica}.",
+    "autorizacionEnlace": "Política de tratamiento de datos",
+    "versionAutorizacion": "2026-11-17-borrador",
+    "enviar": "Enviar",
+    "enviando": "Enviando…",
+    "exito": "Gracias. Le escribiré para enviarle el informe y acordar la fecha del diagnóstico.",
+    "error": "No se pudieron enviar sus datos. Intente de nuevo en unos minutos o escríbame por WhatsApp.",
+    "errorYaEnviado": "Ya recibí sus datos para este autodiagnóstico.",
+    "noDisponible": "El envío de datos todavía no está activo en esta versión del sitio. Mientras tanto, escríbame por WhatsApp.",
+    "errorRequerido": "Este campo es obligatorio.",
+    "errorCorreo": "Escriba un correo válido, por ejemplo nombre@empresa.com.",
+    "errorWhatsapp": "Escriba un número de WhatsApp válido.",
+    "errorAutorizacion": "Para enviar sus datos debe aceptar la autorización.",
+    "errorVerificacion": "Complete la verificación anti-robots.",
+    "resumenErrores": "Revise los campos marcados."
+  }
+}

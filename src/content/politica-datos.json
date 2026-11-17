@@ -1,0 +1,90 @@
+{
+  "_nota": "Política de tratamiento de datos personales (Ley 1581 de 2012). BORRADOR para revisión jurídica: lo redactó Claude durante la construcción del autodiagnóstico. Variables: {responsable} {identificacion} {direccion} {correo} {whatsapp} {retencion} {vigencia}. Las que faltan se ven como [PENDIENTE: …]. Si cambia el texto de forma sustancial, cambie también contacto.versionAutorizacion en autodiagnostico.json y VERSIONES_CONSENTIMIENTO en la Edge Function.",
+  "needsReview": true,
+  "borrador": true,
+  "titulo": "Política de tratamiento de datos personales",
+  "avisoRevision": "BORRADOR – pendiente de revisión jurídica",
+  "vigencia": "TODO:fecha-de-entrada-en-vigor",
+  "secciones": [
+    {
+      "h2": "Responsable del tratamiento",
+      "parrafos": [
+        "{responsable}, identificado con {identificacion}, con domicilio en {direccion}. Correo: {correo}. WhatsApp: {whatsapp}."
+      ]
+    },
+    {
+      "h2": "Marco legal",
+      "parrafos": [
+        "Esta política se rige por la Ley 1581 de 2012, el Decreto 1377 de 2013, compilado en el Decreto 1074 de 2015, y las normas que los modifiquen o complementen."
+      ]
+    },
+    {
+      "h2": "Datos que recojo",
+      "parrafos": [
+        "En el autodiagnóstico financiero de este sitio, el nombre de la empresa y las respuestas a las preguntas de selección. Con ellas calculo el resultado. Estas respuestas no incluyen datos personales.",
+        "Si usted decide recibir el informe detallado, su nombre, su correo electrónico, su número de WhatsApp y su ciudad, junto con la fecha y la hora en que dio su autorización y la versión del texto que aceptó.",
+        "Para proteger el formulario contra el abuso, el servidor guarda por un tiempo corto una huella cifrada de la dirección IP, que no permite recuperar la dirección. No recojo datos sensibles ni datos de menores de edad."
+      ]
+    },
+    {
+      "h2": "Para qué uso sus datos",
+      "lista": [
+        "Enviarle el informe detallado de su autodiagnóstico.",
+        "Contactarlo con fines comerciales, para ofrecerle y agendar el diagnóstico financiero y los servicios de Delta Fractional.",
+        "Medir, de forma agregada, cómo se usa el autodiagnóstico para mejorarlo."
+      ]
+    },
+    {
+      "h2": "Su autorización",
+      "parrafos": [
+        "Al marcar la casilla del formulario, usted autoriza el tratamiento de sus datos para las finalidades de esta política. La casilla no viene marcada y sin ella no se envían sus datos. Puede revocar la autorización en cualquier momento por los canales que aparecen abajo."
+      ]
+    },
+    {
+      "h2": "Sus derechos",
+      "parrafos": [
+        "Como titular de los datos, usted puede:"
+      ],
+      "lista": [
+        "Conocer, actualizar y rectificar sus datos.",
+        "Pedir prueba de la autorización que dio.",
+        "Saber, si lo pide, qué uso le he dado a sus datos.",
+        "Presentar quejas ante la Superintendencia de Industria y Comercio.",
+        "Revocar la autorización o pedir que suprima sus datos.",
+        "Acceder a sus datos sin costo."
+      ]
+    },
+    {
+      "h2": "Cómo ejercer sus derechos",
+      "parrafos": [
+        "Escríbame a {correo} o por WhatsApp al {whatsapp}, con su nombre, su solicitud y el correo que usó en el formulario.",
+        "Respondo las consultas en un máximo de diez (10) días hábiles, prorrogables por cinco (5) días hábiles, y los reclamos en un máximo de quince (15) días hábiles, prorrogables por ocho (8) días hábiles, según los artículos 14 y 15 de la Ley 1581 de 2012."
+      ]
+    },
+    {
+      "h2": "Proveedores que tratan datos por mi cuenta",
+      "parrafos": [
+        "Los datos se guardan en Supabase, un servicio de bases de datos en la nube, y la verificación anti-robots la hace Cloudflare Turnstile. Estos proveedores actúan como encargados del tratamiento y pueden guardar la información en servidores fuera de Colombia. No vendo ni cedo sus datos a terceros."
+      ]
+    },
+    {
+      "h2": "Seguridad",
+      "parrafos": [
+        "Aplico medidas razonables para proteger sus datos contra pérdida, acceso o uso no autorizado: conexión cifrada (HTTPS), acceso restringido a la base de datos y verificación anti-robots."
+      ]
+    },
+    {
+      "h2": "Tiempo de conservación",
+      "parrafos": [
+        "Conservo sus datos de contacto mientras sean necesarios para las finalidades de esta política o mientras exista una relación comercial, y por el tiempo que exijan las normas aplicables. Las sesiones del autodiagnóstico que no se terminan se borran a los {retencion} días."
+      ]
+    },
+    {
+      "h2": "Cambios y vigencia",
+      "parrafos": [
+        "Si cambio esta política, publicaré la nueva versión en esta página, con su fecha.",
+        "Esta política rige desde {vigencia}."
+      ]
+    }
+  ]
+}

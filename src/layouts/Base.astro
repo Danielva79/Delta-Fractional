@@ -15,8 +15,10 @@ interface Props {
   titulo?: string;
   descripcion?: string;
   noindex?: boolean;
+  /** Página que solo existe en un idioma (p. ej. /autodiagnostico/): canonical sin hreflang. */
+  soloUnIdioma?: boolean;
 }
-const { c, ruta: rutaPagina, alternos, titulo = c.meta.title, descripcion = c.meta.description } = Astro.props;
+const { c, ruta: rutaPagina, alternos, titulo = c.meta.title, descripcion = c.meta.description, soloUnIdioma = false } = Astro.props;
 // La vista previa se construye con PUBLIC_NOINDEX=true: ninguna página se indexa.
 const noindex = Astro.props.noindex || import.meta.env.PUBLIC_NOINDEX === 'true';
 const site = Astro.site;
@@ -46,9 +48,13 @@ const fontFace = `
     {!Astro.props.noindex && (
       <>
         <link rel="canonical" href={canonical} />
-        <link rel="alternate" hreflang="es-CO" href={absoluta(alternos.es, site)} />
-        <link rel="alternate" hreflang="en" href={absoluta(alternos.en, site)} />
-        <link rel="alternate" hreflang="x-default" href={absoluta(alternos.es, site)} />
+        {!soloUnIdioma && (
+          <>
+            <link rel="alternate" hreflang="es-CO" href={absoluta(alternos.es, site)} />
+            <link rel="alternate" hreflang="en" href={absoluta(alternos.en, site)} />
+            <link rel="alternate" hreflang="x-default" href={absoluta(alternos.es, site)} />
+          </>
+        )}
       </>
     )}
 

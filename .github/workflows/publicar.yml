@@ -2,6 +2,8 @@
 # Requiere: Settings → Pages → Source = "GitHub Actions" (paso del lanzamiento, ver LANZAMIENTO.md).
 # Variables opcionales (Settings → Secrets and variables → Actions → Variables):
 #   PUBLIC_UMAMI_WEBSITE_ID, PUBLIC_WEB3FORMS_KEY, PUBLIC_WEB3FORMS_HCAPTCHA
+#   Autodiagnóstico: PUBLIC_AUTODIAGNOSTICO_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY, PUBLIC_TURNSTILE_SITE_KEY
+#   (todas son públicas por diseño; ningún secreto va aquí ni en el repo).
 name: Publicar sitio
 
 on:
@@ -37,8 +39,22 @@ jobs:
           PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.PUBLIC_UMAMI_WEBSITE_ID }}
           PUBLIC_WEB3FORMS_KEY: ${{ vars.PUBLIC_WEB3FORMS_KEY }}
           PUBLIC_WEB3FORMS_HCAPTCHA: ${{ vars.PUBLIC_WEB3FORMS_HCAPTCHA }}
+          PUBLIC_AUTODIAGNOSTICO_URL: ${{ vars.PUBLIC_AUTODIAGNOSTICO_URL }}
+          PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
       - name: Revisar textos, marca y SEO
         run: npm run revisar
+      - name: Probar el cálculo del autodiagnóstico
+        run: node scripts/probar-cuestionario.mjs
+      # Solo al publicar en producción: el autodiagnóstico no sale con datos pendientes
+      # (política en borrador, identificación, correo, retención o variables).
+      - name: Revisar que nada quede pendiente para el lanzamiento
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: node scripts/revisar.mjs --lanzamiento
+        env:
+          PUBLIC_AUTODIAGNOSTICO_URL: ${{ vars.PUBLIC_AUTODIAGNOSTICO_URL }}
+          PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with:

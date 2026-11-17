@@ -21,6 +21,23 @@ Entre los pasos 2 y 3 puede haber uno o dos minutos en que GitHub cambia de modo
 
 **Volver atrás:** en Settings → Pages, Source → "Deploy from a branch", rama `main`, carpeta `/ (root)`. Vuelve a servir los archivos viejos de la raíz.
 
+## 2b. Autodiagnóstico (/autodiagnostico/)
+
+El autodiagnóstico guarda las respuestas en el proyecto de Supabase de Delta BI (esquema `comercial`,
+Edge Function `autodiagnostico-guardar`, rama `comercial/autodiagnostico` de Danielva79/delta-bi; pasos
+de despliegue en su `docs/autodiagnostico.md`). Al publicar en `main`, el workflow corre
+`node scripts/revisar.mjs --lanzamiento` y **no publica** si con `features.autodiagnostico` en `true` falta algo:
+
+- la política de datos revisada por un abogado (`borrador: false` y `vigencia` en `src/content/politica-datos.json`);
+- `contacto.nit` (identificación), `contacto.correo` y `contacto.direccionFiscal` en `es.json`;
+- `configuracion.retencionDiasIncompletas` en `src/content/autodiagnostico.json` (el mismo número del secret `RETENCION_DIAS_INCOMPLETAS`);
+- las variables de GitHub `PUBLIC_AUTODIAGNOSTICO_URL`, `PUBLIC_SUPABASE_PUBLISHABLE_KEY` y `PUBLIC_TURNSTILE_SITE_KEY`.
+
+Opcional: `configuracion.agendaUrl` (enlace de la agenda; sin él, "Agende su diagnóstico financiero" lleva al formulario).
+
+Para lanzar el sitio antes que el autodiagnóstico: `features.autodiagnostico` y `cuestionario.activo` en `false`
+en `es.json` (desaparecen la página, la política, el enlace del menú y la banda vuelve al diagnóstico).
+
 ## 3. Después del lanzamiento
 
 - Google Search Console: verificar `deltafractional.com` y enviar `https://deltafractional.com/sitemap.xml`.
@@ -37,6 +54,7 @@ Entre los pasos 2 y 3 puede haber uno o dos minutos en que GitHub cambia de modo
 | Correo de contacto | `contacto.correo` | pie, aviso de privacidad y formulario |
 | NIT y dirección | `contacto.nit`, `contacto.direccionFiscal` | aviso de privacidad |
 | Fecha de entrada en vigor del aviso | `vigencia` en `privacidad.es.json` y `privacidad.en.json` | aviso de privacidad (después de revisión del abogado) |
+| Política de datos revisada, identificación, retención, agenda y llaves del autodiagnóstico | ver la sección 2b | /autodiagnostico/ en producción |
 | Clave de Web3Forms | variable `PUBLIC_WEB3FORMS_KEY` + `features.formularioContacto` | formulario de contacto |
 | Si el precio incluye IVA | `servicios.inversion.iva` | la nota del IVA junto al precio |
 | Duración del diagnóstico | `servicios.items[0].duracion` | se muestra en la tarjeta |
@@ -50,6 +68,7 @@ Entre los pasos 2 y 3 puede haber uno o dos minutos en que GitHub cambia de modo
 Redactados durante el rediseño, fuera del contenido aprobado:
 
 - Formulario (`formulario` en `es.json` / `en.json`): título "O déjeme sus datos y le escribo", botón "Enviar" y mensajes de error.
+- Autodiagnóstico: las aclaraciones de las preguntas (`src/lib/autodiagnostico/cuestionario.ts`), los textos por nivel del semáforo, las alertas, la nota de ventas, los mensajes y la autorización (`src/content/autodiagnostico.json`), la banda de inicio (`cuestionario` en `es.json`) y la política de datos (`src/content/politica-datos.json`, BORRADOR para revisión jurídica).
 - Página 404: "Esta página no existe." / "Ir al inicio".
 - Aviso de privacidad completo (`privacidad.es.json` / `privacidad.en.json`): texto base para revisión de un abogado.
 - Traducción completa al inglés (`en.json`): revisión de Natalia.

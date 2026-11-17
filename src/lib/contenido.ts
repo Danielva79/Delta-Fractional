@@ -17,22 +17,25 @@ function validar<S extends z.ZodType>(esquema: S, datos: unknown, archivo: strin
 const ES = validar(esquemaES, es, 'src/content/es.json');
 const EN = validar(esquemaEN, en, 'src/content/en.json');
 
-// El cuestionario solo se publica completo: nombre, frase y URL en los dos idiomas.
+// El cuestionario solo se publica completo: nombre, frase y URL en español. En inglés es opcional:
+// sin nombre y frase en en.json, la banda en inglés sigue mostrando el diagnóstico financiero
+// (el autodiagnóstico existe solo en español).
 if (ES.cuestionario.activo) {
   const faltan = [
     !ES.contacto.diagnosticoUrl && 'es.json contacto.diagnosticoUrl',
     !ES.cuestionario.nombre && 'es.json cuestionario.nombre',
     !ES.cuestionario.texto && 'es.json cuestionario.texto',
-    !EN.cuestionario.nombre && 'en.json cuestionario.nombre',
-    !EN.cuestionario.texto && 'en.json cuestionario.texto',
   ].filter(Boolean);
   if (faltan.length) {
     throw new Error(`\n\ncuestionario.activo está en true, pero faltan: ${faltan.join(', ')}.\nComplételos o deje activo en false. Guía: CONTENIDO.md\n`);
   }
 }
 
+// Con features.autodiagnostico en false, el enlace del menú desaparece.
+const navES = ES.nav.filter((n) => ES.features.autodiagnostico || n.href !== '/autodiagnostico/');
+
 const porIdioma: Record<Idioma, Contenido> = {
-  es: { ...ES, idioma: 'es' },
+  es: { ...ES, nav: navES, idioma: 'es' },
   en: {
     ...EN,
     idioma: 'en',

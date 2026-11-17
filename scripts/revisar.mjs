@@ -35,6 +35,9 @@ const textoVisible = (html) =>
       .replace(/<span class="sr-only"[^>]*>[\s\S]*?<\/span>/g, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' '),
   );
 
+const bandaConCuestionario = (c) =>
+  es.cuestionario.activo && Boolean(c.cuestionario) && !esTodo(c.cuestionario.nombre) && !esTodo(c.cuestionario.texto);
+
 /** Textos aprobados que deben aparecer tal cual en la página. */
 function aprobados(c) {
   const t = [
@@ -47,7 +50,10 @@ function aprobados(c) {
     c.diferencial.h2, ...c.diferencial.pilares.flatMap((p) => [p.titulo, p.texto]),
     c.deltaBI.h2, c.deltaBI.texto, c.deltaBI.nota,
     c.sobre.h2, ...c.sobre.parrafos, c.sobre.linkedinLabel,
-    c.diagnostico.antetitulo, c.diagnostico.h2, c.diagnostico.texto, c.diagnostico.cta,
+    // La banda oscura muestra el autodiagnóstico (cuestionario) si está activo y tiene textos en ese idioma.
+    ...(bandaConCuestionario(c)
+      ? [c.cuestionario.nombre, c.cuestionario.texto, c.cuestionario.cta]
+      : [c.diagnostico.antetitulo, c.diagnostico.h2, c.diagnostico.texto, c.diagnostico.cta]),
     c.faq.h2, ...c.faq.items.flatMap((f) => [f.p, f.r]),
     c.cierre.h2, c.cierre.texto, c.footer.linea,
   ];
@@ -163,6 +169,58 @@ if (process.env.PUBLIC_NOINDEX !== 'true' && (!fs.existsSync(viejo) || !/url=\/e
 const interna = path.join(DIST, 'vista-interna', 'index.html');
 if (fs.existsSync(interna) && !/<meta name="robots" content="noindex/.test(fs.readFileSync(interna, 'utf8'))) {
   problemas.push('/vista-interna/: le falta noindex');
+}
+
+// Autodiagnóstico (/autodiagnostico/, solo en español) y su política de datos (/politica-datos/).
+const politicaJson = JSON.parse(fs.readFileSync('src/content/politica-datos.json', 'utf8'));
+const adJson = JSON.parse(fs.readFileSync('src/content/autodiagnostico.json', 'utf8'));
+const paginaAD = path.join(DIST, 'autodiagnostico', 'index.html');
+const paginaPol = path.join(DIST, 'politica-datos', 'index.html');
+if (es.features.autodiagnostico) {
+  if (!fs.existsSync(paginaAD)) problemas.push('/autodiagnostico/: no se generó');
+  else {
+    const t = fs.readFileSync(paginaAD, 'utf8');
+    const v = textoVisible(t);
+    if ((t.match(/<h1[\s>]/g) || []).length !== 1) problemas.push('/autodiagnostico/: debe tener un solo H1');
+    if ((t.match(/<fieldset/g) || []).length !== 20) problemas.push('/autodiagnostico/: no tiene las 20 preguntas');
+    if (/TODO/.test(v)) problemas.push('/autodiagnostico/: aparece "TODO"');
+    if (/—/.test(v)) problemas.push('/autodiagnostico/: hay rayas largas (—)');
+    if (/\p{Extended_Pictographic}/u.test(v.replace(/[©®™]/g, ''))) problemas.push('/autodiagnostico/: hay emojis');
+    const g = decodificar(t).match(NO_GRATIS);
+    if (g) problemas.push(`/autodiagnostico/: "${g[0]}": el diagnóstico no es gratis`);
+    if (/rel="alternate" hreflang/.test(t)) problemas.push('/autodiagnostico/: tiene hreflang y solo existe en español');
+    if (!t.includes('<link rel="canonical" href="https://deltafractional.com/autodiagnostico/">')) problemas.push('/autodiagnostico/: canonical incorrecto');
+    if (/id="ad-autorizacion"[^>]*checked/.test(t)) problemas.push('/autodiagnostico/: la casilla de autorización viene marcada');
+    if (/service_role|sb_secret_/i.test(t)) problemas.push('/autodiagnostico/: aparece una llave secreta');
+  }
+  if (!fs.existsSync(paginaPol)) problemas.push('/politica-datos/: no se generó');
+  else if (politicaJson.borrador) {
+    const t = fs.readFileSync(paginaPol, 'utf8');
+    if (!/<meta name="robots" content="noindex/.test(t)) problemas.push('/politica-datos/: en borrador debe tener noindex');
+    if (!t.includes(politicaJson.avisoRevision)) problemas.push('/politica-datos/: en borrador debe mostrar el aviso de revisión');
+    if (sitemap.includes('politica-datos')) problemas.push('sitemap.xml: incluye la política en borrador');
+  }
+  if (!fs.readFileSync(path.join(DIST, 'index.html'), 'utf8').includes('/autodiagnostico/"')) problemas.push('/: falta el enlace al autodiagnóstico');
+  if (fs.readFileSync(path.join(DIST, 'en', 'index.html'), 'utf8').includes('/autodiagnostico/')) problemas.push('/en/: enlaza el autodiagnóstico, que solo existe en español');
+} else {
+  if (fs.existsSync(paginaAD) || fs.existsSync(paginaPol)) problemas.push('autodiagnóstico apagado, pero se generaron sus páginas');
+  for (const r of ['/', '/en/']) {
+    if (fs.readFileSync(path.join(DIST, r, 'index.html'), 'utf8').includes('/autodiagnostico/')) problemas.push(`${r}: enlaza el autodiagnóstico apagado`);
+  }
+}
+
+// --lanzamiento (antes de publicar en producción): con el autodiagnóstico activo, nada puede quedar pendiente.
+if (process.argv.includes('--lanzamiento') && es.features.autodiagnostico) {
+  const falta = [];
+  if (politicaJson.borrador) falta.push('la política de datos sigue en BORRADOR (borrador: false tras la revisión jurídica)');
+  if (esTodo(politicaJson.vigencia)) falta.push('vigencia de la política (politica-datos.json)');
+  if (esTodo(es.contacto.nit)) falta.push('identificación del responsable (contacto.nit en es.json)');
+  if (esTodo(es.contacto.correo)) falta.push('correo de contacto (contacto.correo en es.json)');
+  if (esTodo(es.contacto.direccionFiscal)) falta.push('dirección (contacto.direccionFiscal en es.json)');
+  if (esTodo(adJson.configuracion.retencionDiasIncompletas)) falta.push('plazo de retención (configuracion.retencionDiasIncompletas en autodiagnostico.json)');
+  for (const v of ['PUBLIC_AUTODIAGNOSTICO_URL', 'PUBLIC_SUPABASE_PUBLISHABLE_KEY', 'PUBLIC_TURNSTILE_SITE_KEY']) if (!process.env[v]) falta.push(`variable ${v}`);
+  if (fs.existsSync(paginaAD) && /\[PENDIENTE/.test(fs.readFileSync(paginaAD, 'utf8'))) falta.push('/autodiagnostico/ muestra datos [PENDIENTE]');
+  for (const f of falta) problemas.push(`lanzamiento del autodiagnóstico: falta ${f} (o ponga features.autodiagnostico en false)`);
 }
 
 if (problemas.length) {

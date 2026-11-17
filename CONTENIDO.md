@@ -73,6 +73,16 @@ Puede ver cómo se verán estas secciones, con datos de ejemplo, en la página i
 - El build falla si `es.json` o `en.json` contienen "gratis", "gratuito", "sin costo" o "free".
 - Los enlaces de WhatsApp abren la app en el celular y una pestaña nueva en el computador.
 
+## Autodiagnóstico financiero (/autodiagnostico/)
+
+- Se activa con `features.autodiagnostico` en `es.json` (página, enlace "Autodiagnóstico" del menú y política). La banda oscura de inicio lo presenta con `cuestionario` (`activo`, `nombre`, `texto`, `cta`) y lleva a `contacto.diagnosticoUrl` (`/autodiagnostico/`). Solo existe en español: la banda en inglés sigue con el diagnóstico.
+- **Preguntas, opciones, aclaraciones y puntajes**: `src/lib/autodiagnostico/cuestionario.ts`. Es una copia idéntica del archivo de la Edge Function en Delta BI: si cambia algo, cree una versión nueva (`VERSION_CUESTIONARIO`) y actualice los dos (ver `docs/autodiagnostico.md` de Delta BI). `node scripts/probar-cuestionario.mjs` prueba el cálculo.
+- **Textos de pantalla** (inicio, botones, resultado por nivel, ruta, contacto y autorización): `src/content/autodiagnostico.json`.
+- **Política de tratamiento de datos** (`/politica-datos/`): `src/content/politica-datos.json`. Mientras `borrador` esté en `true` muestra "BORRADOR – pendiente de revisión jurídica", no se indexa y los datos que faltan se ven como `[PENDIENTE: …]`.
+- Cálculo: puntaje sobre 45 (42 si la empresa no maneja inventario); semáforo rojo 0–39 %, amarillo 40–69 %, verde 70 % o más. No se muestran precios.
+- Eventos de analítica: `autodiagnostico_inicio`, `autodiagnostico_seccion`, `autodiagnostico_resultado`, `autodiagnostico_contacto` y `autodiagnostico_agenda_click`.
+- Lo que falta para producción: `LANZAMIENTO.md`, sección 2b.
+
 ## Aviso de privacidad
 
 - Textos: `src/content/privacidad.es.json` y `privacidad.en.json`. Es un **texto base para revisión de un abogado**, según la Ley 1581 de 2012 y el Decreto 1377 de 2013.
@@ -91,6 +101,6 @@ Para crear la clave: en web3forms.com, escriba el correo donde quiere recibir lo
 ## Analítica (Umami)
 
 - Se activa poniendo `PUBLIC_UMAMI_WEBSITE_ID` en las variables de GitHub. Umami no usa cookies: no hace falta banner.
-- Eventos que se registran, con la ubicación del botón y el idioma: `cta_diagnostico_click`, `cta_cuestionario_click`, `cta_whatsapp_click`, `linkedin_click`, `faq_open` (con la pregunta), `idioma_cambio`, `form_start`, `form_submit_success`, `form_submit_error`.
+- Eventos que se registran, con la ubicación del botón y el idioma: `cta_diagnostico_click`, `cta_cuestionario_click` (autodiagnóstico), `cta_whatsapp_click`, `linkedin_click`, `faq_open` (con la pregunta), `idioma_cambio`, `form_start`, `form_submit_success`, `form_submit_error`.
 - En Umami, marque como objetivos (Goals) `cta_diagnostico_click`, `cta_whatsapp_click` y `form_submit_success`.
 - Para ver los eventos sin Umami, abra el sitio con `?analitica=debug` al final de la dirección y mire la consola del navegador.

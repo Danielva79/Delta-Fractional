@@ -6,13 +6,13 @@ import { z } from 'astro/zod';
 
 export const esTodo = (v: string) => /^\s*TODO/i.test(v);
 
-const texto = z
+export const texto = z
   .string()
   .min(1)
   .refine((v) => !esTodo(v), { message: 'este texto es obligatorio y no puede quedar en "TODO"' });
-const pendiente = z.string().transform((v) => (esTodo(v) || v.trim() === '' ? null : v));
+export const pendiente = z.string().transform((v) => (esTodo(v) || v.trim() === '' ? null : v));
 const url = texto.refine((v) => /^https:\/\//.test(v), { message: 'debe ser una URL que empiece por https://' });
-const urlPendiente = z
+export const urlPendiente = z
   .string()
   .transform((v) => (esTodo(v) || v.trim() === '' ? null : v))
   .refine((v) => v === null || /^https:\/\//.test(v), { message: 'debe ser una URL que empiece por https://' });
@@ -21,7 +21,7 @@ const urlPendiente = z
 const altFoto = z.string().transform((v) => (esTodo(v) ? null : v));
 
 /** Objeto estricto (detecta claves mal escritas) con la marca opcional de revisión. */
-const bloque = <T extends z.ZodRawShape>(forma: T) =>
+export const bloque = <T extends z.ZodRawShape>(forma: T) =>
   z.object({ ...forma, needsReview: z.boolean().optional() }).strict();
 
 const idFoto = z.enum(['hero-retrato', 'sobre-daniel', 'trabajo-cliente', 'banda-detalle', 'delta-bi-captura', 'curso']);
@@ -133,7 +133,13 @@ export const esquemaES = z
       whatsappMensajeDiagnostico: texto,
       linkedin: url,
       correo: pendiente,
-      diagnosticoUrl: urlPendiente,
+      // URL del cuestionario: https://… o una ruta del sitio, p. ej. "/autodiagnostico/".
+      diagnosticoUrl: z
+        .string()
+        .transform((v) => (esTodo(v) || v.trim() === '' ? null : v))
+        .refine((v) => v === null || /^https:\/\//.test(v) || /^\/[a-z0-9/-]*$/.test(v), {
+          message: 'debe ser una URL que empiece por https:// o una ruta del sitio que empiece por /',
+        }),
       nit: pendiente,
       direccionFiscal: pendiente,
     }),
@@ -144,6 +150,8 @@ export const esquemaES = z
       logosClientes: z.boolean(),
       curso: z.boolean(),
       capturaDeltaBI: z.boolean(),
+      /** /autodiagnostico/: página, enlace en el menú y la banda de inicio. */
+      autodiagnostico: z.boolean(),
       _nota: z.string().optional(),
     }),
     fotos: z.record(idFoto, foto),

@@ -24,9 +24,14 @@ export function diagnostico(c: Contenido) {
   return whatsapp(c, c.contacto.whatsappMensajeDiagnostico);
 }
 
-/** URL del cuestionario de 15 preguntas (solo existe con cuestionario.activo; contenido.ts lo exige). */
+/**
+ * URL del cuestionario (el autodiagnóstico; solo se usa con cuestionario.activo, que contenido.ts exige completo).
+ * Puede ser una ruta del sitio ("/autodiagnostico/"), que se arma con la base de la vista previa.
+ */
 export function cuestionario(c: Contenido) {
-  return c.contacto.diagnosticoUrl ?? diagnostico(c);
+  const u = c.contacto.diagnosticoUrl;
+  if (!u) return diagnostico(c);
+  return u.startsWith('/') ? ruta(u) : u;
 }
 
 export const esExterno = (href: string) => /^https?:\/\//.test(href);
