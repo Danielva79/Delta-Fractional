@@ -71,7 +71,8 @@ h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--l
 .sub { font-size: var(--fs-sub); line-height: var(--lh-sub); color: var(--ink-2); }
 .muted { color: var(--ink-2); }
 .small { font-size: var(--fs-small); line-height: var(--lh-small); }
-.subrayado { box-shadow: inset 0 -0.14em 0 var(--accent); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+/* nowrap: la frase subrayada ("genere caja") no se parte entre dos líneas en el celular. */
+.subrayado { box-shadow: inset 0 -0.14em 0 var(--accent); -webkit-box-decoration-break: clone; box-decoration-break: clone; white-space: nowrap; }
 
 /* Botones */
 .btn {
