@@ -88,36 +88,45 @@
   },
   "servicios": {
     "needsReview": true,
-    "h2": "How I work as an outsourced finance director",
+    "antetitulo": "How I work",
+    "h2": "Choose by where your company stands today. The fee depends on its size.",
+    "intro": "I work as an outsourced finance director. You choose what you need today; your company's size sets the scope and fee of each service.",
     "items": [
       {
         "id": "diagnostico",
-        "nivel": "To start",
+        "nivel": "To get in order",
         "titulo": "Financial diagnostic",
+        "paraQuien": "If you are not sure how much cash you will have or which line makes you a profit.",
         "texto": "I reconcile the information, measure the profitability of each business unit and project the cash.",
         "resultado": "Prioritized findings and a 90-day plan.",
         "duracion": "TODO:duracion-del-diagnostico",
-        "precio": "From COP 2 M"
+        "precio": "COP 2 M to 5 M",
+        "precioNota": "One-time fee, depending on your company's size"
       },
       {
         "id": "mensual",
-        "nivel": "Every month",
+        "nivel": "To steer every month",
         "titulo": "Monthly financial management",
+        "paraQuien": "If your figures are in order and you need follow-up and judgment to decide.",
         "texto": "Budget, tracking against actuals, a finance committee with commitments and a dashboard of its own, Delta BI.",
-        "resultado": "Management sees its cash and profitability every month."
+        "resultado": "Management sees its cash and profitability every month.",
+        "precio": "COP 2 M to 5 M per month",
+        "precioNota": "Depending on your company's size"
       },
       {
         "id": "proyectos",
-        "nivel": "When you need it",
+        "nivel": "To decide",
         "titulo": "Projects",
-        "texto": "Company valuation, financing and financial structuring of transactions.",
-        "resultado": "TODO:resultado-proyectos"
+        "paraQuien": "If a big decision is coming: financing growth, opening a branch or selling the company.",
+        "texto": "Company valuation, financing and bank relations, financial structuring of transactions and production costing.",
+        "resultado": "A decision made with figures and scenarios.",
+        "precio": "Depending on scope",
+        "precioNota": "Quoted per project, no monthly fee"
       }
     ],
     "inversion": {
-      "precio": "From COP 2 M per month",
-      "nota": "Depending on company size and type of service.",
-      "iva": "TODO:incluye-iva"
+      "nota": "The exact scope and fee go in the proposal, once I know your company.",
+      "iva": "Fees before VAT."
     }
   },
   "diferencial": {

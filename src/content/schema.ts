@@ -44,21 +44,27 @@ const textos = {
     cierre: texto,
   }),
   servicios: bloque({
+    antetitulo: pendiente.optional(),
     h2: texto,
+    intro: pendiente.optional(),
     items: z
       .array(
         bloque({
           id: texto,
           nivel: texto,
           titulo: texto,
+          // Momento de la empresa al que responde el servicio ("Si no tiene certeza de…").
+          paraQuien: pendiente.optional(),
           texto,
           resultado: pendiente.optional(),
           duracion: pendiente.optional(),
+          // Rango público; el valor exacto por tamaño va en la propuesta comercial (Daniel, 2026-11-18).
           precio: pendiente.optional(),
+          precioNota: pendiente.optional(),
         }),
       )
       .min(1),
-    inversion: bloque({ precio: texto, nota: texto, iva: pendiente }),
+    inversion: bloque({ precio: pendiente.optional(), nota: texto, iva: pendiente }),
   }),
   diferencial: bloque({ h2: texto, pilares: z.array(bloque({ titulo: texto, texto })).min(1) }),
   deltaBI: bloque({ h2: texto, texto, nota: texto, captura: idFoto, leyenda: texto, verCompleta: texto }),

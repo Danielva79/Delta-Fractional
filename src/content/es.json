@@ -100,36 +100,45 @@
     "cierre": "Vender más no siempre deja más. Miremos por qué."
   },
   "servicios": {
-    "h2": "Cómo trabajo como director financiero externo",
+    "antetitulo": "Cómo trabajo",
+    "h2": "Elija según el momento de su empresa. El valor depende de su tamaño.",
+    "intro": "Trabajo como director financiero externo. Usted escoge qué necesita hoy; el tamaño de su empresa define el alcance y el valor de cada servicio.",
     "items": [
       {
         "id": "diagnostico",
-        "nivel": "Para empezar",
+        "nivel": "Para ordenar",
         "titulo": "Diagnóstico financiero",
+        "paraQuien": "Si no tiene certeza de cuánta caja tendrá ni de qué línea le deja utilidad.",
         "texto": "Concilio la información, mido la rentabilidad de cada unidad de negocio y proyecto la caja.",
         "resultado": "Hallazgos priorizados y un plan de 90 días.",
         "duracion": "TODO:duracion-del-diagnostico",
-        "precio": "Desde $2 M"
+        "precio": "De $2 M a $5 M",
+        "precioNota": "Pago único, según el tamaño de su empresa"
       },
       {
         "id": "mensual",
-        "nivel": "Cada mes",
+        "nivel": "Para dirigir cada mes",
         "titulo": "Dirección financiera mensual",
+        "paraQuien": "Si ya tiene las cifras en orden y necesita seguimiento y criterio para decidir.",
         "texto": "Presupuesto, seguimiento contra lo real, comité financiero con compromisos y un tablero propio, Delta BI.",
-        "resultado": "La gerencia ve cada mes su caja y su rentabilidad."
+        "resultado": "La gerencia ve cada mes su caja y su rentabilidad.",
+        "precio": "De $2 M a $5 M al mes",
+        "precioNota": "Según el tamaño de su empresa"
       },
       {
         "id": "proyectos",
-        "nivel": "Cuando lo necesite",
+        "nivel": "Para decidir",
         "titulo": "Proyectos",
-        "texto": "Valoración de empresas, financiación y estructuración financiera de operaciones.",
-        "resultado": "TODO:resultado-proyectos"
+        "paraQuien": "Si viene una decisión grande: financiar el crecimiento, abrir una sede o vender la empresa.",
+        "texto": "Valoración de empresas, financiación y relación con bancos, estructuración financiera de operaciones y costeo de producción.",
+        "resultado": "Una decisión tomada con cifras y escenarios.",
+        "precio": "Según alcance",
+        "precioNota": "Cotización por proyecto, sin mensualidad"
       }
     ],
     "inversion": {
-      "precio": "Desde $2 M mensuales",
-      "nota": "Según tamaño de la empresa y tipo de servicio.",
-      "iva": "TODO:incluye-iva"
+      "nota": "El alcance y el valor exactos van en la propuesta, después de conocer su empresa.",
+      "iva": "Valores antes de IVA."
     }
   },
   "diferencial": {
