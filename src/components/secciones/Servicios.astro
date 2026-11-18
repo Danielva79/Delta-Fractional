@@ -41,7 +41,7 @@ const { inversion } = c.servicios;
             ) : esDiagnostico ? (
               <a class="enlace-flecha accion" href={diagnostico(c)} data-evento="cta_diagnostico_click" data-ubicacion="servicios">{c.ctaPrincipal}<Icono nombre="arrow-right" tamano={18} /></a>
             ) : (
-              <a class="enlace-flecha accion" href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="servicios">{c.ctaWhatsApp}<Icono nombre="arrow-right" tamano={18} /></a>
+              <a class="enlace-flecha accion" href={whatsapp(c)} data-evento="cta_whatsapp_click" data-ubicacion="servicios">{conAutodiagnostico(c) ? c.ctaAgendarCita : c.ctaWhatsApp}<Icono nombre="arrow-right" tamano={18} /></a>
             )}
           </article>
         );
