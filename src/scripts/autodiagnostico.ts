@@ -78,14 +78,22 @@ function iniciar(raiz: HTMLElement) {
       keepalive,
     });
   }
-  function guardarSesion(estado: Estado, keepalive = false) {
-    if (!s) return;
+  // Los guardados van en fila (uno después del otro): así llegan en orden y el contacto puede
+  // esperar a que el resultado esté guardado (en producción cada guardado tarda 1 a 3 s).
+  let guardadoPendiente: Promise<unknown> = Promise.resolve();
+  function guardarSesion(estado: Estado, keepalive = false): Promise<unknown> {
+    if (!s) return Promise.resolve();
     const cuerpo = {
       accion: 'guardar', session_token: s.token, version: VERSION_CUESTIONARIO, empresa: s.empresa,
       estado, ultimo_paso: estado === 'resultado_visto' ? 'resultado' : s.ultimoPaso, respuestas: s.respuestas,
       duracion_segundos: duracion(), utm: s.utm, referrer: s.referrer, origen: s.origen, dispositivo: dispositivo(),
     };
-    enviar(cuerpo, keepalive).catch(() => { /* el autodiagnóstico sigue aunque no se guarde */ });
+    // Al salir de la página no se espera la fila: keepalive debe salir ya.
+    if (keepalive) return enviar(cuerpo, true).catch(() => {});
+    guardadoPendiente = guardadoPendiente
+      .then(() => enviar(cuerpo))
+      .catch(() => { /* el autodiagnóstico sigue aunque no se guarde */ });
+    return guardadoPendiente;
   }
 
   // ---------- Pantallas ----------
@@ -311,13 +319,23 @@ function iniciar(raiz: HTMLElement) {
     estadoC.textContent = '';
     const v = (n: string) => (formC.elements.namedItem(n) as HTMLInputElement).value.trim();
     try {
-      const r = await enviar({
+      const datos = {
         accion: 'contacto', session_token: s.token, version: VERSION_CUESTIONARIO,
         nombre: v('nombre'), correo: v('correo'), whatsapp: limpiarTel(v('whatsapp')), ciudad: v('ciudad'),
         consentimiento: (formC.elements.namedItem('autorizacion') as HTMLInputElement).checked,
         consentimiento_version: cfg.versionAutorizacion, consentimiento_url: cfg.urlPolitica,
         turnstile_token: tokenTs, sitio_web: v('sitio_web'),
-      });
+      };
+      // El servidor exige que el resultado ya esté guardado: esperar los guardados en curso.
+      await guardadoPendiente;
+      let r = await enviar(datos);
+      let error = r && !r.ok ? String(((await r.clone().json().catch(() => ({}))) as { error?: string }).error ?? '') : '';
+      // Si el resultado no alcanzó a guardarse (p. ej. una sesión retomada), guardarlo y reintentar una vez.
+      if (r?.status === 409 && /no ha llegado al resultado/.test(error)) {
+        await guardarSesion('resultado_visto');
+        r = await enviar(datos);
+        error = r && !r.ok ? String(((await r.clone().json().catch(() => ({}))) as { error?: string }).error ?? '') : '';
+      }
       if (r && r.ok) {
         s.estado = 'contacto_enviado';
         s.ultimoPaso = 'contacto';
@@ -326,8 +344,9 @@ function iniciar(raiz: HTMLElement) {
         mostrarExito();
         return;
       }
-      estadoC.textContent = r?.status === 409 ? tc.errorYaEnviado : tc.error;
-      if (r?.status === 409) { s.estado = 'contacto_enviado'; guardarLocal(); }
+      const yaEnviado = r?.status === 409 && /ya envió/.test(error);
+      estadoC.textContent = yaEnviado ? tc.errorYaEnviado : tc.error;
+      if (yaEnviado) { s.estado = 'contacto_enviado'; guardarLocal(); }
     } catch {
       estadoC.textContent = tc.error;
     }
