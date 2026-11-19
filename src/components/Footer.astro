@@ -6,7 +6,7 @@ import { privacidadLista as avisoCompleto, rutaPrivacidad as rutaAviso } from '.
 interface Props { c: Contenido }
 const { c } = Astro.props;
 const anio = new Date().getFullYear(); // año del build
-// El aviso de privacidad solo se enlaza cuando tiene NIT, dirección, correo y vigencia.
+// La política de datos (/politica-datos/) se enlaza cuando está completa y vigente.
 const privacidadLista = avisoCompleto(c);
 const rutaPrivacidad = rutaAviso(c.idioma);
 ---

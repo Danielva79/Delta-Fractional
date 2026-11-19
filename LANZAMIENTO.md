@@ -51,9 +51,8 @@ en `es.json` (desaparecen la página, la política, el enlace del menú y la ban
 |---|---|---|
 | Captura de Delta BI con cifras que no sean de un cliente | `fotos/delta-bi-captura.png` y `fotos/delta-bi-captura-movil.png` + `features.capturaDeltaBI` | la captura con marco y la leyenda "Datos de una empresa ficticia" (el código ya está listo) |
 | Cuestionario de 15 preguntas: nombre, frase y URL | `cuestionario` en `es.json` y `en.json` + `contacto.diagnosticoUrl` + `cuestionario.activo` | la banda presenta el cuestionario en vez del diagnóstico |
-| Correo de contacto | `contacto.correo` | pie, aviso de privacidad y formulario |
-| NIT y dirección | `contacto.nit`, `contacto.direccionFiscal` | aviso de privacidad |
-| Fecha de entrada en vigor del aviso | `vigencia` en `privacidad.es.json` y `privacidad.en.json` | aviso de privacidad (después de revisión del abogado) |
+| Correo de contacto | `contacto.correo` | pie, política de datos y formulario |
+| NIT y dirección | `contacto.nit`, `contacto.direccionFiscal` | política de datos |
 | Política de datos revisada, identificación, retención, agenda y llaves del autodiagnóstico | ver la sección 2b | /autodiagnostico/ en producción |
 | Clave de Web3Forms | variable `PUBLIC_WEB3FORMS_KEY` + `features.formularioContacto` | formulario de contacto |
 | Si el precio incluye IVA | `servicios.inversion.iva` | la nota del IVA junto al precio |
@@ -70,5 +69,5 @@ Redactados durante el rediseño, fuera del contenido aprobado:
 - Formulario (`formulario` en `es.json` / `en.json`): título "O déjeme sus datos y le escribo", botón "Enviar" y mensajes de error.
 - Autodiagnóstico: las aclaraciones de las preguntas (`src/lib/autodiagnostico/cuestionario.ts`), los textos por nivel del semáforo, las alertas, la nota de ventas, los mensajes y la autorización (`src/content/autodiagnostico.json`), la banda de inicio (`cuestionario` en `es.json`) y la política de datos (`src/content/politica-datos.json`, BORRADOR para revisión jurídica).
 - Página 404: "Esta página no existe." / "Ir al inicio".
-- Aviso de privacidad completo (`privacidad.es.json` / `privacidad.en.json`): texto base para revisión de un abogado.
+- El aviso de privacidad aparte (`/privacidad/`) se retiró el 19-nov-2026: la única política es `/politica-datos/` (`politica-datos.json`), que también cubre Umami, Turnstile y Supabase. Si se activa Web3Forms, agregarlo a sus proveedores.
 - Traducción completa al inglés (`en.json`): revisión de Natalia.

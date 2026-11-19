@@ -285,7 +285,7 @@
   },
   "footer": {
     "linea": "Delta Fractional · Dirección financiera externa para pymes",
-    "privacidad": "Aviso de privacidad"
+    "privacidad": "Política de tratamiento de datos"
   },
   "fotos": {
     "hero-retrato": {
@@ -379,8 +379,8 @@
     "telefono": "WhatsApp o teléfono",
     "correo": "Correo",
     "mensaje": "Mensaje corto (opcional)",
-    "autorizacionAntes": "Autorizo el tratamiento de mis datos personales según el",
-    "autorizacionEnlace": "Aviso de privacidad",
+    "autorizacionAntes": "Autorizo el tratamiento de mis datos personales según la",
+    "autorizacionEnlace": "Política de tratamiento de datos",
     "enviar": "Enviar",
     "enviando": "Enviando…",
     "exito": "Gracias. Le escribo pronto por WhatsApp o correo.",

@@ -1,17 +1,14 @@
 // sitemap.xml con / y /en/ y sus alternos (hreflang). La vista interna no se incluye.
-// El aviso de privacidad entra solo cuando existe (ver src/lib/privacidad.ts).
 // /autodiagnostico/ (solo en español, sin alternos) entra con features.autodiagnostico;
 // /politica-datos/ solo cuando deja de ser borrador.
 import type { APIRoute } from 'astro';
 import { contenido } from '../lib/contenido';
-import { privacidadLista } from '../lib/privacidad';
 import { politica, RUTA_AUTODIAGNOSTICO, RUTA_POLITICA } from '../lib/autodiagnostico/contenido';
 
 export const GET: APIRoute = ({ site }) => {
   const abs = (p: string) => new URL(p, site ?? 'https://deltafractional.com').href;
   const es = contenido('es');
   const grupos: { es: string; en: string }[] = [{ es: '/', en: '/en/' }];
-  if (privacidadLista(es)) grupos.push({ es: '/privacidad/', en: '/en/privacy/' });
   const solos: string[] = [];
   if (es.features.autodiagnostico) {
     solos.push(RUTA_AUTODIAGNOSTICO);

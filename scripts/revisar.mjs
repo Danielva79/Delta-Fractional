@@ -69,7 +69,7 @@ const avisar = (pagina, msg) => problemas.push(`${pagina}: ${msg}`);
 
 // El diagnóstico (y el cuestionario) no son gratis: nada de "gratis" ni "free" en ningún texto,
 // tampoco en los que hoy no se publican (TODO, bloques apagados, mensajes de WhatsApp, alts).
-// El aviso de privacidad queda fuera: allí "gratuita" es el derecho de consulta de la Ley 1581.
+// La política de datos queda fuera: allí "gratuita" es el derecho de consulta de la Ley 1581.
 const NO_GRATIS = /gratis|gratuit[oa]s?|sin costo|\bfree\b/i;
 for (const archivo of ['src/content/es.json', 'src/content/en.json']) {
   fs.readFileSync(archivo, 'utf8').split(/\r?\n/).forEach((linea, i) => {
@@ -122,22 +122,19 @@ for (const [ruta, c] of Object.entries(paginas)) {
   }
 }
 
-// Aviso de privacidad y formulario: no se publican incompletos.
-const privEs = JSON.parse(fs.readFileSync('src/content/privacidad.es.json', 'utf8'));
-const avisoCompleto = ![es.contacto.nit, es.contacto.direccionFiscal, es.contacto.correo, privEs.vigencia].some(esTodo);
+// Política de datos (/politica-datos/, la única desde el 19-nov-2026; el aviso /privacidad/ se retiró)
+// y formulario: no se enlazan ni se publican incompletos.
+const polDatos = JSON.parse(fs.readFileSync('src/content/politica-datos.json', 'utf8'));
+const avisoCompleto = !polDatos.borrador && ![es.contacto.nit, es.contacto.direccionFiscal, es.contacto.correo, polDatos.vigencia].some(esTodo);
 for (const r of ['privacidad', 'en/privacy']) {
-  const existe = fs.existsSync(path.join(DIST, r, 'index.html'));
-  if (existe && !avisoCompleto) problemas.push(`/${r}/: se publicó el aviso de privacidad con datos pendientes`);
-  if (existe) {
-    const t = fs.readFileSync(path.join(DIST, r, 'index.html'), 'utf8');
-    if (/\[PENDIENTE|TODO/.test(t)) problemas.push(`/${r}/: el aviso tiene datos pendientes visibles`);
-  }
+  if (fs.existsSync(path.join(DIST, r, 'index.html'))) problemas.push(`/${r}/: el aviso de privacidad se retiró; la política está en /politica-datos/`);
 }
 for (const r of ['/', '/en/']) {
   const t = fs.readFileSync(path.join(DIST, r, 'index.html'), 'utf8');
   const hayForm = t.includes('data-formulario');
-  if (hayForm && (!es.features.formularioContacto || !avisoCompleto)) problemas.push(`${r}: el formulario aparece sin bandera o sin aviso de privacidad completo`);
-  if (!avisoCompleto && /href="[^"]*(privacidad|privacy)\//.test(t)) problemas.push(`${r}: enlaza un aviso de privacidad que no existe`);
+  if (hayForm && (!es.features.formularioContacto || !avisoCompleto)) problemas.push(`${r}: el formulario aparece sin bandera o sin política de datos completa`);
+  if (/href="[^"]*\/(privacidad|privacy)\//.test(t)) problemas.push(`${r}: enlaza el aviso de privacidad retirado`);
+  if (!avisoCompleto && /href="[^"]*\/politica-datos\//.test(t)) problemas.push(`${r}: enlaza la política de datos incompleta`);
 }
 
 // SEO técnico: canonical, hreflang, OG, JSON-LD, sitemap, robots y redirección de index-en.html.

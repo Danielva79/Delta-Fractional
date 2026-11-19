@@ -1,42 +1,21 @@
-// Aviso de privacidad: carga, validación y estado.
-// La página pública se genera solo cuando el aviso está completo (NIT, dirección, correo y vigencia).
-import es from '../content/privacidad.es.json';
-import en from '../content/privacidad.en.json';
-import { esquemaPrivacidad, explicarErrores, type Privacidad } from '../content/schema';
+// Política de tratamiento de datos: una sola, en /politica-datos/ (solo en español), la misma que
+// autoriza el autodiagnóstico. El antiguo aviso /privacidad/ (privacidad.es.json / .en.json) se retiró
+// el 19-nov-2026 para no tener dos textos. Si se activa el formulario de Web3Forms, agregue Web3Forms
+// a "Proveedores" en politica-datos.json antes de publicarlo.
 import type { Contenido, Idioma } from './contenido';
+import { politica, RUTA_POLITICA } from './autodiagnostico/contenido';
 
-function validar(datos: unknown, archivo: string): Privacidad {
-  const r = esquemaPrivacidad.safeParse(datos);
-  if (!r.success) throw new Error(explicarErrores(archivo, r.error));
-  return r.data;
-}
-const textos: Record<Idioma, Privacidad> = {
-  es: validar(es, 'src/content/privacidad.es.json'),
-  en: validar(en, 'src/content/privacidad.en.json'),
-};
-
-export const avisoPrivacidad = (idioma: Idioma) => textos[idioma];
-
-/** Datos que el aviso necesita y todavía faltan. */
+/** Datos que la política necesita y todavía faltan. */
 export function faltantesPrivacidad(c: Contenido): string[] {
   const faltan: string[] = [];
-  if (!c.contacto.nit) faltan.push('NIT (contacto.nit en es.json)');
+  if (!c.contacto.nit) faltan.push('identificación (contacto.nit en es.json)');
   if (!c.contacto.direccionFiscal) faltan.push('dirección (contacto.direccionFiscal en es.json)');
   if (!c.contacto.correo) faltan.push('correo (contacto.correo en es.json)');
-  if (!textos.es.vigencia || !textos.en.vigencia) faltan.push('fecha de entrada en vigor (vigencia en privacidad.es.json y privacidad.en.json)');
+  if (politica.borrador) faltan.push('política en borrador (borrador en politica-datos.json)');
+  if (!politica.vigencia) faltan.push('vigencia (politica-datos.json)');
   return faltan;
 }
 export const privacidadLista = (c: Contenido) => faltantesPrivacidad(c).length === 0;
 
-export const rutaPrivacidad = (idioma: Idioma) => (idioma === 'es' ? '/privacidad/' : '/en/privacy/');
-
-/** Reemplaza {nit} {direccion} {correo} {whatsapp} {vigencia}. Lo que falta se marca (solo en la vista interna). */
-export function rellenar(texto: string, c: Contenido, vigencia: string | null): string {
-  const pendiente = (q: string) => `[PENDIENTE: ${q}]`;
-  return texto
-    .replaceAll('{nit}', c.contacto.nit ?? pendiente('NIT'))
-    .replaceAll('{direccion}', c.contacto.direccionFiscal ?? pendiente('dirección'))
-    .replaceAll('{correo}', c.contacto.correo ?? pendiente('correo'))
-    .replaceAll('{whatsapp}', c.contacto.whatsappNumero)
-    .replaceAll('{vigencia}', vigencia ?? pendiente('fecha de entrada en vigor'));
-}
+/** La política solo existe en español; la versión en inglés del sitio enlaza la misma página. */
+export const rutaPrivacidad = (_idioma: Idioma) => RUTA_POLITICA;

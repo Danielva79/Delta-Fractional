@@ -61,11 +61,10 @@ const slots = Object.keys(c.fotos) as IdFoto[];
 
   <section class="seccion" aria-labelledby="h-privacidad">
     <div class="wrap">
-      <h2 id="h-privacidad" class="h2">Aviso de privacidad</h2>
-      <p class="sub">Texto base para revisión de un abogado. La página pública no existe hasta completar: {faltantesPrivacidad(c).join('; ')}.</p>
+      <h2 id="h-privacidad" class="h2">Política de tratamiento de datos</h2>
+      <p class="sub">Una sola política para todo el sitio, solo en español (el aviso /privacidad/ se retiró el 19-nov-2026). {faltantesPrivacidad(c).length ? `Falta: ${faltantesPrivacidad(c).join('; ')}.` : 'Vigente; pendiente de revisión de un abogado.'}</p>
       <p class="enlaces-aviso">
-        <a class="enlace-flecha" href={ruta('/vista-interna/privacidad/')}>Ver el aviso en español (vista interna)</a>
-        <a class="enlace-flecha" href={ruta('/vista-interna/privacy/')}>Ver el aviso en inglés (vista interna)</a>
+        <a class="enlace-flecha" href={ruta('/politica-datos/')}>Ver la política</a>
       </p>
     </div>
   </section>

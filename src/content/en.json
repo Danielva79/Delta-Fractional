@@ -223,7 +223,7 @@
   "footer": {
     "needsReview": true,
     "linea": "Delta Fractional · Outsourced financial management for SMEs",
-    "privacidad": "Privacy notice"
+    "privacidad": "Personal data policy (in Spanish)"
   },
   "fotos": {
     "hero-retrato": {
@@ -284,7 +284,7 @@
     "correo": "Email",
     "mensaje": "Short message (optional)",
     "autorizacionAntes": "I authorize the processing of my personal data under the",
-    "autorizacionEnlace": "Privacy notice",
+    "autorizacionEnlace": "Personal data policy (in Spanish)",
     "enviar": "Send",
     "enviando": "Sending…",
     "exito": "Thank you. I will write to you soon by WhatsApp or email.",

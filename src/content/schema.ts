@@ -179,25 +179,6 @@ export const esquemaEN = z
   })
   .strict();
 
-// ---------- Aviso de privacidad (privacidad.es.json / privacidad.en.json) ----------
-export const esquemaPrivacidad = z
-  .object({
-    _nota: z.string().optional(),
-    needsReview: z.boolean().optional(),
-    titulo: texto,
-    avisoRevision: texto,
-    vigencia: pendiente,
-    secciones: z
-      .array(
-        z
-          .object({ h2: texto, parrafos: z.array(texto).optional(), lista: z.array(texto).optional() })
-          .strict()
-          .refine((s) => s.parrafos || s.lista, { message: 'cada sección necesita "parrafos" o "lista"' }),
-      )
-      .min(1),
-  })
-  .strict();
-export type Privacidad = z.infer<typeof esquemaPrivacidad>;
 
 export type ContenidoES = z.infer<typeof esquemaES>;
 export type ContenidoEN = z.infer<typeof esquemaEN>;
