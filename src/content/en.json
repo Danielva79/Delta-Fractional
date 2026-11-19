@@ -1,7 +1,7 @@
 {
-  "_nota": "English translation of es.json. It adds no new claims. Every block has \"needsReview\": true until Natalia approves it. Contact data, features and photo files come from es.json; only texts live here. Values starting with \"TODO\" are pending and are not published.",
+  "_nota": "English translation of es.json. It adds no new claims. Natalia approved the whole translation on 2026-11-19 (\"needsReview\": false); mark a block true again when its text changes. Contact data, features and photo files come from es.json; only texts live here. Values starting with \"TODO\" are pending and are not published.",
   "meta": {
-    "needsReview": true,
+    "needsReview": false,
     "lang": "en",
     "title": "Fractional CFO for SMEs in Colombia | Delta Fractional",
     "description": "Outsourced finance director for SMEs: I get to know your business, reconcile your figures and project your cash. More than 18 years in finance. Manizales, nationwide coverage.",
@@ -9,7 +9,7 @@
     "ogImageAlt": "Delta Fractional. Your company sells. Let's make it generate cash too."
   },
   "marca": {
-    "needsReview": true,
+    "needsReview": false,
     "nombre": "Delta Fractional",
     "nombreCorto": "Delta",
     "persona": "Daniel Villegas",
@@ -17,7 +17,7 @@
     "ubicacion": "Manizales, Caldas · Nationwide coverage"
   },
   "contacto": {
-    "needsReview": true,
+    "needsReview": false,
     "whatsappMensaje": "Hello Daniel, I'd like to learn more about your finance director services.",
     "whatsappMensajeDiagnostico": "Hello Daniel, I'd like to book the financial diagnostic."
   },
@@ -42,7 +42,7 @@
   "ctaPrincipal": "Book a diagnostic",
   "ctaWhatsApp": "Message me on WhatsApp",
   "hero": {
-    "needsReview": true,
+    "needsReview": false,
     "antetitulo": "Outsourced finance director for SMEs",
     "h1": "Your company sells. Let's make it generate cash too.",
     "h1Resaltado": "generate cash",
@@ -50,7 +50,7 @@
     "foto": "hero-retrato"
   },
   "prueba": {
-    "needsReview": true,
+    "needsReview": false,
     "items": [
       {
         "cifra": "18+",
@@ -71,7 +71,7 @@
     ]
   },
   "problema": {
-    "needsReview": true,
+    "needsReview": false,
     "h2": "Does this sound familiar?",
     "intro": "You make decisions without knowing for sure which line, branch or client makes you a profit, or how much cash you will have next month.",
     "dolores": [
@@ -87,7 +87,7 @@
     "cierre": "Selling more doesn't always mean keeping more. Let's look at why."
   },
   "servicios": {
-    "needsReview": true,
+    "needsReview": false,
     "antetitulo": "How I work",
     "h2": "Choose by where your company stands today. The fee depends on its size.",
     "intro": "I work as an outsourced finance director. You choose what you need today; your company's size sets the scope and fee of each service.",
@@ -130,7 +130,7 @@
     }
   },
   "diferencial": {
-    "needsReview": true,
+    "needsReview": false,
     "h2": "My way of working",
     "pilares": [
       {
@@ -148,7 +148,7 @@
     ]
   },
   "deltaBI": {
-    "needsReview": true,
+    "needsReview": false,
     "h2": "Delta BI",
     "texto": "Delta BI is the platform I built. I connect your company's data and build dashboards that cross-reference the information, so you understand your figures. Every client has access to Delta BI.",
     "nota": "Access is included in the service.",
@@ -157,7 +157,7 @@
     "verCompleta": "View full screenshot"
   },
   "sobre": {
-    "needsReview": true,
+    "needsReview": false,
     "h2": "About me",
     "parrafos": [
       "I'm Daniel Villegas. I work as an outsourced finance director under the Delta Fractional brand.",
@@ -169,7 +169,7 @@
     "linkedinLabel": "See my LinkedIn profile"
   },
   "diagnostico": {
-    "needsReview": true,
+    "needsReview": false,
     "antetitulo": "Financial diagnostic",
     "h2": "Do you know which line of your business makes you money?",
     "texto": "I reconcile the information, measure the profitability of each business unit and project the cash. Result: prioritized findings and a 90-day plan.",
@@ -194,7 +194,7 @@
     "sectores": "TODO:sectores"
   },
   "faq": {
-    "needsReview": true,
+    "needsReview": false,
     "h2": "Frequently asked questions",
     "items": [
       {
@@ -216,48 +216,48 @@
     ]
   },
   "cierre": {
-    "needsReview": true,
+    "needsReview": false,
     "h2": "If you're selling more but not keeping more, let's talk.",
     "texto": "Message me on WhatsApp or start with the diagnostic."
   },
   "footer": {
-    "needsReview": true,
+    "needsReview": false,
     "linea": "Delta Fractional · Outsourced financial management for SMEs",
     "privacidad": "Personal data policy (in Spanish)"
   },
   "fotos": {
     "hero-retrato": {
-      "needsReview": true,
+      "needsReview": false,
       "alt": "Daniel Villegas, outsourced finance director at Delta Fractional, with his arms crossed."
     },
     "sobre-daniel": {
-      "needsReview": true,
+      "needsReview": false,
       "alt": "Daniel Villegas standing by a whiteboard, speaking to a group."
     },
     "trabajo-cliente": {
-      "needsReview": true,
+      "needsReview": false,
       "alt": "Daniel Villegas draws a diagram on a whiteboard."
     },
     "banda-detalle": {
       "alt": ""
     },
     "delta-bi-captura": {
-      "needsReview": true,
+      "needsReview": false,
       "alt": "Monthly profitability dashboard in Delta BI, with data from a fictitious company."
     },
     "curso": {
-      "needsReview": true,
+      "needsReview": false,
       "alt": "Daniel Villegas explains to a group next to a whiteboard."
     }
   },
   "cuestionario": {
-    "needsReview": true,
+    "needsReview": false,
     "nombre": "TODO:questionnaire-name",
     "texto": "TODO:questionnaire-sentence",
     "cta": "Start"
   },
   "ui": {
-    "needsReview": true,
+    "needsReview": false,
     "saltar": "Skip to content",
     "menuAbrir": "Open menu",
     "menuCerrar": "Close menu",
@@ -275,7 +275,7 @@
     "curso": "Course"
   },
   "formulario": {
-    "needsReview": true,
+    "needsReview": false,
     "titulo": "Or leave me your details and I will write to you",
     "nombre": "Name",
     "empresa": "Company",

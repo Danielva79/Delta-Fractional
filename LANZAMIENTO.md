@@ -70,4 +70,4 @@ Redactados durante el rediseño, fuera del contenido aprobado:
 - Autodiagnóstico: las aclaraciones de las preguntas (`src/lib/autodiagnostico/cuestionario.ts`), los textos por nivel del semáforo, las alertas, la nota de ventas, los mensajes y la autorización (`src/content/autodiagnostico.json`), la banda de inicio (`cuestionario` en `es.json`) y la política de datos (`src/content/politica-datos.json`, BORRADOR para revisión jurídica).
 - Página 404: "Esta página no existe." / "Ir al inicio".
 - El aviso de privacidad aparte (`/privacidad/`) se retiró el 19-nov-2026: la única política es `/politica-datos/` (`politica-datos.json`), que también cubre Umami, Turnstile y Supabase. Si se activa Web3Forms, agregarlo a sus proveedores.
-- Traducción completa al inglés (`en.json`): revisión de Natalia.
+- Traducción al inglés (`en.json`): aprobada por Natalia el 19-nov-2026.
