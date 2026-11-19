@@ -20,10 +20,10 @@
     "whatsappMensaje": "Hola Daniel, me interesa conocer más sobre sus servicios de dirección financiera.",
     "whatsappMensajeDiagnostico": "Hola Daniel, quiero agendar el diagnóstico financiero.",
     "linkedin": "https://www.linkedin.com/in/daniel-villegas-deltafractional/",
-    "correo": "TODO:correo-de-contacto",
+    "correo": "danielv@deltafractional.com",
     "diagnosticoUrl": "/autodiagnostico/",
-    "nit": "TODO:nit",
-    "direccionFiscal": "TODO:direccion-para-aviso-de-privacidad"
+    "nit": "16073887",
+    "direccionFiscal": "Calle 69a No 28B-22"
   },
   "features": {
     "formularioContacto": false,

@@ -38,7 +38,8 @@ const config = {
   version: VERSION_CUESTIONARIO,
   versionAutorizacion: t.contacto.versionAutorizacion,
   urlPolitica,
-  agenda: t.configuracion.agendaUrl,
+  // Sin enlace de agenda, el botón abre WhatsApp con el mensaje del diagnóstico (decisión de Daniel, 2026-11-19).
+  agenda: t.configuracion.agendaUrl ?? whatsapp(c, c.contacto.whatsappMensajeDiagnostico),
   textos: {
     progreso: t.navegacion.progreso,
     errorPregunta: t.navegacion.errorPregunta,
@@ -166,7 +167,7 @@ const config = {
 
         <p class="nota-ventas" data-r-nota-ventas hidden set:html={conAnio(t.resultado.notaVentas)} />
         <p class="aviso">{t.resultado.aviso}</p>
-        <a class="btn btn-primario" data-r-agenda href="#contacto" data-evento="autodiagnostico_agenda_click" data-ubicacion="resultado">{t.resultado.cta}</a>
+        <a class="btn btn-primario" data-r-agenda href={t.configuracion.agendaUrl ?? whatsapp(c, c.contacto.whatsappMensajeDiagnostico)} data-evento="autodiagnostico_agenda_click" data-ubicacion="resultado">{t.resultado.cta}</a>
 
         <!-- Contacto -->
         <div class="contacto" id="contacto">

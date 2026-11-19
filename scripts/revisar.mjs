@@ -221,8 +221,8 @@ if (process.argv.includes('--lanzamiento') && es.features.autodiagnostico) {
   if (esTodo(es.contacto.nit)) falta.push('identificación del responsable (contacto.nit en es.json)');
   if (esTodo(es.contacto.correo)) falta.push('correo de contacto (contacto.correo en es.json)');
   if (esTodo(es.contacto.direccionFiscal)) falta.push('dirección (contacto.direccionFiscal en es.json)');
-  if (esTodo(adJson.configuracion.retencionDiasIncompletas)) falta.push('plazo de retención (configuracion.retencionDiasIncompletas en autodiagnostico.json)');
-  for (const v of ['PUBLIC_AUTODIAGNOSTICO_URL', 'PUBLIC_SUPABASE_PUBLISHABLE_KEY', 'PUBLIC_TURNSTILE_SITE_KEY']) if (!process.env[v]) falta.push(`variable ${v}`);
+  // Turnstile es opcional (la función lo exige solo si tiene TURNSTILE_SECRET_KEY).
+  for (const v of ['PUBLIC_AUTODIAGNOSTICO_URL', 'PUBLIC_SUPABASE_PUBLISHABLE_KEY']) if (!process.env[v]) falta.push(`variable ${v}`);
   if (fs.existsSync(paginaAD) && /\[PENDIENTE/.test(fs.readFileSync(paginaAD, 'utf8'))) falta.push('/autodiagnostico/ muestra datos [PENDIENTE]');
   for (const f of falta) problemas.push(`lanzamiento del autodiagnóstico: falta ${f} (o ponga features.autodiagnostico en false)`);
 }

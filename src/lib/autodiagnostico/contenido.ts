@@ -13,7 +13,6 @@ const nivel = b({ etiqueta: texto, texto });
 const esquemaTextos = b({
   configuracion: b({
     agendaUrl: pendiente.refine((v) => v === null || /^https:\/\//.test(v), { message: 'debe empezar por https://' }),
-    retencionDiasIncompletas: pendiente.refine((v) => v === null || /^[1-9][0-9]{0,3}$/.test(v), { message: 'debe ser un número de días' }),
     responsable: texto,
   }),
   meta: b({ title: texto, description: texto }),
@@ -74,7 +73,6 @@ export function rellenarPolitica(t: string, c: Contenido): string {
     .replaceAll('{direccion}', c.contacto.direccionFiscal ?? pendienteMarca('dirección'))
     .replaceAll('{correo}', c.contacto.correo ?? pendienteMarca('correo'))
     .replaceAll('{whatsapp}', c.contacto.whatsappNumero)
-    .replaceAll('{retencion}', textosAD.configuracion.retencionDiasIncompletas ?? pendienteMarca('plazo de retención'))
     .replaceAll('{vigencia}', politica.vigencia ?? pendienteMarca('fecha de entrada en vigor'));
 }
 
@@ -86,9 +84,7 @@ export function faltantesAutodiagnostico(c: Contenido): string[] {
   if (!c.contacto.correo) f.push('correo de contacto (contacto.correo en es.json)');
   if (!c.contacto.direccionFiscal) f.push('dirección (contacto.direccionFiscal en es.json)');
   if (!politica.vigencia) f.push('vigencia de la política (politica-datos.json)');
-  if (!textosAD.configuracion.retencionDiasIncompletas) f.push('plazo de retención (configuracion.retencionDiasIncompletas)');
   if (!conexion.url) f.push('variable PUBLIC_AUTODIAGNOSTICO_URL');
   if (!conexion.llave) f.push('variable PUBLIC_SUPABASE_PUBLISHABLE_KEY');
-  if (!conexion.turnstile) f.push('variable PUBLIC_TURNSTILE_SITE_KEY');
   return f;
 }

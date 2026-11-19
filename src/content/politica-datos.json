@@ -1,15 +1,15 @@
 {
-  "_nota": "Política de tratamiento de datos personales (Ley 1581 de 2012). BORRADOR para revisión jurídica: lo redactó Claude durante la construcción del autodiagnóstico. Variables: {responsable} {identificacion} {direccion} {correo} {whatsapp} {retencion} {vigencia}. Las que faltan se ven como [PENDIENTE: …]. Si cambia el texto de forma sustancial, cambie también contacto.versionAutorizacion en autodiagnostico.json y VERSIONES_CONSENTIMIENTO en la Edge Function.",
+  "_nota": "Política de tratamiento de datos personales (Ley 1581 de 2012), vigente desde el 19 de noviembre de 2026 por decisión de Daniel; pendiente de revisión de un abogado, que puede pedir ajustes. Variables: {responsable} {identificacion} {direccion} {correo} {whatsapp} {vigencia}. Si el texto cambia de forma sustancial, cambie también contacto.versionAutorizacion en autodiagnostico.json y VERSIONES_CONSENTIMIENTO en la Edge Function. Si se activa Turnstile, agregue Cloudflare a \"Proveedores\".",
   "needsReview": true,
-  "borrador": true,
+  "borrador": false,
   "titulo": "Política de tratamiento de datos personales",
   "avisoRevision": "BORRADOR – pendiente de revisión jurídica",
-  "vigencia": "TODO:fecha-de-entrada-en-vigor",
+  "vigencia": "19 de noviembre de 2026",
   "secciones": [
     {
       "h2": "Responsable del tratamiento",
       "parrafos": [
-        "{responsable}, identificado con {identificacion}, con domicilio en {direccion}. Correo: {correo}. WhatsApp: {whatsapp}."
+        "{responsable}, identificado con el documento número {identificacion}, con domicilio en {direccion}. Correo: {correo}. WhatsApp: {whatsapp}."
       ]
     },
     {
@@ -64,19 +64,19 @@
     {
       "h2": "Proveedores que tratan datos por mi cuenta",
       "parrafos": [
-        "Los datos se guardan en Supabase, un servicio de bases de datos en la nube, y la verificación anti-robots la hace Cloudflare Turnstile. Estos proveedores actúan como encargados del tratamiento y pueden guardar la información en servidores fuera de Colombia. No vendo ni cedo sus datos a terceros."
+        "Los datos se guardan en Supabase, un servicio de bases de datos en la nube que actúa como encargado del tratamiento y puede guardar la información en servidores fuera de Colombia. No vendo ni cedo sus datos a terceros."
       ]
     },
     {
       "h2": "Seguridad",
       "parrafos": [
-        "Aplico medidas razonables para proteger sus datos contra pérdida, acceso o uso no autorizado: conexión cifrada (HTTPS), acceso restringido a la base de datos y verificación anti-robots."
+        "Aplico medidas razonables para proteger sus datos contra pérdida, acceso o uso no autorizado: conexión cifrada (HTTPS), acceso restringido a la base de datos y límites contra el envío automatizado del formulario."
       ]
     },
     {
       "h2": "Tiempo de conservación",
       "parrafos": [
-        "Conservo sus datos de contacto mientras sean necesarios para las finalidades de esta política o mientras exista una relación comercial, y por el tiempo que exijan las normas aplicables. Las sesiones del autodiagnóstico que no se terminan se borran a los {retencion} días."
+        "Conservo sus datos de contacto mientras sean necesarios para las finalidades de esta política o mientras exista una relación comercial, y por el tiempo que exijan las normas aplicables. Las respuestas de los autodiagnósticos que no se terminan no incluyen datos personales y se conservan para mejorar el autodiagnóstico."
       ]
     },
     {

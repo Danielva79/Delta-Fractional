@@ -2,9 +2,8 @@
   "_nota": "Textos de /autodiagnostico/ (solo en español). Las preguntas, opciones, aclaraciones y puntajes están en src/lib/autodiagnostico/cuestionario.ts (archivo compartido con la Edge Function de Delta BI). Los bloques con needsReview: true son textos redactados durante la construcción que Daniel debe aprobar.",
   "needsReview": true,
   "configuracion": {
-    "_nota": "agendaUrl: enlace de la agenda (https://...). Mientras esté en TODO, el botón 'Agende su diagnóstico financiero' lleva al bloque de contacto. retencionDiasIncompletas: días que se guardan las sesiones incompletas (el mismo número va en el secret RETENCION_DIAS_INCOMPLETAS de la Edge Function).",
+    "_nota": "agendaUrl: enlace de la agenda (https://...). Mientras esté en TODO, el botón 'Agende su diagnóstico financiero' abre WhatsApp con el mensaje del diagnóstico. Las sesiones incompletas se conservan (decisión de Daniel, 2026-11-19).",
     "agendaUrl": "TODO:enlace-de-la-agenda",
-    "retencionDiasIncompletas": "TODO:dias-de-retencion-de-sesiones-incompletas",
     "responsable": "Delta Fractional – Daniel Villegas Arango"
   },
   "meta": {
@@ -71,9 +70,9 @@
     "whatsapp": "WhatsApp",
     "whatsappAyuda": "Con el indicativo del país si no es de Colombia.",
     "ciudad": "Ciudad",
-    "autorizacion": "Autorizo a {responsable}, identificado con {identificacion} y correo {correo}, a tratar mis datos personales para enviarme el informe de este autodiagnóstico y contactarme con fines comerciales, conforme a la {politica}.",
+    "autorizacion": "Autorizo a {responsable}, identificado con el documento número {identificacion} y correo {correo}, a tratar mis datos personales para enviarme el informe de este autodiagnóstico y contactarme con fines comerciales, conforme a la {politica}.",
     "autorizacionEnlace": "Política de tratamiento de datos",
-    "versionAutorizacion": "2026-11-17-borrador",
+    "versionAutorizacion": "2026-11-19",
     "enviar": "Enviar",
     "enviando": "Enviando…",
     "exito": "Gracias. Le escribiré para enviarle el informe y acordar la fecha del diagnóstico.",
