@@ -66,6 +66,7 @@
       "parrafos": [
         "Los datos se guardan en Supabase, un servicio de bases de datos en la nube que actúa como encargado del tratamiento y puede guardar la información en servidores fuera de Colombia.",
         "Para evitar envíos automatizados, el formulario de contacto usa Cloudflare Turnstile, un servicio de Cloudflare que revisa señales técnicas del navegador y del dispositivo (como la dirección IP) para confirmar que quien lo envía es una persona. Cloudflare puede tratar esos datos en servidores fuera de Colombia.",
+        "Para medir las visitas del sitio uso Umami Cloud, que no usa cookies ni guarda datos que lo identifiquen: solo cuenta páginas vistas y clics en los botones.",
         "No vendo ni cedo sus datos a terceros."
       ]
     },

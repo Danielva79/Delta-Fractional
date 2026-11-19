@@ -37,7 +37,7 @@ jobs:
         env:
           ASTRO_TELEMETRY_DISABLED: 1
           PUBLIC_SITE_URL: https://deltafractional.com
-          PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.PUBLIC_UMAMI_WEBSITE_ID }}
+          PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.PUBLIC_UMAMI_WEBSITE_ID || '8a0c8333-6c0c-4641-932e-860fd9774b8f' }}
           PUBLIC_WEB3FORMS_KEY: ${{ vars.PUBLIC_WEB3FORMS_KEY }}
           PUBLIC_WEB3FORMS_HCAPTCHA: ${{ vars.PUBLIC_WEB3FORMS_HCAPTCHA }}
           PUBLIC_AUTODIAGNOSTICO_URL: ${{ vars.PUBLIC_AUTODIAGNOSTICO_URL || 'https://bvlunlwnsrozkfuwcxqb.supabase.co/functions/v1/autodiagnostico-guardar' }}
