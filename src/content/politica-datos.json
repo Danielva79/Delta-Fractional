@@ -1,5 +1,5 @@
 {
-  "_nota": "Política de tratamiento de datos personales (Ley 1581 de 2012), vigente desde el 19 de noviembre de 2026 por decisión de Daniel; pendiente de revisión de un abogado, que puede pedir ajustes. Variables: {responsable} {identificacion} {direccion} {correo} {whatsapp} {vigencia}. Si el texto cambia de forma sustancial, cambie también contacto.versionAutorizacion en autodiagnostico.json y VERSIONES_CONSENTIMIENTO en la Edge Function. Si se activa Turnstile, agregue Cloudflare a \"Proveedores\".",
+  "_nota": "Política de tratamiento de datos personales (Ley 1581 de 2012), vigente desde el 19 de noviembre de 2026 por decisión de Daniel; pendiente de revisión de un abogado, que puede pedir ajustes. Variables: {responsable} {identificacion} {direccion} {correo} {whatsapp} {vigencia}. Si el texto cambia de forma sustancial, cambie también contacto.versionAutorizacion en autodiagnostico.json y VERSIONES_CONSENTIMIENTO en la Edge Function. Turnstile (Cloudflare) activo desde el 19-nov-2026: figura en \"Proveedores\" y \"Seguridad\".",
   "needsReview": true,
   "borrador": false,
   "titulo": "Política de tratamiento de datos personales",
@@ -64,13 +64,15 @@
     {
       "h2": "Proveedores que tratan datos por mi cuenta",
       "parrafos": [
-        "Los datos se guardan en Supabase, un servicio de bases de datos en la nube que actúa como encargado del tratamiento y puede guardar la información en servidores fuera de Colombia. No vendo ni cedo sus datos a terceros."
+        "Los datos se guardan en Supabase, un servicio de bases de datos en la nube que actúa como encargado del tratamiento y puede guardar la información en servidores fuera de Colombia.",
+        "Para evitar envíos automatizados, el formulario de contacto usa Cloudflare Turnstile, un servicio de Cloudflare que revisa señales técnicas del navegador y del dispositivo (como la dirección IP) para confirmar que quien lo envía es una persona. Cloudflare puede tratar esos datos en servidores fuera de Colombia.",
+        "No vendo ni cedo sus datos a terceros."
       ]
     },
     {
       "h2": "Seguridad",
       "parrafos": [
-        "Aplico medidas razonables para proteger sus datos contra pérdida, acceso o uso no autorizado: conexión cifrada (HTTPS), acceso restringido a la base de datos y límites contra el envío automatizado del formulario."
+        "Aplico medidas razonables para proteger sus datos contra pérdida, acceso o uso no autorizado: conexión cifrada (HTTPS), acceso restringido a la base de datos, límites contra el envío automatizado del formulario y una verificación de Cloudflare Turnstile antes de recibir sus datos de contacto."
       ]
     },
     {

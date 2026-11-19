@@ -4,7 +4,7 @@
 #   PUBLIC_UMAMI_WEBSITE_ID, PUBLIC_WEB3FORMS_KEY, PUBLIC_WEB3FORMS_HCAPTCHA
 #   Autodiagnóstico: PUBLIC_AUTODIAGNOSTICO_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY, PUBLIC_TURNSTILE_SITE_KEY
 #   (todas son públicas por diseño; ningún secreto va aquí ni en el repo). La URL de la función y la llave
-#   publicable de Delta BI van por defecto abajo; PUBLIC_TURNSTILE_SITE_KEY es opcional.
+#   publicable de Delta BI van por defecto abajo; PUBLIC_TURNSTILE_SITE_KEY (llave pública de Cloudflare) también va por defecto.
 name: Publicar sitio
 
 on:
@@ -42,7 +42,7 @@ jobs:
           PUBLIC_WEB3FORMS_HCAPTCHA: ${{ vars.PUBLIC_WEB3FORMS_HCAPTCHA }}
           PUBLIC_AUTODIAGNOSTICO_URL: ${{ vars.PUBLIC_AUTODIAGNOSTICO_URL || 'https://bvlunlwnsrozkfuwcxqb.supabase.co/functions/v1/autodiagnostico-guardar' }}
           PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_Yn6IKULgkI4Vc4s8ckRDew_L4GRfqBz' }}
-          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAAGJB7RlA2w4p5Q4n' }}
       - name: Revisar textos, marca y SEO
         run: npm run revisar
       - name: Probar el cálculo del autodiagnóstico
@@ -55,7 +55,7 @@ jobs:
         env:
           PUBLIC_AUTODIAGNOSTICO_URL: ${{ vars.PUBLIC_AUTODIAGNOSTICO_URL || 'https://bvlunlwnsrozkfuwcxqb.supabase.co/functions/v1/autodiagnostico-guardar' }}
           PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_Yn6IKULgkI4Vc4s8ckRDew_L4GRfqBz' }}
-          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAAGJB7RlA2w4p5Q4n' }}
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with:

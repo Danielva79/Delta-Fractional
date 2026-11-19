@@ -72,7 +72,7 @@
     "ciudad": "Ciudad",
     "autorizacion": "Autorizo a {responsable}, identificado con el documento número {identificacion} y correo {correo}, a tratar mis datos personales para enviarme el informe de este autodiagnóstico y contactarme con fines comerciales, conforme a la {politica}.",
     "autorizacionEnlace": "Política de tratamiento de datos",
-    "versionAutorizacion": "2026-11-19",
+    "versionAutorizacion": "2026-11-19-turnstile",
     "enviar": "Enviar",
     "enviando": "Enviando…",
     "exito": "Gracias. Le escribiré para enviarle el informe y acordar la fecha del diagnóstico.",
