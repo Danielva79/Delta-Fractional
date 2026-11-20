@@ -14,6 +14,10 @@
     "antetitulo": "Delta Fractional",
     "h1": "Autodiagnóstico financiero",
     "promesa": "Evalúe si su empresa está preparada para crecer sin quedarse sin caja.",
+    "introduccion": [
+      "Este breve cuestionario de autodiagnóstico le ayudará a identificar cómo está su empresa en temas de contabilidad, costos y presupuestos, y qué aspectos podría fortalecer para tener una mejor estructura de control financiero.",
+      "Si no tiene algún dato a la mano o no lo sabe, puede indicarlo con tranquilidad. No hay respuestas buenas o malas: la sinceridad me permitirá entender mejor la situación de su empresa."
+    ],
     "detalle": "20 preguntas de selección, unos 8 minutos.",
     "nota": "Verá su resultado al final, sin dejar datos personales.",
     "campoEmpresa": "Nombre de la empresa",
@@ -21,11 +25,11 @@
     "comenzar": "Comenzar"
   },
   "navegacion": {
-    "progreso": "Sección {n} de {total}",
+    "progreso": "Paso {n} de {total}",
     "anterior": "Anterior",
     "siguiente": "Siguiente",
     "verResultado": "Ver resultado",
-    "errorSeccion": "Responda todas las preguntas de esta sección para continuar.",
+    "errorSeccion": "Responda todas las preguntas de esta página para continuar.",
     "errorPregunta": "Seleccione una opción."
   },
   "resultado": {
@@ -61,7 +65,10 @@
     "rutaModuloB": "Módulo B: costos e inventarios",
     "notaVentas": "Usted espera que las ventas de {ANIO} cierren iguales o por debajo de las de {ANIO_ANTERIOR}. En ese escenario, proteger la caja suele ser más urgente que crecer; el diagnóstico permite revisarlo con sus cifras.",
     "aviso": "Este resultado es orientativo: se basa en sus respuestas y no reemplaza el análisis de las cifras de la empresa.",
-    "cta": "Agende su diagnóstico financiero"
+    "cta": "Agende su diagnóstico financiero",
+    "descargar": "Descargar su autodiagnóstico",
+    "descargando": "Preparando el PDF…",
+    "errorDescarga": "No se pudo preparar el PDF. Intente de nuevo."
   },
   "contacto": {
     "titulo": "Reciba el informe detallado por dimensión y agende su diagnóstico financiero",
@@ -75,7 +82,7 @@
     "versionAutorizacion": "2026-11-19-turnstile",
     "enviar": "Enviar",
     "enviando": "Enviando…",
-    "exito": "Gracias. Le escribiré para enviarle el informe y acordar la fecha del diagnóstico.",
+    "exito": "Gracias. Ya puede descargar su autodiagnóstico en PDF. Le escribiré para acordar la fecha del diagnóstico financiero.",
     "error": "No se pudieron enviar sus datos. Intente de nuevo en unos minutos o escríbame por WhatsApp.",
     "errorYaEnviado": "Ya recibí sus datos para este autodiagnóstico.",
     "noDisponible": "El envío de datos todavía no está activo en esta versión del sitio. Mientras tanto, escríbame por WhatsApp.",
@@ -85,5 +92,13 @@
     "errorAutorizacion": "Para enviar sus datos debe aceptar la autorización.",
     "errorVerificacion": "Complete la verificación anti-robots.",
     "resumenErrores": "Revise los campos marcados."
+  },
+  "pdf": {
+    "_nota": "Textos del PDF que se descarga después de enviar el contacto. {fecha}, {n}, {total}, {whatsapp} y {correo} se reemplazan al generarlo.",
+    "titulo": "Autodiagnóstico financiero",
+    "fecha": "Fecha: {fecha}",
+    "respuestasTitulo": "Sus respuestas",
+    "contacto": "Agende su diagnóstico financiero: WhatsApp {whatsapp} · {correo}",
+    "pagina": "Página {n} de {total}"
   }
 }

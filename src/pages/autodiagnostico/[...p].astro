@@ -1,6 +1,7 @@
 ---
-// /autodiagnostico/: autodiagnóstico financiero (solo en español). Una pantalla por sección:
-// inicio (nombre de la empresa) → 6 secciones → resultado (sin pedir datos) → contacto opcional.
+// /autodiagnostico/: autodiagnóstico financiero (solo en español). Pantallas:
+// inicio (nombre de la empresa) → 3 pantallas de 2 secciones (paginas.ts) → resultado (sin pedir datos)
+// → contacto opcional → de vuelta al resultado con el botón para descargar el PDF.
 // Todo el contenido está en el HTML; src/scripts/autodiagnostico.ts muestra una pantalla a la vez,
 // calcula el resultado con el mismo cuestionario.ts que usa la Edge Function y guarda la sesión.
 // Solo existe con features.autodiagnostico.
@@ -9,6 +10,7 @@ import Icono from '../../components/Icono.astro';
 import { contenido } from '../../lib/contenido';
 import { ruta, absoluta, whatsapp } from '../../lib/enlaces';
 import { SECCIONES, PREGUNTAS, VERSION_CUESTIONARIO } from '../../lib/autodiagnostico/cuestionario';
+import { PAGINAS } from '../../lib/autodiagnostico/paginas';
 import { textosAD as t, conexion, rellenarPolitica, RUTA_AUTODIAGNOSTICO, RUTA_POLITICA } from '../../lib/autodiagnostico/contenido';
 
 export function getStaticPaths() {
@@ -25,7 +27,8 @@ const conAnio = (s: string) =>
     .replaceAll('{ANIO_ANTERIOR}', `<span data-anio-anterior>${anio - 1}</span>`)
     .replaceAll('{ANIO}', `<span data-anio>${anio}</span>`);
 
-const totalSecciones = SECCIONES.length;
+const totalPaginas = PAGINAS.length;
+const progreso = (i: number) => t.navegacion.progreso.replace('{n}', String(i + 1)).replace('{total}', String(totalPaginas));
 const urlPolitica = absoluta(RUTA_POLITICA, Astro.site);
 const [antesPolitica, despuesPolitica] = rellenarPolitica(t.contacto.autorizacion, c).split('{politica}');
 const dimensiones = SECCIONES.filter((s) => s.id !== 'calificacion');
@@ -38,6 +41,7 @@ const config = {
   version: VERSION_CUESTIONARIO,
   versionAutorizacion: t.contacto.versionAutorizacion,
   urlPolitica,
+  logo: ruta('/img/logo/delta-horizontal-color@2x.png'),
   // Sin enlace de agenda, el botón abre WhatsApp con el mensaje del diagnóstico (decisión de Daniel, 2026-11-19).
   agenda: t.configuracion.agendaUrl ?? whatsapp(c, c.contacto.whatsappMensajeDiagnostico),
   textos: {
@@ -46,6 +50,29 @@ const config = {
     errorSeccion: t.navegacion.errorSeccion,
     puntos: t.resultado.puntos,
     semaforo: t.resultado.semaforo,
+    descargar: t.resultado.descargar,
+    descargando: t.resultado.descargando,
+    errorDescarga: t.resultado.errorDescarga,
+    // Textos del PDF (autodiagnostico-pdf.ts).
+    pdf: {
+      ...t.pdf,
+      contacto: t.pdf.contacto.replace('{whatsapp}', c.contacto.whatsappNumero).replace(' · {correo}', c.contacto.correo ? ` · ${c.contacto.correo}` : ''),
+      antetitulo: t.resultado.antetitulo,
+      dimensiones: t.resultado.dimensiones,
+      puntos: t.resultado.puntos,
+      semaforo: t.resultado.semaforo,
+      inventarioNoAplica: t.resultado.inventarioNoAplica,
+      banderasTitulo: t.resultado.banderasTitulo,
+      banderasIntro: t.resultado.banderasIntro,
+      textosBandera: Object.fromEntries(PREGUNTAS.filter((q) => q.textoBandera).map((q) => [q.id, q.textoBandera!])),
+      rutaTitulo: t.resultado.rutaTitulo,
+      rutaNota: t.resultado.rutaNota,
+      rutaBase: t.resultado.rutaBase,
+      rutaModuloA: t.resultado.rutaModuloA,
+      rutaModuloB: t.resultado.rutaModuloB,
+      notaVentas: t.resultado.notaVentas,
+      aviso: t.resultado.aviso,
+    },
     contacto: {
       enviar: t.contacto.enviar, enviando: t.contacto.enviando, error: t.contacto.error, errorYaEnviado: t.contacto.errorYaEnviado,
       noDisponible: t.contacto.noDisponible, errorRequerido: t.contacto.errorRequerido, errorCorreo: t.contacto.errorCorreo,
@@ -70,6 +97,9 @@ const config = {
       <!-- Inicio -->
       <div class="pantalla" data-pantalla="inicio">
         <p class="promesa">{t.inicio.promesa}</p>
+        <div class="introduccion">
+          {t.inicio.introduccion.map((p) => <p>{p}</p>)}
+        </div>
         <p class="detalle"><Icono nombre="clock" tamano={18} />{t.inicio.detalle}</p>
         <form class="inicio-form" data-form-inicio novalidate>
           <div class="campo">
@@ -82,18 +112,20 @@ const config = {
         <p class="nota">{t.inicio.nota}</p>
       </div>
 
-      <!-- Secciones -->
-      {SECCIONES.map((s, i) => (
-        <form class="pantalla" data-pantalla={s.id} data-indice={i} hidden novalidate>
+      <!-- Cuestionario: 3 pantallas de 2 secciones (paginas.ts). El id de la pantalla es el de su última sección. -->
+      {PAGINAS.map((pg, i) => (
+        <form class="pantalla" data-pantalla={pg.id} data-indice={i} hidden novalidate>
           <div class="progreso">
-            <p class="progreso-texto">{t.navegacion.progreso.replace('{n}', String(i + 1)).replace('{total}', String(totalSecciones))}</p>
-            <div class="barra" role="progressbar" aria-label={t.navegacion.progreso.replace('{n}', String(i + 1)).replace('{total}', String(totalSecciones))}
-              aria-valuemin="0" aria-valuemax={totalSecciones} aria-valuenow={i}>
-              <span style={`width:${(i / totalSecciones) * 100}%`}></span>
+            <p class="progreso-texto">{progreso(i)}</p>
+            <div class="barra" role="progressbar" aria-label={progreso(i)}
+              aria-valuemin="0" aria-valuemax={totalPaginas} aria-valuenow={i}>
+              <span style={`width:${(i / totalPaginas) * 100}%`}></span>
             </div>
           </div>
-          <h2 tabindex="-1" data-titulo>{s.titulo}</h2>
           <p class="error-seccion" role="alert" data-error-seccion></p>
+          {pg.secciones.map((s, k) => (
+          <div class="seccion-preguntas">
+          {k === 0 ? <h2 tabindex="-1" data-titulo>{s.titulo}</h2> : <h2>{s.titulo}</h2>}
           {s.preguntas.map((q) => (
             <fieldset class="pregunta" data-pregunta={q.id} aria-describedby={[q.aclaracion && `ad-${q.id}-ayuda`, `ad-${q.id}-error`].filter(Boolean).join(' ')}>
               <legend set:html={conAnio(q.texto)} />
@@ -109,9 +141,11 @@ const config = {
               <p class="error" id={`ad-${q.id}-error`}></p>
             </fieldset>
           ))}
+          </div>
+          ))}
           <div class="acciones">
             <button class="btn btn-secundario" type="button" data-anterior>{t.navegacion.anterior}</button>
-            <button class="btn btn-primario" type="submit">{i === totalSecciones - 1 ? t.navegacion.verResultado : t.navegacion.siguiente}</button>
+            <button class="btn btn-primario" type="submit">{i === totalPaginas - 1 ? t.navegacion.verResultado : t.navegacion.siguiente}</button>
           </div>
         </form>
       ))}
@@ -120,6 +154,15 @@ const config = {
       <div class="pantalla resultado" data-pantalla="resultado" hidden>
         <p class="eyebrow">{t.resultado.antetitulo}</p>
         <h2 tabindex="-1" data-titulo data-r-empresa></h2>
+
+        <!-- Después de enviar el contacto: aviso y descarga del PDF (arriba del resultado). -->
+        <div class="descarga" data-r-descarga hidden tabindex="-1">
+          <p class="exito" role="status" data-c-exito>{t.contacto.exito}</p>
+          <button class="btn btn-primario" type="button" data-r-descargar data-evento="autodiagnostico_pdf_click">
+            <Icono nombre="download" tamano={18} />{t.resultado.descargar}
+          </button>
+          <p class="estado" role="status" data-r-descarga-estado></p>
+        </div>
 
         <div class="total" data-r-total>
           <div class="total-cifra">
@@ -211,9 +254,6 @@ const config = {
             <button class="btn btn-primario" type="submit" data-c-enviar>{t.contacto.enviar}</button>
             <p class="estado" role="status" data-c-estado></p>
           </form>
-          <div class="exito" role="status" data-c-exito hidden tabindex="-1">
-            <p>{t.contacto.exito}</p>
-          </div>
           <p class="whatsapp-alterno" data-c-whatsapp hidden>
             <a class="enlace-flecha" href={whatsapp(c, c.contacto.whatsappMensajeDiagnostico)} data-evento="cta_whatsapp_click" data-ubicacion="autodiagnostico">{c.ctaWhatsApp}<Icono nombre="arrow-right" tamano={18} /></a>
           </p>
@@ -236,6 +276,7 @@ const config = {
   h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1); }
   h1:focus, h2:focus, h3:focus { outline: none; }
   .promesa { font-size: var(--fs-sub); line-height: var(--lh-sub); color: var(--ink); }
+  .introduccion { display: flex; flex-direction: column; gap: var(--space-3); color: var(--ink); max-width: 68ch; }
   .detalle { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--ink-2); }
   .nota { font-size: var(--fs-small); color: var(--ink-2); }
   .inicio-form { display: flex; flex-direction: column; gap: var(--space-4); max-width: 480px; }
@@ -327,12 +368,22 @@ const config = {
   .formulario .btn { align-self: flex-start; }
   .estado { font-size: var(--fs-small); color: var(--ink-2); }
   .exito { font-weight: var(--fw-semibold); color: var(--ink); border-left: 4px solid var(--pos); padding-left: var(--space-3); }
-  .exito[hidden], .whatsapp-alterno[hidden] { display: none; }
+  .whatsapp-alterno[hidden], .contacto[hidden], .descarga[hidden] { display: none; }
+
+  /* Descarga del PDF (arriba del resultado, después de enviar el contacto) */
+  .descarga { display: flex; flex-direction: column; gap: var(--space-4); align-items: flex-start; background: var(--surface); border-radius: var(--radius-lg); padding: clamp(20px, 3vw, 28px); }
+  .descarga:focus { outline: none; }
+  .descarga .btn { display: inline-flex; align-items: center; gap: var(--space-2); }
+
+  /* Dos secciones por pantalla */
+  .seccion-preguntas { display: flex; flex-direction: column; gap: var(--space-5); }
+  .seccion-preguntas + .seccion-preguntas { padding-top: var(--space-6); border-top: 1px solid var(--line-strong); }
+  .seccion-preguntas h2 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
 
   @media (max-width: 640px) {
     .campos { grid-template-columns: 1fr; }
     .total { grid-template-columns: 1fr; }
-    .acciones .btn, .formulario .btn, .resultado > .btn, .inicio-form .btn { width: 100%; }
+    .acciones .btn, .formulario .btn, .resultado > .btn, .inicio-form .btn, .descarga .btn { width: 100%; justify-content: center; }
     .acciones { flex-direction: column-reverse; }
   }
 </style>

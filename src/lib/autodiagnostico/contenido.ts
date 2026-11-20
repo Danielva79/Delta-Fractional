@@ -16,7 +16,7 @@ const esquemaTextos = b({
     responsable: texto,
   }),
   meta: b({ title: texto, description: texto }),
-  inicio: b({ antetitulo: texto, h1: texto, promesa: texto, detalle: texto, nota: texto, campoEmpresa: texto, errorEmpresa: texto, comenzar: texto }),
+  inicio: b({ antetitulo: texto, h1: texto, promesa: texto, introduccion: z.array(texto).min(1), detalle: texto, nota: texto, campoEmpresa: texto, errorEmpresa: texto, comenzar: texto }),
   navegacion: b({ progreso: texto, anterior: texto, siguiente: texto, verResultado: texto, errorSeccion: texto, errorPregunta: texto }),
   resultado: b({
     antetitulo: texto, titulo: texto, puntaje: texto,
@@ -24,8 +24,9 @@ const esquemaTextos = b({
     dimensiones: texto, puntos: texto, inventarioNoAplica: texto,
     banderasTitulo: texto, banderasIntro: texto,
     rutaTitulo: texto, rutaNota: texto, rutaBase: b({ esencial: texto, estandar: texto }), rutaModuloA: texto, rutaModuloB: texto,
-    notaVentas: texto, aviso: texto, cta: texto,
+    notaVentas: texto, aviso: texto, cta: texto, descargar: texto, descargando: texto, errorDescarga: texto,
   }),
+  pdf: b({ titulo: texto, fecha: texto, respuestasTitulo: texto, contacto: texto, pagina: texto }),
   contacto: b({
     titulo: texto, nombre: texto, correo: texto, whatsapp: texto, whatsappAyuda: texto, ciudad: texto,
     autorizacion: texto.refine((v) => v.includes('{politica}'), { message: 'debe incluir {politica} (el enlace a la política)' }),
