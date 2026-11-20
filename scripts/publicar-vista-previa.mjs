@@ -22,6 +22,8 @@ const env = { ...process.env, BASE_PATH: BASE, PUBLIC_NOINDEX: 'true', OUT_DIR: 
 correr('npx astro build', { env });
 
 for (const f of ['CNAME', 'index-en.html']) fs.rmSync(path.join(SALIDA, f), { force: true });
+// Archivos de verificación de Google Search Console: solo valen en el dominio real.
+for (const f of fs.readdirSync(SALIDA).filter((n) => /^google[0-9a-f]+\.html$/.test(n))) fs.rmSync(path.join(SALIDA, f));
 fs.writeFileSync(path.join(SALIDA, '.nojekyll'), '');
 if (fs.existsSync(path.join(SALIDA, 'CNAME'))) throw new Error('La vista previa no puede llevar CNAME.');
 
