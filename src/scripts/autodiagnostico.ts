@@ -345,8 +345,12 @@ function iniciar(raiz: HTMLElement) {
     }
     resumen.textContent = '';
     if (!cfg.url) {
-      estadoC.textContent = tc.noDisponible;
-      raiz.querySelector<HTMLElement>('[data-c-whatsapp]')!.hidden = false;
+      // Vista previa sin la función (producción siempre la tiene, ver faltantesAutodiagnostico):
+      // no se guarda nada, pero se muestra la descarga para poder revisar el recorrido completo.
+      track('autodiagnostico_contacto_sin_funcion');
+      s.estado = 'contacto_enviado';
+      guardarLocal();
+      mostrarExito();
       return;
     }
     boton.disabled = true;
