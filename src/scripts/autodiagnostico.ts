@@ -5,6 +5,8 @@
 //   página (para medir el abandono). Sin PUBLIC_AUTODIAGNOSTICO_URL no envía nada.
 // - Retoma la sesión si la página se recarga (sessionStorage; si el navegador lo bloquea, empieza de nuevo).
 import { SECCIONES, VERSION_CUESTIONARIO, calcular, type Respuestas, type Resultado } from '../lib/autodiagnostico/cuestionario';
+import { PAGINAS, paginaDeSeccion } from '../lib/autodiagnostico/paginas';
+import type { TextosPdf } from './autodiagnostico-pdf';
 
 interface Config {
   url: string;
@@ -13,6 +15,7 @@ interface Config {
   version: string;
   versionAutorizacion: string;
   urlPolitica: string;
+  logo: string;
   agenda: string | null;
   textos: {
     progreso: string;
@@ -20,6 +23,10 @@ interface Config {
     errorSeccion: string;
     puntos: string;
     semaforo: Record<'rojo' | 'amarillo' | 'verde', { etiqueta: string; texto: string }>;
+    descargar: string;
+    descargando: string;
+    errorDescarga: string;
+    pdf: TextosPdf;
     contacto: Record<string, string>;
   };
 }
@@ -28,7 +35,7 @@ interface Sesion {
   token: string;
   empresa: string;
   respuestas: Respuestas;
-  /** Última pantalla completada: 'inicio', id de sección o 'resultado'. */
+  /** Última pantalla completada: 'inicio', id de sección (la última de la pantalla) o 'resultado'. */
   ultimoPaso: string;
   /** Pantalla visible. */
   pantalla: string;
@@ -47,6 +54,8 @@ function iniciar(raiz: HTMLElement) {
   const CLAVE = 'df-autodiagnostico';
   const pantallas = [...raiz.querySelectorAll<HTMLElement>('[data-pantalla]')];
   const orden = pantallas.map((p) => p.dataset.pantalla!);
+  // Orden de los pasos que entiende el servidor (una entrada por sección, aunque se muestren de a dos).
+  const ordenPasos = ['inicio', ...SECCIONES.map((x) => x.id), 'resultado'];
   const track = (e: string, p: Record<string, string | number | boolean> = {}) => window.track?.(e, p);
   let s: Sesion | null = null;
 
@@ -139,13 +148,14 @@ function iniciar(raiz: HTMLElement) {
     } else {
       s.empresa = s.estado === 'iniciado' || s.estado === 'en_curso' ? empresa : s.empresa;
     }
-    mostrar(SECCIONES[0].id);
+    mostrar(PAGINAS[0].id);
   });
 
-  // ---------- Secciones ----------
+  // ---------- Cuestionario (3 pantallas de 2 secciones) ----------
   raiz.querySelectorAll<HTMLFormElement>('form[data-indice]').forEach((form) => {
     const i = Number(form.dataset.indice);
-    const seccion = SECCIONES[i];
+    const pagina = PAGINAS[i];
+    const preguntas = pagina.secciones.flatMap((x) => x.preguntas);
     const errorSeccion = form.querySelector<HTMLElement>('[data-error-seccion]')!;
 
     form.addEventListener('change', (ev) => {
@@ -160,14 +170,14 @@ function iniciar(raiz: HTMLElement) {
     });
 
     form.querySelector('[data-anterior]')!.addEventListener('click', () => {
-      mostrar(i === 0 ? 'inicio' : SECCIONES[i - 1].id);
+      mostrar(i === 0 ? 'inicio' : PAGINAS[i - 1].id);
     });
 
     form.addEventListener('submit', (ev) => {
       ev.preventDefault();
       if (!s) { mostrar('inicio'); return; }
-      const faltan = seccion.preguntas.filter((q) => !Number.isInteger(s!.respuestas[q.id]));
-      for (const q of seccion.preguntas) {
+      const faltan = preguntas.filter((q) => !Number.isInteger(s!.respuestas[q.id]));
+      for (const q of preguntas) {
         const fs = form.querySelector<HTMLElement>(`fieldset[data-pregunta="${q.id}"]`)!;
         const falta = faltan.includes(q);
         fs.toggleAttribute('data-invalida', falta);
@@ -179,13 +189,13 @@ function iniciar(raiz: HTMLElement) {
         return;
       }
       errorSeccion.textContent = '';
-      if (orden.indexOf(s.ultimoPaso) < orden.indexOf(seccion.id)) s.ultimoPaso = seccion.id;
-      track('autodiagnostico_seccion', { seccion: seccion.id });
+      if (ordenPasos.indexOf(s.ultimoPaso) < ordenPasos.indexOf(pagina.id)) s.ultimoPaso = pagina.id;
+      track('autodiagnostico_seccion', { seccion: pagina.id, paso: i + 1 });
 
-      if (i < SECCIONES.length - 1) {
+      if (i < PAGINAS.length - 1) {
         if (s.estado === 'iniciado') s.estado = 'en_curso';
         guardarSesion('en_curso');
-        mostrar(SECCIONES[i + 1].id);
+        mostrar(PAGINAS[i + 1].id);
         return;
       }
       const r = calcular(s.respuestas);
@@ -284,12 +294,37 @@ function iniciar(raiz: HTMLElement) {
     if (turnstileId !== undefined) w.turnstile?.reset(turnstileId);
   };
 
+  // Después del contacto: se oculta el formulario y se vuelve al comienzo del resultado, donde
+  // aparecen el aviso y el botón para descargar el PDF.
+  const bloqueContacto = raiz.querySelector<HTMLElement>('.contacto')!;
+  const descarga = raiz.querySelector<HTMLElement>('[data-r-descarga]')!;
   function mostrarExito(enfocar = true) {
-    formC.hidden = true;
-    const ok = raiz.querySelector<HTMLElement>('[data-c-exito]')!;
-    ok.hidden = false;
-    if (enfocar) ok.focus();
+    bloqueContacto.hidden = true;
+    descarga.hidden = false;
+    if (enfocar) {
+      raiz.scrollIntoView({ block: 'start' });
+      descarga.focus({ preventScroll: true });
+    }
   }
+
+  // ---------- Descarga del PDF (jsPDF se carga solo al pulsar) ----------
+  const botonPdf = descarga.querySelector<HTMLButtonElement>('[data-r-descargar]')!;
+  const estadoPdf = descarga.querySelector<HTMLElement>('[data-r-descarga-estado]')!;
+  botonPdf.addEventListener('click', async () => {
+    const r = s && calcular(s.respuestas);
+    if (!s || !r) return;
+    botonPdf.disabled = true;
+    estadoPdf.textContent = cfg.textos.descargando;
+    try {
+      const { descargarPdf } = await import('./autodiagnostico-pdf');
+      await descargarPdf({ empresa: s.empresa, respuestas: s.respuestas, resultado: r, anio, logo: cfg.logo, textos: cfg.textos.pdf });
+      estadoPdf.textContent = '';
+      track('autodiagnostico_pdf');
+    } catch {
+      estadoPdf.textContent = cfg.textos.errorDescarga;
+    }
+    botonPdf.disabled = false;
+  });
 
   formC.addEventListener('submit', async (ev) => {
     ev.preventDefault();
@@ -310,8 +345,12 @@ function iniciar(raiz: HTMLElement) {
     }
     resumen.textContent = '';
     if (!cfg.url) {
-      estadoC.textContent = tc.noDisponible;
-      raiz.querySelector<HTMLElement>('[data-c-whatsapp]')!.hidden = false;
+      // Vista previa sin la función (producción siempre la tiene, ver faltantesAutodiagnostico):
+      // no se guarda nada, pero se muestra la descarga para poder revisar el recorrido completo.
+      track('autodiagnostico_contacto_sin_funcion');
+      s.estado = 'contacto_enviado';
+      guardarLocal();
+      mostrarExito();
       return;
     }
     boton.disabled = true;
@@ -378,6 +417,8 @@ function iniciar(raiz: HTMLElement) {
       const r = calcular(s.respuestas);
       if (r) { pintarResultado(r); mostrar('resultado', false); return; }
     }
-    if (orden.includes(s.pantalla) && s.pantalla !== 'resultado') mostrar(s.pantalla, false);
+    // Sesiones guardadas cuando había una pantalla por sección: ir a la pantalla que la contiene.
+    const pantalla = orden.includes(s.pantalla) ? s.pantalla : paginaDeSeccion(s.pantalla)?.id;
+    if (pantalla && pantalla !== 'resultado') mostrar(pantalla, false);
   }
 }
