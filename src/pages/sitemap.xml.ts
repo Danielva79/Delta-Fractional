@@ -1,9 +1,10 @@
 // sitemap.xml con / y /en/ y sus alternos (hreflang). La vista interna no se incluye.
 // /autodiagnostico/ (solo en español, sin alternos) entra con features.autodiagnostico;
-// /politica-datos/ solo cuando deja de ser borrador.
+// /politica-datos/ solo cuando deja de ser borrador. El blog (/blog/ y sus artículos) existe solo en español.
 import type { APIRoute } from 'astro';
 import { contenido } from '../lib/contenido';
 import { politica, RUTA_AUTODIAGNOSTICO, RUTA_POLITICA } from '../lib/autodiagnostico/contenido';
+import { articulos, RUTA_BLOG } from '../lib/blog';
 
 export const GET: APIRoute = ({ site }) => {
   const abs = (p: string) => new URL(p, site ?? 'https://deltafractional.com').href;
@@ -14,6 +15,7 @@ export const GET: APIRoute = ({ site }) => {
     solos.push(RUTA_AUTODIAGNOSTICO);
     if (!politica.borrador) solos.push(RUTA_POLITICA);
   }
+  solos.push(RUTA_BLOG, ...articulos.map((a) => a.ruta));
 
   const url = (loc: string, g: { es: string; en: string }) => `  <url>
     <loc>${abs(loc)}</loc>

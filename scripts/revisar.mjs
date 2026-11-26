@@ -210,6 +210,44 @@ if (es.features.autodiagnostico) {
   }
 }
 
+// Blog (/blog/ y sus artículos, solo en español): mismas reglas de texto que el inicio.
+const dirBlog = path.join(DIST, 'blog');
+const archivosBlog = fs.readdirSync('src/content/blog').filter((f) => f.endsWith('.md'));
+if (!fs.existsSync(path.join(dirBlog, 'index.html'))) problemas.push('/blog/: no se generó');
+else {
+  const paginasBlog = ['index.html', ...archivosBlog.map((f) => path.join(f.replace(/\.md$/, ''), 'index.html'))];
+  for (const rel of paginasBlog) {
+    const r = `/blog/${rel.replace(/index\.html$/, '')}`;
+    const archivo = path.join(dirBlog, rel);
+    if (!fs.existsSync(archivo)) { problemas.push(`${r}: no se generó`); continue; }
+    const t = fs.readFileSync(archivo, 'utf8');
+    const v = textoVisible(t);
+    const minus = v.toLowerCase();
+    if ((t.match(/<h1[\s>]/g) || []).length !== 1) problemas.push(`${r}: debe tener un solo H1`);
+    let anterior = 1;
+    for (const m of t.matchAll(/<h([1-6])[\s>]/g)) {
+      const n = +m[1];
+      if (n > anterior + 1) problemas.push(`${r}: salto de encabezado h${anterior} → h${n}`);
+      anterior = n;
+    }
+    if (/TODO/.test(v)) problemas.push(`${r}: aparece "TODO"`);
+    if (/—/.test(v)) problemas.push(`${r}: hay rayas largas (—)`);
+    if (/\p{Extended_Pictographic}/u.test(v.replace(/[©®™]/g, ''))) problemas.push(`${r}: hay emojis`);
+    if (/\bDELTA\b/.test(v)) problemas.push(`${r}: "DELTA" en mayúsculas en el texto`);
+    if (/fractional cfo|cfo fraccional/i.test(v)) problemas.push(`${r}: "CFO" usado como nombre en el texto visible (solo va en title, description y URL)`);
+    for (const p of PROHIBIDAS) if (minus.includes(p)) problemas.push(`${r}: palabra prohibida: "${p.trim()}"`);
+    const g = decodificar(t).match(NO_GRATIS);
+    if (g) problemas.push(`${r}: "${g[0]}": el diagnóstico no es gratis`);
+    if (/rel="alternate" hreflang/.test(t)) problemas.push(`${r}: tiene hreflang y solo existe en español`);
+    if (!t.includes(`<link rel="canonical" href="https://deltafractional.com${r}">`)) problemas.push(`${r}: canonical incorrecto`);
+    if (/name="robots"/.test(t) && process.env.PUBLIC_NOINDEX !== 'true') problemas.push(`${r}: tiene noindex en producción`);
+    if (process.env.PUBLIC_NOINDEX !== 'true' && !sitemap.includes(`<loc>https://deltafractional.com${r}</loc>`)) problemas.push(`sitemap.xml: falta ${r}`);
+    for (const m of t.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
+      if (!/rel="[^"]*noopener/.test(m[0])) problemas.push(`${r}: enlace externo sin rel="noopener"`);
+    }
+  }
+}
+
 // --lanzamiento (antes de publicar en producción): con el autodiagnóstico activo, nada puede quedar pendiente.
 if (process.argv.includes('--lanzamiento') && es.features.autodiagnostico) {
   const falta = [];

@@ -11,6 +11,27 @@ Todo el texto del sitio vive en dos archivos. No hace falta tocar código.
 | Mostrar u ocultar una sección futura | `src/content/es.json` | `features` |
 | Una foto | carpeta `fotos/` + `fotos` en los dos archivos | ver abajo |
 
+## Blog (/blog/)
+
+Solo en español. Cada artículo es un archivo en `src/content/blog/` y su nombre es la dirección: `vender-mas-y-quedarse-sin-caja.md` se publica en `/blog/vender-mas-y-quedarse-sin-caja/` (minúsculas, sin tildes, con guiones).
+
+Encabezado obligatorio de cada archivo:
+
+```
+---
+titulo: "Título visible del artículo"
+tituloSeo: "Título para Google y la pestaña | Delta Fractional"
+descripcion: "Una o dos frases para Google y LinkedIn."
+resumen: "Frase que aparece en la lista del blog."
+fecha: "2026-11-26"
+lectura: 5
+---
+```
+
+Debajo va el texto: subtítulos con `## `, listas con `- ` o `1. `, negritas con `**…**` y enlaces con `[texto](https://…)`. Termine con una sección `## Fuentes`. Los textos de la página /blog/ (título, introducción y cierre) están en `src/content/blog.json`.
+
+El build revisa los artículos con las mismas reglas del inicio: sin `TODO`, sin rayas largas, sin palabras prohibidas y sin "CFO fraccional" en el texto visible (esa palabra va solo en `tituloSeo`, `descripcion` o la dirección).
+
 ## Cómo publicar un cambio
 
 1. En GitHub, abra el archivo, toque el lápiz ("Edit"), cambie el texto y guarde ("Commit changes").

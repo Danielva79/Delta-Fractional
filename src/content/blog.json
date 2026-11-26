@@ -1,0 +1,17 @@
+{
+  "_nota": "Textos de la sección Blog (solo en español). Los artículos están en src/content/blog/*.md. Redactados el 2026-11-26: pendientes de aprobación de Daniel.",
+  "meta": {
+    "title": "Blog | Delta Fractional",
+    "description": "Artículos sobre caja, rentabilidad y presupuesto para pymes colombianas, con cifras y fuentes."
+  },
+  "h1": "Blog",
+  "intro": "Artículos sobre caja, rentabilidad y presupuesto para pymes, con cifras y fuentes.",
+  "leer": "Leer el artículo",
+  "lectura": "min de lectura",
+  "volver": "Ver todos los artículos",
+  "autor": "Daniel Villegas",
+  "cierre": {
+    "h2": "¿Quiere ver estas cifras en su empresa?",
+    "texto": "El autodiagnóstico financiero le da una primera lectura. Si prefiere conversarlo, agende una cita."
+  }
+}
