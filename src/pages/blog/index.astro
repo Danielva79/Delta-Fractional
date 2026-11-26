@@ -1,0 +1,42 @@
+---
+// /blog/: lista de artículos (solo en español).
+import Base from '../../layouts/Base.astro';
+import Icono from '../../components/Icono.astro';
+import { contenido } from '../../lib/contenido';
+import { ruta } from '../../lib/enlaces';
+import { articulos, textosBlog as t, fechaLarga, RUTA_BLOG } from '../../lib/blog';
+
+const c = contenido('es');
+---
+<Base c={c} ruta={RUTA_BLOG} alternos={{ es: RUTA_BLOG, en: '/en/' }} titulo={t.meta.title} descripcion={t.meta.description} soloUnIdioma>
+  <section class="seccion">
+    <div class="wrap">
+      <h1>{t.h1}</h1>
+      <p class="sub intro">{t.intro}</p>
+      <ul class="lista">
+        {articulos.map((a) => (
+          <li>
+            <article>
+              <p class="small muted"><time datetime={a.fecha}>{fechaLarga(a.fecha)}</time> · {a.lectura} {t.lectura}</p>
+              <h2><a href={ruta(a.ruta)}>{a.titulo}</a></h2>
+              <p class="muted">{a.resumen}</p>
+              <a class="enlace-flecha" href={ruta(a.ruta)} aria-hidden="true" tabindex="-1">{t.leer} <Icono nombre="arrow-right" tamano={18} /></a>
+            </article>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  h1 { margin-bottom: var(--space-4); }
+  .intro { margin-bottom: var(--space-7); }
+  .lista { list-style: none; margin: 0; padding: 0; max-width: 820px; }
+  .lista li { border-top: 1px solid var(--line); padding-block: var(--space-6); }
+  .lista li:last-child { border-bottom: 1px solid var(--line); }
+  article { display: flex; flex-direction: column; gap: var(--space-3); }
+  h2 { font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--ls-h3); }
+  h2 a { color: var(--ink); text-decoration: none; }
+  h2 a:hover { color: var(--accent-text); }
+</style>

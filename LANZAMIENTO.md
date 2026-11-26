@@ -71,3 +71,4 @@ Redactados durante el rediseño, fuera del contenido aprobado:
 - Página 404: "Esta página no existe." / "Ir al inicio".
 - El aviso de privacidad aparte (`/privacidad/`) se retiró el 19-nov-2026: la única política es `/politica-datos/` (`politica-datos.json`), que también cubre Umami, Turnstile y Supabase. Si se activa Web3Forms, agregarlo a sus proveedores.
 - Traducción al inglés (`en.json`): aprobada por Natalia el 19-nov-2026.
+- Blog (26-nov-2026): textos de `src/content/blog.json` y los dos primeros artículos de `src/content/blog/`. El de director financiero externo usa el caso de la empresa de servicios en cuatro ciudades (COP 43 millones): confirmar el permiso del cliente antes de fusionar.

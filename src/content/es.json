@@ -51,6 +51,10 @@
     {
       "label": "Preguntas",
       "href": "#preguntas"
+    },
+    {
+      "label": "Blog",
+      "href": "/blog/"
     }
   ],
   "ctaPrincipal": "Agendar diagnóstico",
